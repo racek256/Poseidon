@@ -1,4 +1,4 @@
-mod modules;
+use Poseidon::modules;
 
 fn main() {
     if std::env::args().nth(1).as_deref() == Some("worker") {
@@ -25,6 +25,11 @@ fn main() {
 
     if std::env::args().nth(1).as_deref() == Some("benchmark-message-memory") {
         modules::message_memory::run_benchmark().expect("message memory benchmark failed");
+        return;
+    }
+
+    if std::env::args().nth(1).as_deref() == Some("benchmark-phishing") {
+        modules::phishing_benchmark::run().expect("phishing benchmark failed");
         return;
     }
 
@@ -104,20 +109,48 @@ fn main() {
         return;
     }
 
+    if std::env::args().nth(1).as_deref() == Some("detect-impersonation-url") {
+        let url = std::env::args()
+            .nth(2)
+            .expect("usage: cargo run -- detect-impersonation-url <url>");
+        let url_db = modules::url_db::UrlDb::from_env().expect("failed to initialize url database");
+        let learned_brands = url_db
+            .learned_runtime_brands()
+            .expect("failed to load learned brands");
+        let result =
+            modules::url_analysis::brand::analyse_with_runtime_brands(&url, &learned_brands);
+        println!(
+            "url={url} learned_brands={} matched_brand={:?} official={} score={} confidence={} risk_level={} reasons={:?} safe_evidence={:?}",
+            learned_brands.len(),
+            result.matched_brand,
+            result.official,
+            result.score,
+            result.confidence,
+            result.risk_level,
+            result.reasons,
+            result.safe_evidence
+        );
+        return;
+    }
+
     if std::env::args().nth(1).as_deref() == Some("observe-safe-url") {
         let url = std::env::args()
             .nth(2)
-            .expect("usage: cargo run -- observe-safe-url <url> [count]");
+            .expect("usage: cargo run -- observe-safe-url <url> [count] [user_prefix]");
         let count = std::env::args()
             .nth(3)
             .and_then(|value| value.parse::<usize>().ok())
             .unwrap_or(1);
+        let user_prefix = std::env::args()
+            .nth(4)
+            .unwrap_or_else(|| "manual-user".to_string());
         let url_db = modules::url_db::UrlDb::from_env().expect("failed to initialize url database");
         let identity = url_db.identity(&url);
         let mut reputation = modules::url_db::DomainReputation::default();
-        for _ in 0..count {
+        for index in 0..count {
+            let user_id = format!("{user_prefix}-{index}");
             reputation = url_db
-                .observe_domain_reputation(&identity, true)
+                .observe_domain_reputation(&identity, Some(&user_id), true)
                 .expect("failed to observe safe url");
         }
         if reputation.boost >= 10 {
@@ -154,6 +187,9 @@ fn main() {
     let message_memory = modules::message_memory::MessageMemory::from_env()
         .expect("failed to initialize message memory database");
     threat_intel.update_if_due();
+    if let Err(err) = modules::ai::warmup() {
+        eprintln!("ollama warmup failed: {err}");
+    }
     let addr = std::env::var("POSEIDON_API_ADDR").unwrap_or_else(|_| "127.0.0.1:8080".to_string());
     modules::api::serve(&addr, &threat_intel, &url_db, &message_memory).expect("api server failed");
 }

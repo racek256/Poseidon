@@ -1,4 +1,16 @@
 {
+  "1fcslovcko": {
+    "domains": [
+      "fcslovacko.cz"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "1. FC Slovácko",
+    "sitelinks": 36,
+    "source": "wikidata",
+    "wikidata_id": "Q847499"
+  },
   "20thcenturystudios": {
     "domains": [
       "20thcenturystudios.com"
@@ -34,6 +46,30 @@
     "sitelinks": 48,
     "source": "wikidata",
     "wikidata_id": "Q270059"
+  },
+  "9gag": {
+    "domains": [
+      "9gag.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "9GAG",
+    "sitelinks": 35,
+    "source": "wikidata",
+    "wikidata_id": "Q277421"
+  },
+  "a24": {
+    "domains": [
+      "a24films.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "A24",
+    "sitelinks": 36,
+    "source": "wikidata",
+    "wikidata_id": "Q16248298"
   },
   "aardmananimations": {
     "domains": [
@@ -143,6 +179,18 @@
     "source": "wikidata",
     "wikidata_id": "Q337233"
   },
+  "academiaedu": {
+    "domains": [
+      "academia.edu"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "Academia.edu",
+    "sitelinks": 37,
+    "source": "wikidata",
+    "wikidata_id": "Q2777905"
+  },
   "accenture": {
     "domains": [
       "accenture.com"
@@ -154,6 +202,21 @@
     "sitelinks": 50,
     "source": "wikidata",
     "wikidata_id": "Q338825"
+  },
+  "accor": {
+    "domains": [
+      "all.accor.com",
+      "group.accor.com",
+      "restaurantsandbars.accor.com",
+      "accor.com"
+    ],
+    "favicon_attempts": 4,
+    "favicon_hash_count": 2,
+    "favicon_successes": 2,
+    "name": "Accor",
+    "sitelinks": 35,
+    "source": "wikidata",
+    "wikidata_id": "Q212599"
   },
   "acer": {
     "domains": [
@@ -202,6 +265,19 @@
     "sitelinks": 49,
     "source": "wikidata",
     "wikidata_id": "Q53097"
+  },
+  "adammickiewiczuniversityinpozna": {
+    "domains": [
+      "amu.edu.pl",
+      "international.amu.edu.pl"
+    ],
+    "favicon_attempts": 2,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "Adam Mickiewicz University in Poznań",
+    "sitelinks": 34,
+    "source": "wikidata",
+    "wikidata_id": "Q348402"
   },
   "adidasag": {
     "domains": [
@@ -311,6 +387,18 @@
     "source": "wikidata",
     "wikidata_id": "Q340195"
   },
+  "afriqiyahairways": {
+    "domains": [
+      "afriqiyah.aero"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "Afriqiyah Airways",
+    "sitelinks": 34,
+    "source": "wikidata",
+    "wikidata_id": "Q387901"
+  },
   "agencefrancepresse": {
     "domains": [
       "afp.com"
@@ -323,6 +411,30 @@
     "source": "wikidata",
     "wikidata_id": "Q40464"
   },
+  "agriculturalbankofchina": {
+    "domains": [
+      "abchina.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "Agricultural Bank of China",
+    "sitelinks": 34,
+    "source": "wikidata",
+    "wikidata_id": "Q26298"
+  },
+  "agustawestland": {
+    "domains": [
+      "helicopters.leonardo.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "AgustaWestland",
+    "sitelinks": 34,
+    "source": "wikidata",
+    "wikidata_id": "Q398878"
+  },
   "aiesec": {
     "domains": [
       "aiesec.org"
@@ -334,6 +446,18 @@
     "sitelinks": 49,
     "source": "wikidata",
     "wikidata_id": "Q191866"
+  },
+  "airalgrie": {
+    "domains": [
+      "airalgerie.dz"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "Air Algérie",
+    "sitelinks": 37,
+    "source": "wikidata",
+    "wikidata_id": "Q406764"
   },
   "airalo": {
     "domains": [
@@ -383,6 +507,18 @@
     "source": "wikidata",
     "wikidata_id": "Q406828"
   },
+  "airaustral": {
+    "domains": [
+      "air-austral.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "Air Austral",
+    "sitelinks": 34,
+    "source": "wikidata",
+    "wikidata_id": "Q406847"
+  },
   "airbaltic": {
     "domains": [
       "airbaltic.com"
@@ -406,6 +542,18 @@
     "sitelinks": 50,
     "source": "wikidata",
     "wikidata_id": "Q156829"
+  },
+  "airblue": {
+    "domains": [
+      "airblue.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "airblue",
+    "sitelinks": 33,
+    "source": "wikidata",
+    "wikidata_id": "Q310107"
   },
   "airbnb": {
     "domains": [
@@ -467,6 +615,20 @@
     "source": "wikidata",
     "wikidata_id": "Q51747"
   },
+  "airdolomiti": {
+    "domains": [
+      "airdolomiti.de",
+      "airdolomiti.eu",
+      "airdolomiti.it"
+    ],
+    "favicon_attempts": 3,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "Air Dolomiti",
+    "sitelinks": 33,
+    "source": "wikidata",
+    "wikidata_id": "Q162174"
+  },
   "aireuropa": {
     "domains": [
       "aireuropa.com"
@@ -491,6 +653,18 @@
     "source": "wikidata",
     "wikidata_id": "Q131005"
   },
+  "airgreenland": {
+    "domains": [
+      "airgreenland.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "Air Greenland",
+    "sitelinks": 37,
+    "source": "wikidata",
+    "wikidata_id": "Q407292"
+  },
   "airindia": {
     "domains": [
       "airindia.com"
@@ -502,6 +676,18 @@
     "sitelinks": 65,
     "source": "wikidata",
     "wikidata_id": "Q69906"
+  },
+  "airindiaexpress": {
+    "domains": [
+      "airindiaexpress.in"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "Air India Express",
+    "sitelinks": 37,
+    "source": "wikidata",
+    "wikidata_id": "Q407343"
   },
   "airkoryo": {
     "domains": [
@@ -532,13 +718,25 @@
       "airliquide.ca",
       "airliquide.com"
     ],
-    "favicon_attempts": 1,
-    "favicon_hash_count": 0,
-    "favicon_successes": 0,
+    "favicon_attempts": 2,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
     "name": "Air Liquide",
     "sitelinks": 54,
     "source": "wikidata",
     "wikidata_id": "Q407448"
+  },
+  "airmadagascar": {
+    "domains": [
+      "madagascarairlines.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "Air Madagascar",
+    "sitelinks": 33,
+    "source": "wikidata",
+    "wikidata_id": "Q253858"
   },
   "airmalta": {
     "domains": [
@@ -575,6 +773,18 @@
     "sitelinks": 38,
     "source": "wikidata",
     "wikidata_id": "Q407606"
+  },
+  "airnamibia": {
+    "domains": [
+      "airnamibia.com.na"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "Air Namibia",
+    "sitelinks": 34,
+    "source": "wikidata",
+    "wikidata_id": "Q407624"
   },
   "airnewzealand": {
     "domains": [
@@ -636,6 +846,18 @@
     "source": "wikidata",
     "wikidata_id": "Q412826"
   },
+  "alarabiya": {
+    "domains": [
+      "alarabiya.net"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "Al Arabiya",
+    "sitelinks": 35,
+    "source": "wikidata",
+    "wikidata_id": "Q310172"
+  },
   "alaskaairlines": {
     "domains": [
       "alaskaair.com"
@@ -672,6 +894,30 @@
     "source": "wikidata",
     "wikidata_id": "Q230051"
   },
+  "alexandermcqueen": {
+    "domains": [
+      "alexandermcqueen.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "Alexander McQueen",
+    "sitelinks": 33,
+    "source": "wikidata",
+    "wikidata_id": "Q13882231"
+  },
+  "alexandruioancuzauniversity": {
+    "domains": [
+      "uaic.ro"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "Alexandru Ioan Cuza University",
+    "sitelinks": 33,
+    "source": "wikidata",
+    "wikidata_id": "Q1523902"
+  },
   "alfaromeo": {
     "domains": [
       "alfaromeo.com"
@@ -696,6 +942,18 @@
     "source": "wikidata",
     "wikidata_id": "Q1359568"
   },
+  "alienware": {
+    "domains": [
+      "alienware.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "Alienware",
+    "sitelinks": 34,
+    "source": "wikidata",
+    "wikidata_id": "Q937801"
+  },
   "aliexpress": {
     "domains": [
       "aliexpress.com"
@@ -708,6 +966,18 @@
     "source": "wikidata",
     "wikidata_id": "Q29904317"
   },
+  "alipay": {
+    "domains": [
+      "alipay.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "Alipay",
+    "sitelinks": 36,
+    "source": "wikidata",
+    "wikidata_id": "Q493556"
+  },
   "alitalia": {
     "domains": [
       "alitalia.com"
@@ -719,6 +989,30 @@
     "sitelinks": 55,
     "source": "wikidata",
     "wikidata_id": "Q153975"
+  },
+  "allegiantair": {
+    "domains": [
+      "allegiantair.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "Allegiant Air",
+    "sitelinks": 33,
+    "source": "wikidata",
+    "wikidata_id": "Q1319601"
+  },
+  "allelitewrestling": {
+    "domains": [
+      "allelitewrestling.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "All Elite Wrestling",
+    "sitelinks": 35,
+    "source": "wikidata",
+    "wikidata_id": "Q60324825"
   },
   "allianzse": {
     "domains": [
@@ -828,6 +1122,18 @@
     "source": "wikidata",
     "wikidata_id": "Q456157"
   },
+  "amblinentertainment": {
+    "domains": [
+      "amblin.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "Amblin Entertainment",
+    "sitelinks": 34,
+    "source": "wikidata",
+    "wikidata_id": "Q457893"
+  },
   "amd": {
     "domains": [
       "amd.com"
@@ -876,6 +1182,18 @@
     "source": "wikidata",
     "wikidata_id": "Q169889"
   },
+  "americanchemicalsociety": {
+    "domains": [
+      "acs.org"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "American Chemical Society",
+    "sitelinks": 34,
+    "source": "wikidata",
+    "wikidata_id": "Q247556"
+  },
   "americanexpress": {
     "domains": [
       "americanexpress.com"
@@ -900,6 +1218,18 @@
     "source": "wikidata",
     "wikidata_id": "Q212235"
   },
+  "americanpsychologicalassociation": {
+    "domains": [
+      "apa.org"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "American Psychological Association",
+    "sitelinks": 37,
+    "source": "wikidata",
+    "wikidata_id": "Q466587"
+  },
   "amtrak": {
     "domains": [
       "amtrak.com"
@@ -911,6 +1241,30 @@
     "sitelinks": 52,
     "source": "wikidata",
     "wikidata_id": "Q23239"
+  },
+  "amway": {
+    "domains": [
+      "amwayglobal.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "Amway",
+    "sitelinks": 34,
+    "source": "wikidata",
+    "wikidata_id": "Q481800"
+  },
+  "anadoluagency": {
+    "domains": [
+      "aa.com.tr"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "Anadolu Agency",
+    "sitelinks": 33,
+    "source": "wikidata",
+    "wikidata_id": "Q477436"
   },
   "anheuserbuschinbev": {
     "domains": [
@@ -1008,6 +1362,18 @@
     "source": "wikidata",
     "wikidata_id": "Q421253"
   },
+  "aprilia": {
+    "domains": [
+      "aprilia.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "Aprilia",
+    "sitelinks": 35,
+    "source": "wikidata",
+    "wikidata_id": "Q622062"
+  },
   "arcelormittal": {
     "domains": [
       "corporate.arcelormittal.com"
@@ -1032,6 +1398,18 @@
     "source": "wikidata",
     "wikidata_id": "Q175957"
   },
+  "aristotleuniversityofthessaloniki": {
+    "domains": [
+      "auth.gr"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "Aristotle University of Thessaloniki",
+    "sitelinks": 37,
+    "source": "wikidata",
+    "wikidata_id": "Q667568"
+  },
   "arizonastateuniversity": {
     "domains": [
       "asu.edu"
@@ -1055,6 +1433,18 @@
     "sitelinks": 38,
     "source": "wikidata",
     "wikidata_id": "Q553915"
+  },
+  "armholdings": {
+    "domains": [
+      "arm.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "Arm Holdings",
+    "sitelinks": 35,
+    "source": "wikidata",
+    "wikidata_id": "Q296782"
   },
   "asianaairlines": {
     "domains": [
@@ -1116,6 +1506,18 @@
     "source": "wikidata",
     "wikidata_id": "Q297879"
   },
+  "assicurazionigenerali": {
+    "domains": [
+      "generali.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "Assicurazioni Generali",
+    "sitelinks": 33,
+    "source": "wikidata",
+    "wikidata_id": "Q670482"
+  },
   "associatedpress": {
     "domains": [
       "ap.org"
@@ -1176,6 +1578,18 @@
     "source": "wikidata",
     "wikidata_id": "Q152864"
   },
+  "asuseeepc": {
+    "domains": [
+      "eeepc.asus.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "ASUS Eee PC",
+    "sitelinks": 33,
+    "source": "wikidata",
+    "wikidata_id": "Q221952"
+  },
   "atari": {
     "domains": [
       "atari.com"
@@ -1200,6 +1614,18 @@
     "source": "wikidata",
     "wikidata_id": "Q213849"
   },
+  "atlanticairways": {
+    "domains": [
+      "atlantic.fo"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "Atlantic Airways",
+    "sitelinks": 36,
+    "source": "wikidata",
+    "wikidata_id": "Q151581"
+  },
   "atlanticrecords": {
     "domains": [
       "atlanticrecords.com"
@@ -1211,6 +1637,31 @@
     "sitelinks": 52,
     "source": "wikidata",
     "wikidata_id": "Q202440"
+  },
+  "atlasglobal": {
+    "domains": [
+      "web.archive.org",
+      "atlasjet.com"
+    ],
+    "favicon_attempts": 2,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "Atlasglobal",
+    "sitelinks": 33,
+    "source": "wikidata",
+    "wikidata_id": "Q757295"
+  },
+  "atosse": {
+    "domains": [
+      "atos.net"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "Atos SE",
+    "sitelinks": 37,
+    "source": "wikidata",
+    "wikidata_id": "Q757689"
   },
   "atr": {
     "domains": [
@@ -1243,13 +1694,25 @@
       "audi.de",
       "audi.fr"
     ],
-    "favicon_attempts": 1,
+    "favicon_attempts": 4,
     "favicon_hash_count": 0,
     "favicon_successes": 0,
     "name": "Audi AG",
     "sitelinks": 115,
     "source": "wikidata",
     "wikidata_id": "Q23317"
+  },
+  "australianbroadcastingcorporation": {
+    "domains": [
+      "abc.net.au"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "Australian Broadcasting Corporation",
+    "sitelinks": 37,
+    "source": "wikidata",
+    "wikidata_id": "Q781365"
   },
   "australiannationaluniversity": {
     "domains": [
@@ -1262,6 +1725,18 @@
     "sitelinks": 56,
     "source": "wikidata",
     "wikidata_id": "Q127990"
+  },
+  "australianrecordingindustryassociation": {
+    "domains": [
+      "aria.com.au"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "Australian Recording Industry Association",
+    "sitelinks": 34,
+    "source": "wikidata",
+    "wikidata_id": "Q550239"
   },
   "austrianairlines": {
     "domains": [
@@ -1280,13 +1755,25 @@
       "konzern.oebb.at",
       "oebb.at"
     ],
-    "favicon_attempts": 1,
+    "favicon_attempts": 2,
     "favicon_hash_count": 0,
     "favicon_successes": 0,
     "name": "Austrian Federal Railways",
     "sitelinks": 42,
     "source": "wikidata",
     "wikidata_id": "Q83822"
+  },
+  "austriannationalbank": {
+    "domains": [
+      "oenb.at"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "Austrian National Bank",
+    "sitelinks": 34,
+    "source": "wikidata",
+    "wikidata_id": "Q670723"
   },
   "autodesk": {
     "domains": [
@@ -1300,6 +1787,18 @@
     "source": "wikidata",
     "wikidata_id": "Q628051"
   },
+  "avaya": {
+    "domains": [
+      "avaya.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "Avaya",
+    "sitelinks": 37,
+    "source": "wikidata",
+    "wikidata_id": "Q212433"
+  },
   "avianca": {
     "domains": [
       "avianca.com"
@@ -1311,6 +1810,43 @@
     "sitelinks": 48,
     "source": "wikidata",
     "wikidata_id": "Q308911"
+  },
+  "avionexpress": {
+    "domains": [
+      "avionexpress.aero"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "Avion Express",
+    "sitelinks": 34,
+    "source": "wikidata",
+    "wikidata_id": "Q791093"
+  },
+  "aviva": {
+    "domains": [
+      "aviva.co.uk",
+      "aviva.com"
+    ],
+    "favicon_attempts": 2,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "Aviva",
+    "sitelinks": 34,
+    "source": "wikidata",
+    "wikidata_id": "Q791179"
+  },
+  "avonproductsinc": {
+    "domains": [
+      "avonworldwide.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "Avon Products Inc.",
+    "sitelinks": 33,
+    "source": "wikidata",
+    "wikidata_id": "Q791285"
   },
   "avtovaz": {
     "domains": [
@@ -1348,17 +1884,53 @@
     "source": "wikidata",
     "wikidata_id": "Q160054"
   },
+  "axelspringerse": {
+    "domains": [
+      "axelspringer.de"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "Axel Springer SE",
+    "sitelinks": 35,
+    "source": "wikidata",
+    "wikidata_id": "Q163560"
+  },
   "azerbaijanairlines": {
     "domains": [
       "azal.az"
     ],
     "favicon_attempts": 1,
-    "favicon_hash_count": 1,
-    "favicon_successes": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
     "name": "Azerbaijan Airlines",
     "sitelinks": 51,
     "source": "wikidata",
     "wikidata_id": "Q333679"
+  },
+  "azerbaijanrailways": {
+    "domains": [
+      "ady.az"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "Azerbaijan Railways",
+    "sitelinks": 34,
+    "source": "wikidata",
+    "wikidata_id": "Q617956"
+  },
+  "azovstal": {
+    "domains": [
+      "azovstal.metinvestholding.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "Azovstal",
+    "sitelinks": 36,
+    "source": "wikidata",
+    "wikidata_id": "Q4058442"
   },
   "bacardi": {
     "domains": [
@@ -1371,6 +1943,18 @@
     "sitelinks": 39,
     "source": "wikidata",
     "wikidata_id": "Q685395"
+  },
+  "badrobotproductions": {
+    "domains": [
+      "badrobot.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "Bad Robot Productions",
+    "sitelinks": 33,
+    "source": "wikidata",
+    "wikidata_id": "Q798768"
   },
   "baesystems": {
     "domains": [
@@ -1396,6 +1980,30 @@
     "source": "wikidata",
     "wikidata_id": "Q14772"
   },
+  "baileysirishcream": {
+    "domains": [
+      "baileys.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "Baileys Irish Cream",
+    "sitelinks": 35,
+    "source": "wikidata",
+    "wikidata_id": "Q285480"
+  },
+  "bajajauto": {
+    "domains": [
+      "bajajauto.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "Bajaj Auto",
+    "sitelinks": 35,
+    "source": "wikidata",
+    "wikidata_id": "Q10910065"
+  },
   "bambooairways": {
     "domains": [
       "bambooairways.com"
@@ -1407,6 +2015,68 @@
     "sitelinks": 70,
     "source": "wikidata",
     "wikidata_id": "Q51779763"
+  },
+  "bancamontedeipaschidisiena": {
+    "domains": [
+      "mps.it"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "Banca Monte dei Paschi di Siena",
+    "sitelinks": 34,
+    "source": "wikidata",
+    "wikidata_id": "Q46730"
+  },
+  "bancobilbaovizcayaargentaria": {
+    "domains": [
+      "bbva.com",
+      "bbva.es"
+    ],
+    "favicon_attempts": 2,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "Banco Bilbao Vizcaya Argentaria",
+    "sitelinks": 36,
+    "source": "wikidata",
+    "wikidata_id": "Q806189"
+  },
+  "bandai": {
+    "domains": [
+      "bandai.co.jp"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "Bandai",
+    "sitelinks": 36,
+    "source": "wikidata",
+    "wikidata_id": "Q507269"
+  },
+  "bandainamcoentertainment": {
+    "domains": [
+      "bandainamcoent.co.jp",
+      "bandainamcoent.com"
+    ],
+    "favicon_attempts": 2,
+    "favicon_hash_count": 2,
+    "favicon_successes": 2,
+    "name": "Bandai Namco Entertainment",
+    "sitelinks": 34,
+    "source": "wikidata",
+    "wikidata_id": "Q1194689"
+  },
+  "bangkokairways": {
+    "domains": [
+      "bangkokair.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "Bangkok Airways",
+    "sitelinks": 33,
+    "source": "wikidata",
+    "wikidata_id": "Q806487"
   },
   "bankofamerica": {
     "domains": [
@@ -1420,14 +2090,27 @@
     "source": "wikidata",
     "wikidata_id": "Q487907"
   },
+  "bankofcanada": {
+    "domains": [
+      "bankofcanada.ca",
+      "banqueducanada.ca"
+    ],
+    "favicon_attempts": 2,
+    "favicon_hash_count": 1,
+    "favicon_successes": 2,
+    "name": "Bank of Canada",
+    "sitelinks": 36,
+    "source": "wikidata",
+    "wikidata_id": "Q806703"
+  },
   "bankofchina": {
     "domains": [
       "bankofchina.com",
       "boc.cn"
     ],
-    "favicon_attempts": 1,
+    "favicon_attempts": 2,
     "favicon_hash_count": 1,
-    "favicon_successes": 1,
+    "favicon_successes": 2,
     "name": "Bank of China",
     "sitelinks": 40,
     "source": "wikidata",
@@ -1481,6 +2164,18 @@
     "source": "wikidata",
     "wikidata_id": "Q244411"
   },
+  "bankofitaly": {
+    "domains": [
+      "bancaditalia.it"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "Bank of Italy",
+    "sitelinks": 34,
+    "source": "wikidata",
+    "wikidata_id": "Q806176"
+  },
   "bankofjapan": {
     "domains": [
       "boj.or.jp"
@@ -1492,6 +2187,18 @@
     "sitelinks": 43,
     "source": "wikidata",
     "wikidata_id": "Q333101"
+  },
+  "bankofspain": {
+    "domains": [
+      "bde.es"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "Bank of Spain",
+    "sitelinks": 35,
+    "source": "wikidata",
+    "wikidata_id": "Q789966"
   },
   "barbie": {
     "domains": [
@@ -1510,13 +2217,25 @@
       "home.barclays",
       "barclays.co.uk"
     ],
-    "favicon_attempts": 1,
+    "favicon_attempts": 2,
     "favicon_hash_count": 0,
     "favicon_successes": 0,
     "name": "Barclays",
     "sitelinks": 53,
     "source": "wikidata",
     "wikidata_id": "Q245343"
+  },
+  "barilanuniversity": {
+    "domains": [
+      "biu.ac.il"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "Bar-Ilan University",
+    "sitelinks": 37,
+    "source": "wikidata",
+    "wikidata_id": "Q1124657"
   },
   "basf": {
     "domains": [
@@ -1542,6 +2261,30 @@
     "source": "wikidata",
     "wikidata_id": "Q584601"
   },
+  "batalimited": {
+    "domains": [
+      "bata.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "Bata Limited",
+    "sitelinks": 34,
+    "source": "wikidata",
+    "wikidata_id": "Q688082"
+  },
+  "baumanmoscowstatetechnicaluniversity": {
+    "domains": [
+      "bmstu.ru"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "Bauman Moscow State Technical University",
+    "sitelinks": 33,
+    "source": "wikidata",
+    "wikidata_id": "Q1472245"
+  },
   "bayer": {
     "domains": [
       "bayer.com"
@@ -1553,6 +2296,18 @@
     "sitelinks": 66,
     "source": "wikidata",
     "wikidata_id": "Q152051"
+  },
+  "bbkelectronics": {
+    "domains": [
+      "eebbk.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "BBK Electronics",
+    "sitelinks": 35,
+    "source": "wikidata",
+    "wikidata_id": "Q4034686"
   },
   "bearbrand": {
     "domains": [
@@ -1631,13 +2386,26 @@
       "benjerry.co.uk",
       "benjerry.com"
     ],
-    "favicon_attempts": 1,
+    "favicon_attempts": 2,
     "favicon_hash_count": 0,
     "favicon_successes": 0,
     "name": "Ben & Jerry's",
     "sitelinks": 37,
     "source": "wikidata",
     "wikidata_id": "Q816412"
+  },
+  "benq": {
+    "domains": [
+      "benq.com",
+      "benq.eu"
+    ],
+    "favicon_attempts": 2,
+    "favicon_hash_count": 1,
+    "favicon_successes": 2,
+    "name": "BenQ",
+    "sitelinks": 34,
+    "source": "wikidata",
+    "wikidata_id": "Q714335"
   },
   "bentley": {
     "domains": [
@@ -1651,6 +2419,18 @@
     "source": "wikidata",
     "wikidata_id": "Q27224"
   },
+  "beriev": {
+    "domains": [
+      "beriev.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "Beriev",
+    "sitelinks": 33,
+    "source": "wikidata",
+    "wikidata_id": "Q642622"
+  },
   "berkshirehathaway": {
     "domains": [
       "berkshirehathaway.com"
@@ -1663,14 +2443,26 @@
     "source": "wikidata",
     "wikidata_id": "Q217583"
   },
+  "bershka": {
+    "domains": [
+      "bershka.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "Bershka",
+    "sitelinks": 35,
+    "source": "wikidata",
+    "wikidata_id": "Q827258"
+  },
   "bertelsmann": {
     "domains": [
       "bertelsmann.com",
       "bertelsmann.de"
     ],
-    "favicon_attempts": 1,
+    "favicon_attempts": 2,
     "favicon_hash_count": 1,
-    "favicon_successes": 1,
+    "favicon_successes": 2,
     "name": "Bertelsmann",
     "sitelinks": 37,
     "source": "wikidata",
@@ -1712,11 +2504,36 @@
     "source": "wikidata",
     "wikidata_id": "Q193563"
   },
-  "bild": {
+  "bic": {
     "domains": [
-      "bild.de"
+      "bic.com"
     ],
     "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "Bic",
+    "sitelinks": 35,
+    "source": "wikidata",
+    "wikidata_id": "Q795981"
+  },
+  "bighitmusic": {
+    "domains": [
+      "ibighit.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "Big Hit Music",
+    "sitelinks": 33,
+    "source": "wikidata",
+    "wikidata_id": "Q106296918"
+  },
+  "bild": {
+    "domains": [
+      "bild.de",
+      "bildstatic.de"
+    ],
+    "favicon_attempts": 2,
     "favicon_hash_count": 1,
     "favicon_successes": 1,
     "name": "Bild",
@@ -1750,15 +2567,41 @@
   },
   "biontech": {
     "domains": [
-      "biontech.de"
+      "biontech.de",
+      "biontech.com"
     ],
-    "favicon_attempts": 1,
+    "favicon_attempts": 2,
     "favicon_hash_count": 1,
     "favicon_successes": 1,
     "name": "BioNTech",
     "sitelinks": 45,
     "source": "wikidata",
     "wikidata_id": "Q30256699"
+  },
+  "bioware": {
+    "domains": [
+      "bioware.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "BioWare",
+    "sitelinks": 37,
+    "source": "wikidata",
+    "wikidata_id": "Q219758"
+  },
+  "bitdefender": {
+    "domains": [
+      "bitdefender.com.tr",
+      "bitdefender.com"
+    ],
+    "favicon_attempts": 2,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "Bitdefender",
+    "sitelinks": 35,
+    "source": "wikidata",
+    "wikidata_id": "Q854605"
   },
   "blackberry": {
     "domains": [
@@ -1832,6 +2675,18 @@
     "source": "wikidata",
     "wikidata_id": "Q568642"
   },
+  "blue1": {
+    "domains": [
+      "blue1.fi"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "Blue1",
+    "sitelinks": 35,
+    "source": "wikidata",
+    "wikidata_id": "Q214675"
+  },
   "blueorigin": {
     "domains": [
       "blueorigin.com"
@@ -1885,13 +2740,27 @@
       "unibocconi.it",
       "unibocconi.eu"
     ],
-    "favicon_attempts": 1,
+    "favicon_attempts": 2,
     "favicon_hash_count": 0,
     "favicon_successes": 0,
     "name": "Bocconi University",
     "sitelinks": 42,
     "source": "wikidata",
     "wikidata_id": "Q959524"
+  },
+  "bochniasaltmine": {
+    "domains": [
+      "bochnia-mine.eu",
+      "kopalnia-bochnia.pl",
+      "salzbergwerk-bochnia.eu"
+    ],
+    "favicon_attempts": 3,
+    "favicon_hash_count": 3,
+    "favicon_successes": 3,
+    "name": "Bochnia Salt Mine",
+    "sitelinks": 34,
+    "source": "wikidata",
+    "wikidata_id": "Q4936252"
   },
   "boeing": {
     "domains": [
@@ -1910,8 +2779,8 @@
       "bolshoi.ru"
     ],
     "favicon_attempts": 1,
-    "favicon_hash_count": 1,
-    "favicon_successes": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
     "name": "Bolshoi Theatre",
     "sitelinks": 75,
     "source": "wikidata",
@@ -1953,6 +2822,54 @@
     "source": "wikidata",
     "wikidata_id": "Q935818"
   },
+  "bookingcom": {
+    "domains": [
+      "booking.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "booking.com",
+    "sitelinks": 35,
+    "source": "wikidata",
+    "wikidata_id": "Q4035313"
+  },
+  "borland": {
+    "domains": [
+      "borland.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "Borland",
+    "sitelinks": 35,
+    "source": "wikidata",
+    "wikidata_id": "Q210075"
+  },
+  "bostoncollege": {
+    "domains": [
+      "bc.edu"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "Boston College",
+    "sitelinks": 36,
+    "source": "wikidata",
+    "wikidata_id": "Q49118"
+  },
+  "bostondynamics": {
+    "domains": [
+      "bostondynamics.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "Boston Dynamics",
+    "sitelinks": 37,
+    "source": "wikidata",
+    "wikidata_id": "Q2298325"
+  },
   "bostonuniversity": {
     "domains": [
       "bu.edu"
@@ -1977,6 +2894,30 @@
     "source": "wikidata",
     "wikidata_id": "Q894874"
   },
+  "bounty": {
+    "domains": [
+      "mars.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "Bounty",
+    "sitelinks": 33,
+    "source": "wikidata",
+    "wikidata_id": "Q895167"
+  },
+  "bouygues": {
+    "domains": [
+      "bouygues.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "Bouygues",
+    "sitelinks": 37,
+    "source": "wikidata",
+    "wikidata_id": "Q895325"
+  },
   "boxofficemojo": {
     "domains": [
       "boxofficemojo.com"
@@ -1989,6 +2930,31 @@
     "source": "wikidata",
     "wikidata_id": "Q223142"
   },
+  "braun": {
+    "domains": [
+      "braun.com",
+      "braun.cz"
+    ],
+    "favicon_attempts": 2,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "Braun",
+    "sitelinks": 33,
+    "source": "wikidata",
+    "wikidata_id": "Q631220"
+  },
+  "braziliannationalarchives": {
+    "domains": [
+      "arquivonacional.gov.br"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "Brazilian National Archives",
+    "sitelinks": 37,
+    "source": "wikidata",
+    "wikidata_id": "Q2860546"
+  },
   "brazzers": {
     "domains": [
       "brazzers.com"
@@ -2000,6 +2966,18 @@
     "sitelinks": 43,
     "source": "wikidata",
     "wikidata_id": "Q903343"
+  },
+  "breitling": {
+    "domains": [
+      "breitling.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "Breitling",
+    "sitelinks": 37,
+    "source": "wikidata",
+    "wikidata_id": "Q665740"
   },
   "bridgestone": {
     "domains": [
@@ -2085,6 +3063,18 @@
     "source": "wikidata",
     "wikidata_id": "Q153571"
   },
+  "bubblewrap": {
+    "domains": [
+      "sealedair.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "bubble wrap",
+    "sitelinks": 36,
+    "source": "wikidata",
+    "wikidata_id": "Q19806"
+  },
   "budweiser": {
     "domains": [
       "budweiser.com"
@@ -2108,6 +3098,18 @@
     "sitelinks": 51,
     "source": "wikidata",
     "wikidata_id": "Q27415"
+  },
+  "bujanovac": {
+    "domains": [
+      "bujanovac.rs"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "Bujanovac",
+    "sitelinks": 35,
+    "source": "wikidata",
+    "wikidata_id": "Q834989"
   },
   "bulgari": {
     "domains": [
@@ -2174,7 +3176,7 @@
       "byd-automobiles.com",
       "byd.com"
     ],
-    "favicon_attempts": 1,
+    "favicon_attempts": 2,
     "favicon_hash_count": 0,
     "favicon_successes": 0,
     "name": "BYD Auto",
@@ -2211,13 +3213,25 @@
       "cadillac.com",
       "cadillaceurope.com"
     ],
-    "favicon_attempts": 1,
-    "favicon_hash_count": 1,
-    "favicon_successes": 1,
+    "favicon_attempts": 2,
+    "favicon_hash_count": 2,
+    "favicon_successes": 2,
     "name": "Cadillac",
     "sitelinks": 67,
     "source": "wikidata",
     "wikidata_id": "Q27436"
+  },
+  "californiastateuniversity": {
+    "domains": [
+      "calstate.edu"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "California State University",
+    "sitelinks": 34,
+    "source": "wikidata",
+    "wikidata_id": "Q815352"
   },
   "calvinklein": {
     "domains": [
@@ -2242,6 +3256,30 @@
     "sitelinks": 53,
     "source": "wikidata",
     "wikidata_id": "Q912887"
+  },
+  "camel": {
+    "domains": [
+      "camel.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "Camel",
+    "sitelinks": 36,
+    "source": "wikidata",
+    "wikidata_id": "Q878241"
+  },
+  "campari": {
+    "domains": [
+      "campari.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "Campari",
+    "sitelinks": 36,
+    "source": "wikidata",
+    "wikidata_id": "Q899150"
   },
   "canadianbroadcastingcorporation": {
     "domains": [
@@ -2297,9 +3335,9 @@
       "capcom-germany.de",
       "capcom.com"
     ],
-    "favicon_attempts": 1,
-    "favicon_hash_count": 1,
-    "favicon_successes": 1,
+    "favicon_attempts": 3,
+    "favicon_hash_count": 2,
+    "favicon_successes": 2,
     "name": "Capcom",
     "sitelinks": 57,
     "source": "wikidata",
@@ -2353,6 +3391,18 @@
     "source": "wikidata",
     "wikidata_id": "Q1043486"
   },
+  "carlwalthergmbh": {
+    "domains": [
+      "carl-walther.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "Carl Walther GmbH",
+    "sitelinks": 33,
+    "source": "wikidata",
+    "wikidata_id": "Q705706"
+  },
   "carlzeissag": {
     "domains": [
       "zeiss.com"
@@ -2391,11 +3441,12 @@
   },
   "casio": {
     "domains": [
-      "world.casio.com"
+      "world.casio.com",
+      "casio.com"
     ],
-    "favicon_attempts": 1,
-    "favicon_hash_count": 0,
-    "favicon_successes": 0,
+    "favicon_attempts": 2,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
     "name": "Casio",
     "sitelinks": 55,
     "source": "wikidata",
@@ -2412,6 +3463,18 @@
     "sitelinks": 49,
     "source": "wikidata",
     "wikidata_id": "Q459965"
+  },
+  "cathaydragon": {
+    "domains": [
+      "dragonair.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "Cathay Dragon",
+    "sitelinks": 35,
+    "source": "wikidata",
+    "wikidata_id": "Q32436"
   },
   "cathaypacific": {
     "domains": [
@@ -2448,6 +3511,18 @@
     "sitelinks": 98,
     "source": "wikidata",
     "wikidata_id": "Q43380"
+  },
+  "cdprojekt": {
+    "domains": [
+      "cdprojekt.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "CD Projekt",
+    "sitelinks": 36,
+    "source": "wikidata",
+    "wikidata_id": "Q7098994"
   },
   "celine": {
     "domains": [
@@ -2545,6 +3620,19 @@
     "source": "wikidata",
     "wikidata_id": "Q31519"
   },
+  "cheryautomobile": {
+    "domains": [
+      "cheryinternational.com",
+      "chery.cn"
+    ],
+    "favicon_attempts": 2,
+    "favicon_hash_count": 2,
+    "favicon_successes": 2,
+    "name": "Chery Automobile",
+    "sitelinks": 35,
+    "source": "wikidata",
+    "wikidata_id": "Q591001"
+  },
   "chesscom": {
     "domains": [
       "chess.com"
@@ -2601,13 +3689,26 @@
       "english.cctv.com",
       "cctv.com"
     ],
-    "favicon_attempts": 1,
+    "favicon_attempts": 4,
     "favicon_hash_count": 1,
-    "favicon_successes": 1,
+    "favicon_successes": 3,
     "name": "China Central Television",
     "sitelinks": 62,
     "source": "wikidata",
     "wikidata_id": "Q207936"
+  },
+  "chinaconstructionbank": {
+    "domains": [
+      "ccb.com",
+      "en.ccb.com"
+    ],
+    "favicon_attempts": 2,
+    "favicon_hash_count": 1,
+    "favicon_successes": 2,
+    "name": "China Construction Bank",
+    "sitelinks": 37,
+    "source": "wikidata",
+    "wikidata_id": "Q26299"
   },
   "chinaeasternairlines": {
     "domains": [
@@ -2633,6 +3734,18 @@
     "source": "wikidata",
     "wikidata_id": "Q741618"
   },
+  "chinanationalpetroleumcorporation": {
+    "domains": [
+      "cnpc.com.cn"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "China National Petroleum Corporation",
+    "sitelinks": 36,
+    "source": "wikidata",
+    "wikidata_id": "Q588786"
+  },
   "chinasouthernairlines": {
     "domains": [
       "csair.com"
@@ -2644,6 +3757,18 @@
     "sitelinks": 51,
     "source": "wikidata",
     "wikidata_id": "Q291090"
+  },
+  "chinastaterailwaygroup": {
+    "domains": [
+      "china-railway.com.cn"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "China State Railway Group",
+    "sitelinks": 33,
+    "source": "wikidata",
+    "wikidata_id": "Q1073489"
   },
   "chineseacademyofsciences": {
     "domains": [
@@ -2680,6 +3805,18 @@
     "sitelinks": 43,
     "source": "wikidata",
     "wikidata_id": "Q503176"
+  },
+  "chteaufrontenac": {
+    "domains": [
+      "fairmont.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "Château Frontenac",
+    "sitelinks": 36,
+    "source": "wikidata",
+    "wikidata_id": "Q745964"
   },
   "chulalongkornuniversity": {
     "domains": [
@@ -2719,7 +3856,7 @@
       "chupachups.co.uk",
       "us.chupachups.com"
     ],
-    "favicon_attempts": 1,
+    "favicon_attempts": 4,
     "favicon_hash_count": 0,
     "favicon_successes": 0,
     "name": "Chupa Chups",
@@ -2823,6 +3960,18 @@
     "source": "wikidata",
     "wikidata_id": "Q2813"
   },
+  "coinbase": {
+    "domains": [
+      "coinbase.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "Coinbase",
+    "sitelinks": 37,
+    "source": "wikidata",
+    "wikidata_id": "Q16972754"
+  },
   "colgatepalmolivecompany": {
     "domains": [
       "colgatepalmolive.com"
@@ -2834,6 +3983,18 @@
     "sitelinks": 47,
     "source": "wikidata",
     "wikidata_id": "Q609466"
+  },
+  "coltsmanufacturingcompany": {
+    "domains": [
+      "colt.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "Colt's Manufacturing Company",
+    "sitelinks": 34,
+    "source": "wikidata",
+    "wikidata_id": "Q745019"
   },
   "columbiapictures": {
     "domains": [
@@ -2862,11 +4023,12 @@
   "comcast": {
     "domains": [
       "corporate.comcast.com",
-      "cmcsa.com"
+      "cmcsa.com",
+      "comcast.com"
     ],
-    "favicon_attempts": 1,
-    "favicon_hash_count": 0,
-    "favicon_successes": 0,
+    "favicon_attempts": 3,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
     "name": "Comcast",
     "sitelinks": 53,
     "source": "wikidata",
@@ -2889,7 +4051,7 @@
       "commerzbank.com",
       "commerzbank.de"
     ],
-    "favicon_attempts": 1,
+    "favicon_attempts": 2,
     "favicon_hash_count": 0,
     "favicon_successes": 0,
     "name": "Commerzbank AG",
@@ -2908,6 +4070,30 @@
     "sitelinks": 45,
     "source": "wikidata",
     "wikidata_id": "Q324603"
+  },
+  "condorflugdienst": {
+    "domains": [
+      "condor.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "Condor Flugdienst",
+    "sitelinks": 37,
+    "source": "wikidata",
+    "wikidata_id": "Q312517"
+  },
+  "conocophillips": {
+    "domains": [
+      "conocophillips.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "ConocoPhillips",
+    "sitelinks": 34,
+    "source": "wikidata",
+    "wikidata_id": "Q214763"
   },
   "continentalag": {
     "domains": [
@@ -2962,9 +4148,9 @@
       "corona.com",
       "corona.de"
     ],
-    "favicon_attempts": 1,
-    "favicon_hash_count": 0,
-    "favicon_successes": 0,
+    "favicon_attempts": 2,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
     "name": "Corona",
     "sitelinks": 39,
     "source": "wikidata",
@@ -3024,9 +4210,9 @@
       "gavi.org",
       "who.int"
     ],
-    "favicon_attempts": 1,
-    "favicon_hash_count": 0,
-    "favicon_successes": 0,
+    "favicon_attempts": 3,
+    "favicon_hash_count": 2,
+    "favicon_successes": 2,
     "name": "COVAX",
     "sitelinks": 41,
     "source": "wikidata",
@@ -3133,7 +4319,7 @@
       "en.fortunaliga.cz",
       "fortunaliga.cz"
     ],
-    "favicon_attempts": 1,
+    "favicon_attempts": 2,
     "favicon_hash_count": 0,
     "favicon_successes": 0,
     "name": "Czech First League",
@@ -3201,6 +4387,18 @@
     "source": "wikidata",
     "wikidata_id": "Q769222"
   },
+  "danmarksnationalbank": {
+    "domains": [
+      "nationalbanken.dk"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "Danmarks Nationalbank",
+    "sitelinks": 34,
+    "source": "wikidata",
+    "wikidata_id": "Q683252"
+  },
   "danone": {
     "domains": [
       "danone.com"
@@ -3212,6 +4410,18 @@
     "sitelinks": 50,
     "source": "wikidata",
     "wikidata_id": "Q329426"
+  },
+  "darkhorsecomics": {
+    "domains": [
+      "darkhorse.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "Dark Horse Comics",
+    "sitelinks": 33,
+    "source": "wikidata",
+    "wikidata_id": "Q373933"
   },
   "dartmouthcollege": {
     "domains": [
@@ -3249,6 +4459,18 @@
     "source": "wikidata",
     "wikidata_id": "Q1172038"
   },
+  "datsun": {
+    "domains": [
+      "datsun.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "Datsun",
+    "sitelinks": 33,
+    "source": "wikidata",
+    "wikidata_id": "Q27543"
+  },
   "dccomics": {
     "domains": [
       "dc.com"
@@ -3266,9 +4488,9 @@
       "debeers.com",
       "debeersgroup.com"
     ],
-    "favicon_attempts": 1,
-    "favicon_hash_count": 1,
-    "favicon_successes": 1,
+    "favicon_attempts": 2,
+    "favicon_hash_count": 2,
+    "favicon_successes": 2,
     "name": "De Beers",
     "sitelinks": 43,
     "source": "wikidata",
@@ -3381,9 +4603,9 @@
       "pt.delta.com",
       "zh.delta.com"
     ],
-    "favicon_attempts": 1,
+    "favicon_attempts": 4,
     "favicon_hash_count": 1,
-    "favicon_successes": 1,
+    "favicon_successes": 4,
     "name": "Delta Air Lines",
     "sitelinks": 72,
     "source": "wikidata",
@@ -3413,6 +4635,18 @@
     "source": "wikidata",
     "wikidata_id": "Q66048"
   },
+  "deutschebrse": {
+    "domains": [
+      "deutsche-boerse.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "Deutsche Börse",
+    "sitelinks": 34,
+    "source": "wikidata",
+    "wikidata_id": "Q157852"
+  },
   "deutschegrammophon": {
     "domains": [
       "deutschegrammophon.com"
@@ -3424,6 +4658,18 @@
     "sitelinks": 37,
     "source": "wikidata",
     "wikidata_id": "Q168407"
+  },
+  "deutschepostag": {
+    "domains": [
+      "dpdhl.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "Deutsche Post AG",
+    "sitelinks": 37,
+    "source": "wikidata",
+    "wikidata_id": "Q157645"
   },
   "deutschetelekom": {
     "domains": [
@@ -3449,6 +4695,18 @@
     "source": "wikidata",
     "wikidata_id": "Q489815"
   },
+  "diadora": {
+    "domains": [
+      "diadora.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "Diadora",
+    "sitelinks": 35,
+    "source": "wikidata",
+    "wikidata_id": "Q1208130"
+  },
   "diageo": {
     "domains": [
       "diageo.com"
@@ -3460,6 +4718,18 @@
     "sitelinks": 41,
     "source": "wikidata",
     "wikidata_id": "Q161140"
+  },
+  "dice": {
+    "domains": [
+      "dice.se"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "DICE",
+    "sitelinks": 35,
+    "source": "wikidata",
+    "wikidata_id": "Q722027"
   },
   "digitalequipmentcorporation": {
     "domains": [
@@ -3521,6 +4791,18 @@
     "source": "wikidata",
     "wikidata_id": "Q206521"
   },
+  "ditionsgallimard": {
+    "domains": [
+      "gallimard.fr"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "Éditions Gallimard",
+    "sitelinks": 35,
+    "source": "wikidata",
+    "wikidata_id": "Q273819"
+  },
   "dji": {
     "domains": [
       "dji.com"
@@ -3544,6 +4826,18 @@
     "sitelinks": 55,
     "source": "wikidata",
     "wikidata_id": "Q27564"
+  },
+  "dolby": {
+    "domains": [
+      "dolby.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "Dolby",
+    "sitelinks": 33,
+    "source": "wikidata",
+    "wikidata_id": "Q261288"
   },
   "dolcegabbana": {
     "domains": [
@@ -3569,6 +4863,18 @@
     "source": "wikidata",
     "wikidata_id": "Q839466"
   },
+  "dongfengmotorcorporation": {
+    "domains": [
+      "dfmc.com.cn"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "Dongfeng Motor Corporation",
+    "sitelinks": 36,
+    "source": "wikidata",
+    "wikidata_id": "Q1138452"
+  },
   "donkervoort": {
     "domains": [
       "donkervoort.com"
@@ -3580,6 +4886,30 @@
     "sitelinks": 103,
     "source": "wikidata",
     "wikidata_id": "Q27571"
+  },
+  "doordarshan": {
+    "domains": [
+      "ddindia.gov.in"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "Doordarshan",
+    "sitelinks": 35,
+    "source": "wikidata",
+    "wikidata_id": "Q1763315"
+  },
+  "dowchemicalcompany": {
+    "domains": [
+      "dow.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "Dow Chemical Company",
+    "sitelinks": 36,
+    "source": "wikidata",
+    "wikidata_id": "Q855639"
   },
   "dreamworks": {
     "domains": [
@@ -3604,6 +4934,19 @@
     "sitelinks": 58,
     "source": "wikidata",
     "wikidata_id": "Q500088"
+  },
+  "drmartens": {
+    "domains": [
+      "drmartens.com",
+      "drmartensplc.com"
+    ],
+    "favicon_attempts": 2,
+    "favicon_hash_count": 2,
+    "favicon_successes": 2,
+    "name": "Dr. Martens",
+    "sitelinks": 34,
+    "source": "wikidata",
+    "wikidata_id": "Q1126126"
   },
   "drpepper": {
     "domains": [
@@ -3724,6 +5067,18 @@
     "sitelinks": 89,
     "source": "wikidata",
     "wikidata_id": "Q58024"
+  },
+  "edelweissair": {
+    "domains": [
+      "flyedelweiss.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "Edelweiss Air",
+    "sitelinks": 34,
+    "source": "wikidata",
+    "wikidata_id": "Q662050"
   },
   "efteling": {
     "domains": [
@@ -3888,13 +5243,25 @@
       "certificate.em-lyon.com",
       "executive.em-lyon.com"
     ],
-    "favicon_attempts": 1,
-    "favicon_hash_count": 0,
-    "favicon_successes": 0,
+    "favicon_attempts": 4,
+    "favicon_hash_count": 2,
+    "favicon_successes": 2,
     "name": "Emlyon Business School",
     "sitelinks": 39,
     "source": "wikidata",
     "wikidata_id": "Q1795504"
+  },
+  "endemol": {
+    "domains": [
+      "endemol.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "Endemol",
+    "sitelinks": 36,
+    "source": "wikidata",
+    "wikidata_id": "Q851184"
   },
   "enel": {
     "domains": [
@@ -3911,11 +5278,12 @@
   "engie": {
     "domains": [
       "agence.engie-homeservices.fr",
-      "engie.com"
+      "engie.com",
+      "engie-homeservices.fr"
     ],
-    "favicon_attempts": 1,
-    "favicon_hash_count": 0,
-    "favicon_successes": 0,
+    "favicon_attempts": 3,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
     "name": "Engie",
     "sitelinks": 47,
     "source": "wikidata",
@@ -3944,6 +5312,31 @@
     "sitelinks": 40,
     "source": "wikidata",
     "wikidata_id": "Q327646"
+  },
+  "eon": {
+    "domains": [
+      "eon.com",
+      "eon.se"
+    ],
+    "favicon_attempts": 2,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "E.ON",
+    "sitelinks": 37,
+    "source": "wikidata",
+    "wikidata_id": "Q270223"
+  },
+  "eonproductions": {
+    "domains": [
+      "eon.co.uk"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "Eon Productions",
+    "sitelinks": 34,
+    "source": "wikidata",
+    "wikidata_id": "Q219135"
   },
   "epicgames": {
     "domains": [
@@ -3982,7 +5375,7 @@
       "equinorcelticsea.co.uk",
       "equinorstorage.de"
     ],
-    "favicon_attempts": 1,
+    "favicon_attempts": 4,
     "favicon_hash_count": 0,
     "favicon_successes": 0,
     "name": "Equinor ASA",
@@ -4001,6 +5394,30 @@
     "sitelinks": 60,
     "source": "wikidata",
     "wikidata_id": "Q52618"
+  },
+  "eset": {
+    "domains": [
+      "eset.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "ESET",
+    "sitelinks": 33,
+    "source": "wikidata",
+    "wikidata_id": "Q817209"
+  },
+  "eskdrhy": {
+    "domains": [
+      "cd.cz"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "České dráhy",
+    "sitelinks": 33,
+    "source": "wikidata",
+    "wikidata_id": "Q304944"
   },
   "ethiopianairlines": {
     "domains": [
@@ -4158,6 +5575,18 @@
     "source": "wikidata",
     "wikidata_id": "Q168836"
   },
+  "eutelsat": {
+    "domains": [
+      "eutelsat.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "Eutelsat",
+    "sitelinks": 34,
+    "source": "wikidata",
+    "wikidata_id": "Q848336"
+  },
   "evaair": {
     "domains": [
       "evaair.com"
@@ -4170,13 +5599,26 @@
     "source": "wikidata",
     "wikidata_id": "Q715113"
   },
-  "exxonmobil": {
+  "evergrandegroup": {
     "domains": [
-      "corporate.exxonmobil.com"
+      "evergrande.com"
     ],
     "favicon_attempts": 1,
     "favicon_hash_count": 1,
     "favicon_successes": 1,
+    "name": "Evergrande Group",
+    "sitelinks": 33,
+    "source": "wikidata",
+    "wikidata_id": "Q5417145"
+  },
+  "exxonmobil": {
+    "domains": [
+      "corporate.exxonmobil.com",
+      "exxonmobil.com"
+    ],
+    "favicon_attempts": 2,
+    "favicon_hash_count": 2,
+    "favicon_successes": 2,
     "name": "ExxonMobil",
     "sitelinks": 71,
     "source": "wikidata",
@@ -4332,9 +5774,9 @@
       "ferrero.com.tw",
       "ferrero.com"
     ],
-    "favicon_attempts": 1,
-    "favicon_hash_count": 0,
-    "favicon_successes": 0,
+    "favicon_attempts": 3,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
     "name": "Ferrero SpA",
     "sitelinks": 44,
     "source": "wikidata",
@@ -4364,6 +5806,19 @@
     "source": "wikidata",
     "wikidata_id": "Q15678788"
   },
+  "fijiairways": {
+    "domains": [
+      "airpacific.com.fj",
+      "fijiairways.com"
+    ],
+    "favicon_attempts": 2,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "Fiji Airways",
+    "sitelinks": 35,
+    "source": "wikidata",
+    "wikidata_id": "Q407719"
+  },
   "filainc": {
     "domains": [
       "fila.com"
@@ -4388,6 +5843,18 @@
     "source": "wikidata",
     "wikidata_id": "Q201821"
   },
+  "firestonetireandrubbercompany": {
+    "domains": [
+      "firestone.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "Firestone Tire and Rubber Company",
+    "sitelinks": 35,
+    "source": "wikidata",
+    "wikidata_id": "Q420837"
+  },
   "fitchgroup": {
     "domains": [
       "fitchratings.com"
@@ -4399,6 +5866,42 @@
     "sitelinks": 45,
     "source": "wikidata",
     "wikidata_id": "Q871325"
+  },
+  "fkduklaprague": {
+    "domains": [
+      "fkdukla.cz"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "FK Dukla Prague",
+    "sitelinks": 33,
+    "source": "wikidata",
+    "wikidata_id": "Q2757426"
+  },
+  "flipkart": {
+    "domains": [
+      "flipkart.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "Flipkart",
+    "sitelinks": 36,
+    "source": "wikidata",
+    "wikidata_id": "Q1381966"
+  },
+  "flybe": {
+    "domains": [
+      "flybe.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "Flybe",
+    "sitelinks": 36,
+    "source": "wikidata",
+    "wikidata_id": "Q283790"
   },
   "flydubai": {
     "domains": [
@@ -4423,6 +5926,18 @@
     "sitelinks": 39,
     "source": "wikidata",
     "wikidata_id": "Q747353"
+  },
+  "focusfeatures": {
+    "domains": [
+      "focusfeatures.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "Focus Features",
+    "sitelinks": 33,
+    "source": "wikidata",
+    "wikidata_id": "Q649649"
   },
   "fordmotorcompany": {
     "domains": [
@@ -4459,6 +5974,18 @@
     "sitelinks": 56,
     "source": "wikidata",
     "wikidata_id": "Q463094"
+  },
+  "foxcorporation": {
+    "domains": [
+      "foxcorporation.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "Fox Corporation",
+    "sitelinks": 33,
+    "source": "wikidata",
+    "wikidata_id": "Q60238941"
   },
   "foxnews": {
     "domains": [
@@ -4525,7 +6052,7 @@
       "fujitv.co.jp",
       "fujitv.com"
     ],
-    "favicon_attempts": 1,
+    "favicon_attempts": 2,
     "favicon_hash_count": 1,
     "favicon_successes": 1,
     "name": "Fuji Television",
@@ -4581,6 +6108,18 @@
     "source": "wikidata",
     "wikidata_id": "Q689093"
   },
+  "gamestop": {
+    "domains": [
+      "gamestop.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "GameStop",
+    "sitelinks": 35,
+    "source": "wikidata",
+    "wikidata_id": "Q202210"
+  },
   "gapinc": {
     "domains": [
       "gapinc.com"
@@ -4605,6 +6144,20 @@
     "source": "wikidata",
     "wikidata_id": "Q512468"
   },
+  "gaumont": {
+    "domains": [
+      "gaumont.fr",
+      "gaumont.net",
+      "gaumont.com"
+    ],
+    "favicon_attempts": 3,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "Gaumont",
+    "sitelinks": 35,
+    "source": "wikidata",
+    "wikidata_id": "Q913462"
+  },
   "gaz": {
     "domains": [
       "nn.gaz.ru"
@@ -4616,6 +6169,19 @@
     "sitelinks": 52,
     "source": "wikidata",
     "wikidata_id": "Q28616"
+  },
+  "gaziantepuniversity": {
+    "domains": [
+      "gaziantep.edu.tr",
+      "gantep.edu.tr"
+    ],
+    "favicon_attempts": 2,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "Gaziantep University",
+    "sitelinks": 33,
+    "source": "wikidata",
+    "wikidata_id": "Q1496654"
   },
   "gazprom": {
     "domains": [
@@ -4652,6 +6218,18 @@
     "sitelinks": 42,
     "source": "wikidata",
     "wikidata_id": "Q212699"
+  },
+  "geforce": {
+    "domains": [
+      "nvidia.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "GeForce",
+    "sitelinks": 36,
+    "source": "wikidata",
+    "wikidata_id": "Q825762"
   },
   "gendigital": {
     "domains": [
@@ -4691,9 +6269,31 @@
   },
   "generalmills": {
     "domains": [
-      "generalmills.com"
+      "generalmills.com",
+      "generalmills.be",
+      "generalmills.ca",
+      "generalmills.cn",
+      "generalmills.co.uk",
+      "generalmills.co.za",
+      "generalmills.com.au",
+      "generalmills.com.br",
+      "generalmills.de",
+      "generalmills.dk",
+      "generalmills.es",
+      "generalmills.fi",
+      "generalmills.fr",
+      "generalmills.hk",
+      "generalmills.is",
+      "generalmills.jp",
+      "generalmills.no",
+      "generalmills.sa",
+      "generalmills.se",
+      "generalmillsargentina.com",
+      "generalmillsfoodservice.com",
+      "generalmillskorea.com",
+      "generalmillsthailand.com"
     ],
-    "favicon_attempts": 1,
+    "favicon_attempts": 4,
     "favicon_hash_count": 1,
     "favicon_successes": 1,
     "name": "General Mills",
@@ -4736,6 +6336,18 @@
     "sitelinks": 47,
     "source": "wikidata",
     "wikidata_id": "Q432637"
+  },
+  "georgianairways": {
+    "domains": [
+      "georgian-airways.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "Georgian Airways",
+    "sitelinks": 37,
+    "source": "wikidata",
+    "wikidata_id": "Q909076"
   },
   "germanfederalbank": {
     "domains": [
@@ -4845,6 +6457,18 @@
     "source": "wikidata",
     "wikidata_id": "Q15548065"
   },
+  "gmc": {
+    "domains": [
+      "gmc.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "GMC",
+    "sitelinks": 36,
+    "source": "wikidata",
+    "wikidata_id": "Q28993"
+  },
   "gmmgrammy": {
     "domains": [
       "gmmgrammy.com"
@@ -4856,6 +6480,18 @@
     "sitelinks": 66,
     "source": "wikidata",
     "wikidata_id": "Q4923294"
+  },
+  "godaddy": {
+    "domains": [
+      "godaddy.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "GoDaddy",
+    "sitelinks": 35,
+    "source": "wikidata",
+    "wikidata_id": "Q1416215"
   },
   "gofirst": {
     "domains": [
@@ -4905,6 +6541,18 @@
     "source": "wikidata",
     "wikidata_id": "Q95"
   },
+  "googleartsculture": {
+    "domains": [
+      "artsandculture.google.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "Google Arts & Culture",
+    "sitelinks": 33,
+    "source": "wikidata",
+    "wikidata_id": "Q369089"
+  },
   "googledeepmind": {
     "domains": [
       "deepmind.google"
@@ -4953,6 +6601,18 @@
     "source": "wikidata",
     "wikidata_id": "Q733482"
   },
+  "gorkypark": {
+    "domains": [
+      "park-gorkogo.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "Gorky Park",
+    "sitelinks": 34,
+    "source": "wikidata",
+    "wikidata_id": "Q126877"
+  },
   "grameenbank": {
     "domains": [
       "grameenbank.org.bd"
@@ -4977,6 +6637,50 @@
     "source": "wikidata",
     "wikidata_id": "Q940319"
   },
+  "graumanschinesetheatre": {
+    "domains": [
+      "tclchinesetheatres.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "Grauman's Chinese Theatre",
+    "sitelinks": 36,
+    "source": "wikidata",
+    "wikidata_id": "Q1122565"
+  },
+  "greatwallmotor": {
+    "domains": [
+      "gwm.com.cn",
+      "gwm-eu.com",
+      "gwm-global.com",
+      "gwm.co.za",
+      "gwm.iq",
+      "gwmanz.com",
+      "gwmbrunei.com",
+      "gwmhaval.com.au",
+      "onegwm.co.za"
+    ],
+    "favicon_attempts": 4,
+    "favicon_hash_count": 2,
+    "favicon_successes": 2,
+    "name": "Great Wall Motor",
+    "sitelinks": 33,
+    "source": "wikidata",
+    "wikidata_id": "Q1117001"
+  },
+  "grindr": {
+    "domains": [
+      "grindr.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "Grindr",
+    "sitelinks": 36,
+    "source": "wikidata",
+    "wikidata_id": "Q2302402"
+  },
   "groupepsa": {
     "domains": [
       "groupe-psa.com"
@@ -4988,6 +6692,18 @@
     "sitelinks": 52,
     "source": "wikidata",
     "wikidata_id": "Q275623"
+  },
+  "grundig": {
+    "domains": [
+      "grundig.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "Grundig",
+    "sitelinks": 33,
+    "source": "wikidata",
+    "wikidata_id": "Q680019"
   },
   "grupotelevisa": {
     "domains": [
@@ -5037,6 +6753,19 @@
     "source": "wikidata",
     "wikidata_id": "Q178516"
   },
+  "guess": {
+    "domains": [
+      "guess.com",
+      "guess.eu"
+    ],
+    "favicon_attempts": 2,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "Guess",
+    "sitelinks": 33,
+    "source": "wikidata",
+    "wikidata_id": "Q2470307"
+  },
   "guinness": {
     "domains": [
       "guinness.com"
@@ -5072,6 +6801,42 @@
     "sitelinks": 39,
     "source": "wikidata",
     "wikidata_id": "Q549498"
+  },
+  "hagendazs": {
+    "domains": [
+      "icecream.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "Häagen-Dazs",
+    "sitelinks": 36,
+    "source": "wikidata",
+    "wikidata_id": "Q1143333"
+  },
+  "haier": {
+    "domains": [
+      "haier.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "Haier",
+    "sitelinks": 33,
+    "source": "wikidata",
+    "wikidata_id": "Q1143211"
+  },
+  "hainanairlines": {
+    "domains": [
+      "hainanairlines.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "Hainan Airlines",
+    "sitelinks": 34,
+    "source": "wikidata",
+    "wikidata_id": "Q292428"
   },
   "halliburton": {
     "domains": [
@@ -5133,6 +6898,18 @@
     "source": "wikidata",
     "wikidata_id": "Q169552"
   },
+  "harlandandwolff": {
+    "domains": [
+      "harland-wolff.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "Harland and Wolff",
+    "sitelinks": 34,
+    "source": "wikidata",
+    "wikidata_id": "Q848977"
+  },
   "harleydavidson": {
     "domains": [
       "harley-davidson.com"
@@ -5150,7 +6927,7 @@
       "harpercollins.co.uk",
       "harpercollins.com"
     ],
-    "favicon_attempts": 1,
+    "favicon_attempts": 2,
     "favicon_hash_count": 0,
     "favicon_successes": 0,
     "name": "HarperCollins",
@@ -5170,18 +6947,55 @@
     "source": "wikidata",
     "wikidata_id": "Q332474"
   },
+  "harvardlawschool": {
+    "domains": [
+      "hls.harvard.edu"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "Harvard Law School",
+    "sitelinks": 34,
+    "source": "wikidata",
+    "wikidata_id": "Q49122"
+  },
+  "harvarduniversitypress": {
+    "domains": [
+      "hup.harvard.edu"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "Harvard University Press",
+    "sitelinks": 33,
+    "source": "wikidata",
+    "wikidata_id": "Q1587900"
+  },
   "hasbro": {
     "domains": [
       "corporate.hasbro.com",
-      "shop.hasbro.com"
+      "shop.hasbro.com",
+      "hasbro.com"
     ],
-    "favicon_attempts": 1,
+    "favicon_attempts": 3,
     "favicon_hash_count": 1,
     "favicon_successes": 1,
     "name": "Hasbro",
     "sitelinks": 42,
     "source": "wikidata",
     "wikidata_id": "Q501476"
+  },
+  "hasselblad": {
+    "domains": [
+      "hasselblad.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "Hasselblad",
+    "sitelinks": 34,
+    "source": "wikidata",
+    "wikidata_id": "Q64545"
   },
   "hawaiianairlines": {
     "domains": [
@@ -5212,9 +7026,9 @@
       "hk-usa.com",
       "heckler-koch.com"
     ],
-    "favicon_attempts": 1,
-    "favicon_hash_count": 0,
-    "favicon_successes": 0,
+    "favicon_attempts": 2,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
     "name": "Heckler & Koch",
     "sitelinks": 45,
     "source": "wikidata",
@@ -5237,7 +7051,7 @@
       "heinekeninternational.com",
       "theheinekencompany.com"
     ],
-    "favicon_attempts": 1,
+    "favicon_attempts": 2,
     "favicon_hash_count": 0,
     "favicon_successes": 0,
     "name": "Heineken International",
@@ -5257,6 +7071,19 @@
     "source": "wikidata",
     "wikidata_id": "Q1229287"
   },
+  "herbalife": {
+    "domains": [
+      "iamherbalifenutrition.com",
+      "herbalife.com"
+    ],
+    "favicon_attempts": 2,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "Herbalife",
+    "sitelinks": 34,
+    "source": "wikidata",
+    "wikidata_id": "Q572948"
+  },
   "herms": {
     "domains": [
       "hermes.com"
@@ -5268,6 +7095,18 @@
     "sitelinks": 58,
     "source": "wikidata",
     "wikidata_id": "Q843887"
+  },
+  "herzogdemeuron": {
+    "domains": [
+      "herzogdemeuron.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "Herzog & de Meuron",
+    "sitelinks": 35,
+    "source": "wikidata",
+    "wikidata_id": "Q308776"
   },
   "hewlettpackard": {
     "domains": [
@@ -5281,6 +7120,71 @@
     "source": "wikidata",
     "wikidata_id": "Q80978"
   },
+  "hilti": {
+    "domains": [
+      "hilti.ch",
+      "hilti.com",
+      "hilti.de",
+      "hilti.group"
+    ],
+    "favicon_attempts": 4,
+    "favicon_hash_count": 2,
+    "favicon_successes": 4,
+    "name": "Hilti",
+    "sitelinks": 33,
+    "source": "wikidata",
+    "wikidata_id": "Q1361530"
+  },
+  "hiltonhotelsresorts": {
+    "domains": [
+      "hilton.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "Hilton Hotels & Resorts",
+    "sitelinks": 35,
+    "source": "wikidata",
+    "wikidata_id": "Q598884"
+  },
+  "hindustanaeronauticslimited": {
+    "domains": [
+      "hal-india.co.in"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "Hindustan Aeronautics Limited",
+    "sitelinks": 35,
+    "source": "wikidata",
+    "wikidata_id": "Q357095"
+  },
+  "hinomotors": {
+    "domains": [
+      "hino-global.com",
+      "hino.co.jp"
+    ],
+    "favicon_attempts": 2,
+    "favicon_hash_count": 1,
+    "favicon_successes": 2,
+    "name": "Hino Motors",
+    "sitelinks": 35,
+    "source": "wikidata",
+    "wikidata_id": "Q867667"
+  },
+  "hisense": {
+    "domains": [
+      "global.hisense.com",
+      "hisense.com"
+    ],
+    "favicon_attempts": 2,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "Hisense",
+    "sitelinks": 35,
+    "source": "wikidata",
+    "wikidata_id": "Q2527941"
+  },
   "hitachi": {
     "domains": [
       "hitachi.com"
@@ -5293,6 +7197,18 @@
     "source": "wikidata",
     "wikidata_id": "Q53238"
   },
+  "hjheinzcompany": {
+    "domains": [
+      "heinz.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "H. J. Heinz Company",
+    "sitelinks": 37,
+    "source": "wikidata",
+    "wikidata_id": "Q850324"
+  },
   "hoffmannlaroche": {
     "domains": [
       "roche.com"
@@ -5304,6 +7220,19 @@
     "sitelinks": 41,
     "source": "wikidata",
     "wikidata_id": "Q212646"
+  },
+  "hokkaidouniversity": {
+    "domains": [
+      "global.hokudai.ac.jp",
+      "hokudai.ac.jp"
+    ],
+    "favicon_attempts": 2,
+    "favicon_hash_count": 2,
+    "favicon_successes": 2,
+    "name": "Hokkaido University",
+    "sitelinks": 35,
+    "source": "wikidata",
+    "wikidata_id": "Q1057199"
   },
   "holden": {
     "domains": [
@@ -5353,6 +7282,54 @@
     "source": "wikidata",
     "wikidata_id": "Q898208"
   },
+  "hongkongairlines": {
+    "domains": [
+      "hongkongairlines.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "Hong Kong Airlines",
+    "sitelinks": 33,
+    "source": "wikidata",
+    "wikidata_id": "Q1035195"
+  },
+  "hongkongdisneyland": {
+    "domains": [
+      "hongkongdisneyland.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "Hong Kong Disneyland",
+    "sitelinks": 34,
+    "source": "wikidata",
+    "wikidata_id": "Q605959"
+  },
+  "honor": {
+    "domains": [
+      "honor.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "Honor",
+    "sitelinks": 34,
+    "source": "wikidata",
+    "wikidata_id": "Q27070331"
+  },
+  "hormel": {
+    "domains": [
+      "hormel.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "Hormel",
+    "sitelinks": 37,
+    "source": "wikidata",
+    "wikidata_id": "Q1454852"
+  },
   "hsbc": {
     "domains": [
       "hsbc.com"
@@ -5364,6 +7341,18 @@
     "sitelinks": 61,
     "source": "wikidata",
     "wikidata_id": "Q190464"
+  },
+  "htelritzparis": {
+    "domains": [
+      "ritzparis.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "Hôtel Ritz Paris",
+    "sitelinks": 37,
+    "source": "wikidata",
+    "wikidata_id": "Q656054"
   },
   "huawei": {
     "domains": [
@@ -5394,7 +7383,7 @@
       "group.hugoboss.com",
       "hugoboss.com"
     ],
-    "favicon_attempts": 1,
+    "favicon_attempts": 2,
     "favicon_hash_count": 0,
     "favicon_successes": 0,
     "name": "Hugo Boss",
@@ -5438,6 +7427,18 @@
     "source": "wikidata",
     "wikidata_id": "Q213487"
   },
+  "hungariannationalbank": {
+    "domains": [
+      "mnb.hu"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "Hungarian National Bank",
+    "sitelinks": 35,
+    "source": "wikidata",
+    "wikidata_id": "Q774636"
+  },
   "hyundaimotorcompany": {
     "domains": [
       "hyundai.com"
@@ -5449,6 +7450,30 @@
     "sitelinks": 76,
     "source": "wikidata",
     "wikidata_id": "Q55931"
+  },
+  "hyundaimotorgroup": {
+    "domains": [
+      "hyundaimotorgroup.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "Hyundai Motor Group",
+    "sitelinks": 34,
+    "source": "wikidata",
+    "wikidata_id": "Q59243"
+  },
+  "ibanez": {
+    "domains": [
+      "ibanez.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "Ibanez",
+    "sitelinks": 36,
+    "source": "wikidata",
+    "wikidata_id": "Q320458"
   },
   "iberia": {
     "domains": [
@@ -5575,7 +7600,7 @@
       "indianrail.gov.in",
       "indianrailways.gov.in"
     ],
-    "favicon_attempts": 1,
+    "favicon_attempts": 2,
     "favicon_hash_count": 1,
     "favicon_successes": 1,
     "name": "Indian Railways",
@@ -5727,6 +7752,19 @@
     "source": "wikidata",
     "wikidata_id": "Q248"
   },
+  "interfax": {
+    "domains": [
+      "interfax.com",
+      "interfax.ru"
+    ],
+    "favicon_attempts": 2,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "Interfax",
+    "sitelinks": 33,
+    "source": "wikidata",
+    "wikidata_id": "Q379271"
+  },
   "internationalbankforreconstructionanddevelopment": {
     "domains": [
       "worldbank.org"
@@ -5756,7 +7794,7 @@
       "iom.cz",
       "iom.int"
     ],
-    "favicon_attempts": 1,
+    "favicon_attempts": 2,
     "favicon_hash_count": 1,
     "favicon_successes": 1,
     "name": "International Organization for Migration",
@@ -5775,6 +7813,18 @@
     "sitelinks": 114,
     "source": "wikidata",
     "wikidata_id": "Q48268"
+  },
+  "internationalunionofgeologicalsciences": {
+    "domains": [
+      "iugs.org"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "International Union of Geological Sciences",
+    "sitelinks": 34,
+    "source": "wikidata",
+    "wikidata_id": "Q579663"
   },
   "internationalunionofpureandappliedchemistry": {
     "domains": [
@@ -5812,6 +7862,18 @@
     "source": "wikidata",
     "wikidata_id": "Q392110"
   },
+  "iraqiairways": {
+    "domains": [
+      "iraqiairways.com.iq"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "Iraqi Airways",
+    "sitelinks": 35,
+    "source": "wikidata",
+    "wikidata_id": "Q853937"
+  },
   "islamicdevelopmentbank": {
     "domains": [
       "isdb.org"
@@ -5829,13 +7891,25 @@
       "islandrecords.com",
       "islandrecords.co.uk"
     ],
-    "favicon_attempts": 1,
-    "favicon_hash_count": 0,
-    "favicon_successes": 0,
+    "favicon_attempts": 2,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
     "name": "Island Records",
     "sitelinks": 51,
     "source": "wikidata",
     "wikidata_id": "Q190585"
+  },
+  "israelaerospaceindustriesltd": {
+    "domains": [
+      "iai.co.il"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "Israel Aerospace Industries Ltd",
+    "sitelinks": 34,
+    "source": "wikidata",
+    "wikidata_id": "Q876017"
   },
   "istanbuluniversity": {
     "domains": [
@@ -5873,6 +7947,30 @@
     "source": "wikidata",
     "wikidata_id": "Q108251249"
   },
+  "italianstockexchange": {
+    "domains": [
+      "borsaitaliana.it"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "Italian Stock Exchange",
+    "sitelinks": 35,
+    "source": "wikidata",
+    "wikidata_id": "Q936563"
+  },
+  "itanium": {
+    "domains": [
+      "intel.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "Itanium",
+    "sitelinks": 36,
+    "source": "wikidata",
+    "wikidata_id": "Q390389"
+  },
   "ivecospa": {
     "domains": [
       "iveco.com"
@@ -5909,6 +8007,18 @@
     "source": "wikidata",
     "wikidata_id": "Q1538507"
   },
+  "jacuzzi": {
+    "domains": [
+      "jacuzzi.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "Jacuzzi",
+    "sitelinks": 34,
+    "source": "wikidata",
+    "wikidata_id": "Q1122179"
+  },
   "japanaerospaceexplorationagency": {
     "domains": [
       "global.jaxa.jp"
@@ -5933,6 +8043,22 @@
     "source": "wikidata",
     "wikidata_id": "Q213140"
   },
+  "jbl": {
+    "domains": [
+      "jbl.com",
+      "de.jbl.com",
+      "fr.jbl.com",
+      "kr.jbl.com",
+      "jblstore.it"
+    ],
+    "favicon_attempts": 4,
+    "favicon_hash_count": 2,
+    "favicon_successes": 4,
+    "name": "JBL",
+    "sitelinks": 37,
+    "source": "wikidata",
+    "wikidata_id": "Q1153754"
+  },
   "jeep": {
     "domains": [
       "jeep.com"
@@ -5944,6 +8070,18 @@
     "sitelinks": 67,
     "source": "wikidata",
     "wikidata_id": "Q30113"
+  },
+  "jet2com": {
+    "domains": [
+      "jet2.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "Jet2.com",
+    "sitelinks": 34,
+    "source": "wikidata",
+    "wikidata_id": "Q1140807"
   },
   "jetairways": {
     "domains": [
@@ -5969,6 +8107,18 @@
     "source": "wikidata",
     "wikidata_id": "Q161086"
   },
+  "jetstarairways": {
+    "domains": [
+      "jetstar.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "Jetstar Airways",
+    "sitelinks": 36,
+    "source": "wikidata",
+    "wikidata_id": "Q767627"
+  },
   "jgermeister": {
     "domains": [
       "jagermeister.com"
@@ -5980,6 +8130,18 @@
     "sitelinks": 43,
     "source": "wikidata",
     "wikidata_id": "Q661871"
+  },
+  "johannesgutenberguniversitymainz": {
+    "domains": [
+      "uni-mainz.de"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "Johannes Gutenberg University Mainz",
+    "sitelinks": 35,
+    "source": "wikidata",
+    "wikidata_id": "Q161982"
   },
   "johnniewalker": {
     "domains": [
@@ -6011,9 +8173,9 @@
       "jnj.com.cn",
       "jnj.com"
     ],
-    "favicon_attempts": 1,
-    "favicon_hash_count": 0,
-    "favicon_successes": 0,
+    "favicon_attempts": 3,
+    "favicon_hash_count": 2,
+    "favicon_successes": 2,
     "name": "Johnson & Johnson",
     "sitelinks": 50,
     "source": "wikidata",
@@ -6048,9 +8210,9 @@
       "jpmorgan.com",
       "jpmorganchase.com"
     ],
-    "favicon_attempts": 1,
-    "favicon_hash_count": 1,
-    "favicon_successes": 1,
+    "favicon_attempts": 2,
+    "favicon_hash_count": 2,
+    "favicon_successes": 2,
     "name": "JPMorgan Chase",
     "sitelinks": 57,
     "source": "wikidata",
@@ -6085,9 +8247,9 @@
       "jvc.net",
       "jvc.com"
     ],
-    "favicon_attempts": 1,
-    "favicon_hash_count": 1,
-    "favicon_successes": 1,
+    "favicon_attempts": 2,
+    "favicon_hash_count": 2,
+    "favicon_successes": 2,
     "name": "JVC",
     "sitelinks": 45,
     "source": "wikidata",
@@ -6105,6 +8267,42 @@
     "source": "wikidata",
     "wikidata_id": "Q483238"
   },
+  "jysk": {
+    "domains": [
+      "jysk.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "Jysk",
+    "sitelinks": 34,
+    "source": "wikidata",
+    "wikidata_id": "Q138913"
+  },
+  "kahoot": {
+    "domains": [
+      "kahoot.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "Kahoot!",
+    "sitelinks": 36,
+    "source": "wikidata",
+    "wikidata_id": "Q21683250"
+  },
+  "kaist": {
+    "domains": [
+      "kaist.ac.kr"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "KAIST",
+    "sitelinks": 34,
+    "source": "wikidata",
+    "wikidata_id": "Q39949"
+  },
   "kamaz": {
     "domains": [
       "kamaz.ru"
@@ -6116,6 +8314,18 @@
     "sitelinks": 49,
     "source": "wikidata",
     "wikidata_id": "Q30378"
+  },
+  "kamov": {
+    "domains": [
+      "rhc.aero"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "Kamov",
+    "sitelinks": 35,
+    "source": "wikidata",
+    "wikidata_id": "Q241828"
   },
   "kappa": {
     "domains": [
@@ -6182,13 +8392,25 @@
       "global.kawasaki.com",
       "khi.co.jp"
     ],
-    "favicon_attempts": 1,
+    "favicon_attempts": 2,
     "favicon_hash_count": 0,
     "favicon_successes": 0,
     "name": "Kawasaki Heavy Industries",
     "sitelinks": 45,
     "source": "wikidata",
     "wikidata_id": "Q748148"
+  },
+  "kehlsteinhaus": {
+    "domains": [
+      "kehlsteinhaus.de"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "Kehlsteinhaus",
+    "sitelinks": 33,
+    "source": "wikidata",
+    "wikidata_id": "Q162082"
   },
   "keiouniversity": {
     "domains": [
@@ -6213,6 +8435,18 @@
     "sitelinks": 39,
     "source": "wikidata",
     "wikidata_id": "Q856897"
+  },
+  "kenwoodcorporation": {
+    "domains": [
+      "kenwood.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "Kenwood Corporation",
+    "sitelinks": 35,
+    "source": "wikidata",
+    "wikidata_id": "Q17180"
   },
   "kenyaairways": {
     "domains": [
@@ -6346,6 +8580,18 @@
     "source": "wikidata",
     "wikidata_id": "Q181912"
   },
+  "kochinc": {
+    "domains": [
+      "kochinc.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "Koch, Inc.",
+    "sitelinks": 34,
+    "source": "wikidata",
+    "wikidata_id": "Q1496384"
+  },
   "kodaauto": {
     "domains": [
       "skoda-auto.com"
@@ -6363,9 +8609,9 @@
       "kodak.com",
       "kodakmoments.com"
     ],
-    "favicon_attempts": 1,
-    "favicon_hash_count": 1,
-    "favicon_successes": 1,
+    "favicon_attempts": 2,
+    "favicon_hash_count": 2,
+    "favicon_successes": 2,
     "name": "Kodak",
     "sitelinks": 64,
     "source": "wikidata",
@@ -6394,6 +8640,18 @@
     "sitelinks": 46,
     "source": "wikidata",
     "wikidata_id": "Q35594"
+  },
+  "komatsulimited": {
+    "domains": [
+      "komatsu.jp"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "Komatsu Limited",
+    "sitelinks": 37,
+    "source": "wikidata",
+    "wikidata_id": "Q162257"
   },
   "konami": {
     "domains": [
@@ -6425,9 +8683,9 @@
       "en.khl.ru",
       "khl.ru"
     ],
-    "favicon_attempts": 1,
+    "favicon_attempts": 3,
     "favicon_hash_count": 1,
-    "favicon_successes": 1,
+    "favicon_successes": 3,
     "name": "Kontinental Hockey League",
     "sitelinks": 49,
     "source": "wikidata",
@@ -6457,6 +8715,31 @@
     "source": "wikidata",
     "wikidata_id": "Q326804"
   },
+  "koreanstockexchange": {
+    "domains": [
+      "eng.krx.co.kr",
+      "krx.co.kr"
+    ],
+    "favicon_attempts": 2,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "Korean Stock Exchange",
+    "sitelinks": 33,
+    "source": "wikidata",
+    "wikidata_id": "Q495372"
+  },
+  "kraftheinz": {
+    "domains": [
+      "kraftheinzcompany.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "Kraft Heinz",
+    "sitelinks": 35,
+    "source": "wikidata",
+    "wikidata_id": "Q19681433"
+  },
   "ktm": {
     "domains": [
       "ktm.com"
@@ -6468,6 +8751,18 @@
     "sitelinks": 47,
     "source": "wikidata",
     "wikidata_id": "Q215657"
+  },
+  "kuka": {
+    "domains": [
+      "kuka.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "KUKA",
+    "sitelinks": 33,
+    "source": "wikidata",
+    "wikidata_id": "Q163566"
   },
   "kuwaitairways": {
     "domains": [
@@ -6516,6 +8811,18 @@
     "sitelinks": 84,
     "source": "wikidata",
     "wikidata_id": "Q336264"
+  },
+  "kyushuuniversity": {
+    "domains": [
+      "kyushu-u.ac.jp"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "Kyushu University",
+    "sitelinks": 36,
+    "source": "wikidata",
+    "wikidata_id": "Q1188786"
   },
   "lacostesa": {
     "domains": [
@@ -6577,6 +8884,18 @@
     "source": "wikidata",
     "wikidata_id": "Q35896"
   },
+  "laoairlines": {
+    "domains": [
+      "laoairlines.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "Lao Airlines",
+    "sitelinks": 33,
+    "source": "wikidata",
+    "wikidata_id": "Q756172"
+  },
   "latamairlines": {
     "domains": [
       "latam.com"
@@ -6588,6 +8907,31 @@
     "sitelinks": 39,
     "source": "wikidata",
     "wikidata_id": "Q649178"
+  },
+  "latambrasil": {
+    "domains": [
+      "latam.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "LATAM Brasil",
+    "sitelinks": 35,
+    "source": "wikidata",
+    "wikidata_id": "Q690789"
+  },
+  "latvijastelevzija": {
+    "domains": [
+      "ltv.lsm.lv",
+      "ltv.lv"
+    ],
+    "favicon_attempts": 2,
+    "favicon_hash_count": 2,
+    "favicon_successes": 2,
+    "name": "Latvijas Televīzija",
+    "sitelinks": 34,
+    "source": "wikidata",
+    "wikidata_id": "Q945592"
   },
   "lavaluniversity": {
     "domains": [
@@ -6612,6 +8956,30 @@
     "sitelinks": 38,
     "source": "wikidata",
     "wikidata_id": "Q723513"
+  },
+  "lecoqsportif": {
+    "domains": [
+      "lecoqsportif.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "Le Coq sportif",
+    "sitelinks": 33,
+    "source": "wikidata",
+    "wikidata_id": "Q1066156"
+  },
+  "lectricitdefrance": {
+    "domains": [
+      "edf.fr"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "Électricité de France",
+    "sitelinks": 33,
+    "source": "wikidata",
+    "wikidata_id": "Q274591"
   },
   "lego": {
     "domains": [
@@ -6639,11 +9007,12 @@
   },
   "legrand": {
     "domains": [
-      "legrandgroup.com"
+      "legrandgroup.com",
+      "legrand.com"
     ],
-    "favicon_attempts": 1,
+    "favicon_attempts": 2,
     "favicon_hash_count": 1,
-    "favicon_successes": 1,
+    "favicon_successes": 2,
     "name": "Legrand",
     "sitelinks": 38,
     "source": "wikidata",
@@ -6685,6 +9054,18 @@
     "source": "wikidata",
     "wikidata_id": "Q154804"
   },
+  "lenfilm": {
+    "domains": [
+      "lenfilm.ru"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "Lenfilm",
+    "sitelinks": 34,
+    "source": "wikidata",
+    "wikidata_id": "Q158478"
+  },
   "lenovo": {
     "domains": [
       "lenovo.com"
@@ -6696,6 +9077,18 @@
     "sitelinks": 83,
     "source": "wikidata",
     "wikidata_id": "Q14799"
+  },
+  "leonardo": {
+    "domains": [
+      "leonardo.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "Leonardo",
+    "sitelinks": 34,
+    "source": "wikidata",
+    "wikidata_id": "Q910379"
   },
   "levistraussco": {
     "domains": [
@@ -6745,6 +9138,18 @@
     "source": "wikidata",
     "wikidata_id": "Q136778"
   },
+  "librivox": {
+    "domains": [
+      "librivox.org"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "LibriVox",
+    "sitelinks": 34,
+    "source": "wikidata",
+    "wikidata_id": "Q1070969"
+  },
   "lidl": {
     "domains": [
       "lidl.de"
@@ -6756,6 +9161,18 @@
     "sitelinks": 58,
     "source": "wikidata",
     "wikidata_id": "Q151954"
+  },
+  "liebherrgroup": {
+    "domains": [
+      "liebherr.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "Liebherr Group",
+    "sitelinks": 35,
+    "source": "wikidata",
+    "wikidata_id": "Q662090"
   },
   "ligue1": {
     "domains": [
@@ -6817,6 +9234,18 @@
     "source": "wikidata",
     "wikidata_id": "Q152822"
   },
+  "linkpinguniversity": {
+    "domains": [
+      "liu.se"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "Linköping University",
+    "sitelinks": 36,
+    "source": "wikidata",
+    "wikidata_id": "Q782600"
+  },
   "lionair": {
     "domains": [
       "lionair.co.id"
@@ -6834,8 +9263,8 @@
       "locarnofestival.ch"
     ],
     "favicon_attempts": 1,
-    "favicon_hash_count": 1,
-    "favicon_successes": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
     "name": "Locarno Film Festival",
     "sitelinks": 44,
     "source": "wikidata",
@@ -6864,6 +9293,18 @@
     "sitelinks": 48,
     "source": "wikidata",
     "wikidata_id": "Q223127"
+  },
+  "lollapalooza": {
+    "domains": [
+      "lollapalooza.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "Lollapalooza",
+    "sitelinks": 36,
+    "source": "wikidata",
+    "wikidata_id": "Q889643"
   },
   "lonelyplanet": {
     "domains": [
@@ -6901,6 +9342,18 @@
     "source": "wikidata",
     "wikidata_id": "Q204268"
   },
+  "lottosportitalia": {
+    "domains": [
+      "lotto.it"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "Lotto Sport Italia",
+    "sitelinks": 37,
+    "source": "wikidata",
+    "wikidata_id": "Q850307"
+  },
   "lotuscars": {
     "domains": [
       "lotuscars.com"
@@ -6936,6 +9389,18 @@
     "sitelinks": 59,
     "source": "wikidata",
     "wikidata_id": "Q242446"
+  },
+  "lucasfilmgames": {
+    "domains": [
+      "lucasfilm.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "Lucasfilm Games",
+    "sitelinks": 37,
+    "source": "wikidata",
+    "wikidata_id": "Q216611"
   },
   "luckystrike": {
     "domains": [
@@ -6985,6 +9450,30 @@
     "source": "wikidata",
     "wikidata_id": "Q218506"
   },
+  "luxair": {
+    "domains": [
+      "luxair.lu"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "Luxair",
+    "sitelinks": 35,
+    "source": "wikidata",
+    "wikidata_id": "Q726813"
+  },
+  "luxorresortcasino": {
+    "domains": [
+      "luxor.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "Luxor Resort & Casino",
+    "sitelinks": 33,
+    "source": "wikidata",
+    "wikidata_id": "Q637389"
+  },
   "lvmh": {
     "domains": [
       "lvmh.com"
@@ -6997,6 +9486,42 @@
     "source": "wikidata",
     "wikidata_id": "Q504998"
   },
+  "macappstore": {
+    "domains": [
+      "apple.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "Mac App Store",
+    "sitelinks": 33,
+    "source": "wikidata",
+    "wikidata_id": "Q932688"
+  },
+  "macktrucks": {
+    "domains": [
+      "macktrucks.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "Mack Trucks",
+    "sitelinks": 33,
+    "source": "wikidata",
+    "wikidata_id": "Q950650"
+  },
+  "macmillanpublishers": {
+    "domains": [
+      "us.macmillan.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "Macmillan Publishers",
+    "sitelinks": 37,
+    "source": "wikidata",
+    "wikidata_id": "Q2108217"
+  },
   "macromedia": {
     "domains": [
       "macromedia.com"
@@ -7008,6 +9533,30 @@
     "sitelinks": 39,
     "source": "wikidata",
     "wikidata_id": "Q234946"
+  },
+  "madhouse": {
+    "domains": [
+      "madhouse.co.jp"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "Madhouse",
+    "sitelinks": 36,
+    "source": "wikidata",
+    "wikidata_id": "Q650867"
+  },
+  "madurodam": {
+    "domains": [
+      "madurodam.nl"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "Madurodam",
+    "sitelinks": 35,
+    "source": "wikidata",
+    "wikidata_id": "Q747322"
   },
   "maersk": {
     "domains": [
@@ -7045,9 +9594,10 @@
       "maggicentroamerica.com",
       "maggicooking.gr",
       "maggime.com",
-      "maggi.fr"
+      "maggi.fr",
+      "maggi.my"
     ],
-    "favicon_attempts": 1,
+    "favicon_attempts": 4,
     "favicon_hash_count": 1,
     "favicon_successes": 1,
     "name": "Maggi",
@@ -7115,6 +9665,19 @@
     "source": "wikidata",
     "wikidata_id": "Q18543"
   },
+  "makita": {
+    "domains": [
+      "makita.co.jp",
+      "makita.com.ar"
+    ],
+    "favicon_attempts": 2,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "Makita",
+    "sitelinks": 37,
+    "source": "wikidata",
+    "wikidata_id": "Q691508"
+  },
   "malaysiaairlines": {
     "domains": [
       "malaysiaairlines.com"
@@ -7138,6 +9701,18 @@
     "sitelinks": 52,
     "source": "wikidata",
     "wikidata_id": "Q35953"
+  },
+  "maralago": {
+    "domains": [
+      "maralagoclub.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "Mar-a-Lago",
+    "sitelinks": 36,
+    "source": "wikidata",
+    "wikidata_id": "Q1262898"
   },
   "marinabaysands": {
     "domains": [
@@ -7175,14 +9750,26 @@
     "source": "wikidata",
     "wikidata_id": "Q15075"
   },
+  "marmarauniversity": {
+    "domains": [
+      "marmara.edu.tr"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "Marmara University",
+    "sitelinks": 35,
+    "source": "wikidata",
+    "wikidata_id": "Q1424081"
+  },
   "marriottinternational": {
     "domains": [
       "marriott.com.cn",
       "marriott.com"
     ],
-    "favicon_attempts": 1,
-    "favicon_hash_count": 0,
-    "favicon_successes": 0,
+    "favicon_attempts": 2,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
     "name": "Marriott International",
     "sitelinks": 38,
     "source": "wikidata",
@@ -7284,6 +9871,18 @@
     "source": "wikidata",
     "wikidata_id": "Q49108"
   },
+  "masseyferguson": {
+    "domains": [
+      "masseyferguson.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "Massey Ferguson",
+    "sitelinks": 35,
+    "source": "wikidata",
+    "wikidata_id": "Q579509"
+  },
   "mastercard": {
     "domains": [
       "mastercard.com"
@@ -7296,6 +9895,18 @@
     "source": "wikidata",
     "wikidata_id": "Q489921"
   },
+  "matra": {
+    "domains": [
+      "matra.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "Matra",
+    "sitelinks": 36,
+    "source": "wikidata",
+    "wikidata_id": "Q35982"
+  },
   "mattel": {
     "domains": [
       "corporate.mattel.com"
@@ -7307,6 +9918,18 @@
     "sitelinks": 45,
     "source": "wikidata",
     "wikidata_id": "Q596139"
+  },
+  "mauser": {
+    "domains": [
+      "mauser.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "Mauser",
+    "sitelinks": 35,
+    "source": "wikidata",
+    "wikidata_id": "Q166203"
   },
   "maxis": {
     "domains": [
@@ -7325,7 +9948,7 @@
       "maybach.com",
       "mercedes-benz.com"
     ],
-    "favicon_attempts": 1,
+    "favicon_attempts": 2,
     "favicon_hash_count": 0,
     "favicon_successes": 0,
     "name": "Maybach",
@@ -7393,6 +10016,42 @@
     "source": "wikidata",
     "wikidata_id": "Q310207"
   },
+  "mclarenautomotive": {
+    "domains": [
+      "cars.mclaren.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "McLaren Automotive",
+    "sitelinks": 37,
+    "source": "wikidata",
+    "wikidata_id": "Q1351854"
+  },
+  "mediatek": {
+    "domains": [
+      "mediatek.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "MediaTek",
+    "sitelinks": 34,
+    "source": "wikidata",
+    "wikidata_id": "Q699848"
+  },
+  "mega": {
+    "domains": [
+      "mega.io"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "Mega",
+    "sitelinks": 33,
+    "source": "wikidata",
+    "wikidata_id": "Q2580273"
+  },
   "megaupload": {
     "domains": [
       "megaupload.com"
@@ -7404,6 +10063,18 @@
     "sitelinks": 41,
     "source": "wikidata",
     "wikidata_id": "Q483"
+  },
+  "meizu": {
+    "domains": [
+      "meizu.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "Meizu",
+    "sitelinks": 36,
+    "source": "wikidata",
+    "wikidata_id": "Q1143917"
   },
   "melkitegreekcatholicchurch": {
     "domains": [
@@ -7470,9 +10141,9 @@
       "merck.com",
       "msd.no"
     ],
-    "favicon_attempts": 1,
+    "favicon_attempts": 2,
     "favicon_hash_count": 1,
-    "favicon_successes": 1,
+    "favicon_successes": 2,
     "name": "Merck & Co.",
     "sitelinks": 41,
     "source": "wikidata",
@@ -7513,6 +10184,18 @@
     "sitelinks": 39,
     "source": "wikidata",
     "wikidata_id": "Q585329"
+  },
+  "merrill": {
+    "domains": [
+      "ml.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "Merrill",
+    "sitelinks": 36,
+    "source": "wikidata",
+    "wikidata_id": "Q334122"
   },
   "meta": {
     "domains": [
@@ -7646,6 +10329,18 @@
     "source": "wikidata",
     "wikidata_id": "Q757388"
   },
+  "milmoscowhelicopterplant": {
+    "domains": [
+      "rhc.ru"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "Mil Moscow Helicopter Plant",
+    "sitelinks": 36,
+    "source": "wikidata",
+    "wikidata_id": "Q898825"
+  },
   "mini": {
     "domains": [
       "mini.com"
@@ -7682,6 +10377,18 @@
     "source": "wikidata",
     "wikidata_id": "Q568384"
   },
+  "mistralai": {
+    "domains": [
+      "mistral.ai"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "Mistral AI",
+    "sitelinks": 33,
+    "source": "wikidata",
+    "wikidata_id": "Q119718658"
+  },
   "mitsubishi": {
     "domains": [
       "mitsubishi.com"
@@ -7711,7 +10418,7 @@
       "mms.com",
       "m-ms.jp"
     ],
-    "favicon_attempts": 1,
+    "favicon_attempts": 2,
     "favicon_hash_count": 1,
     "favicon_successes": 1,
     "name": "M&M's",
@@ -7748,13 +10455,25 @@
       "monash.edu",
       "monashuniversity.cn"
     ],
-    "favicon_attempts": 1,
+    "favicon_attempts": 2,
     "favicon_hash_count": 1,
     "favicon_successes": 1,
     "name": "Monash University",
     "sitelinks": 44,
     "source": "wikidata",
     "wikidata_id": "Q598841"
+  },
+  "mondelezinternational": {
+    "domains": [
+      "mondelezinternational.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "Mondelez International",
+    "sitelinks": 36,
+    "source": "wikidata",
+    "wikidata_id": "Q12857502"
   },
   "monsterenergy": {
     "domains": [
@@ -7768,6 +10487,18 @@
     "source": "wikidata",
     "wikidata_id": "Q544293"
   },
+  "montenegroairlines": {
+    "domains": [
+      "montenegroairlines.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "Montenegro Airlines",
+    "sitelinks": 37,
+    "source": "wikidata",
+    "wikidata_id": "Q638897"
+  },
   "monticello": {
     "domains": [
       "monticello.org"
@@ -7779,6 +10510,18 @@
     "sitelinks": 46,
     "source": "wikidata",
     "wikidata_id": "Q199618"
+  },
+  "moodyscorporation": {
+    "domains": [
+      "moodys.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "Moody's Corporation",
+    "sitelinks": 35,
+    "source": "wikidata",
+    "wikidata_id": "Q675585"
   },
   "morganstanley": {
     "domains": [
@@ -7876,6 +10619,18 @@
     "source": "wikidata",
     "wikidata_id": "Q731635"
   },
+  "mrklin": {
+    "domains": [
+      "maerklin.de"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "Märklin",
+    "sitelinks": 33,
+    "source": "wikidata",
+    "wikidata_id": "Q170127"
+  },
   "museumofmodernart": {
     "domains": [
       "moma.org"
@@ -7891,11 +10646,12 @@
   "myheritage": {
     "domains": [
       "myheritage.com",
-      "myheritage.fr"
+      "myheritage.fr",
+      "myheritage.cz"
     ],
-    "favicon_attempts": 1,
+    "favicon_attempts": 3,
     "favicon_hash_count": 1,
-    "favicon_successes": 1,
+    "favicon_successes": 3,
     "name": "MyHeritage",
     "sitelinks": 52,
     "source": "wikidata",
@@ -7907,9 +10663,9 @@
       "en.nagoya-u.ac.jp",
       "nagoya-u.ac.jp"
     ],
-    "favicon_attempts": 1,
-    "favicon_hash_count": 0,
-    "favicon_successes": 0,
+    "favicon_attempts": 3,
+    "favicon_hash_count": 2,
+    "favicon_successes": 2,
     "name": "Nagoya University",
     "sitelinks": 44,
     "source": "wikidata",
@@ -7920,9 +10676,9 @@
       "bandainamco-am.co.jp",
       "namco.com.hk"
     ],
-    "favicon_attempts": 1,
-    "favicon_hash_count": 1,
-    "favicon_successes": 1,
+    "favicon_attempts": 2,
+    "favicon_hash_count": 2,
+    "favicon_successes": 2,
     "name": "Namco",
     "sitelinks": 42,
     "source": "wikidata",
@@ -7936,9 +10692,21 @@
     "favicon_hash_count": 1,
     "favicon_successes": 1,
     "name": "Nanyang Technological University",
-    "sitelinks": 60,
+    "sitelinks": 59,
     "source": "wikidata",
     "wikidata_id": "Q721064"
+  },
+  "narodowybankpolski": {
+    "domains": [
+      "nbp.pl"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "Narodowy Bank Polski",
+    "sitelinks": 34,
+    "source": "wikidata",
+    "wikidata_id": "Q168844"
   },
   "nascar": {
     "domains": [
@@ -7964,6 +10732,18 @@
     "source": "wikidata",
     "wikidata_id": "Q270794"
   },
+  "nationalacademyofsciencesofukraine": {
+    "domains": [
+      "nas.gov.ua"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "National Academy of Sciences of Ukraine",
+    "sitelinks": 37,
+    "source": "wikidata",
+    "wikidata_id": "Q958769"
+  },
   "nationalautonomousuniversityofmexico": {
     "domains": [
       "unam.mx"
@@ -7975,6 +10755,30 @@
     "sitelinks": 58,
     "source": "wikidata",
     "wikidata_id": "Q222738"
+  },
+  "nationalbankofromania": {
+    "domains": [
+      "bnr.ro"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "National Bank of Romania",
+    "sitelinks": 33,
+    "source": "wikidata",
+    "wikidata_id": "Q967861"
+  },
+  "nationalbankofukraine": {
+    "domains": [
+      "bank.gov.ua"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "National Bank of Ukraine",
+    "sitelinks": 34,
+    "source": "wikidata",
+    "wikidata_id": "Q1070388"
   },
   "nationalbasketballassociation": {
     "domains": [
@@ -8012,6 +10816,18 @@
     "source": "wikidata",
     "wikidata_id": "Q1215884"
   },
+  "nationalgalleryofarmenia": {
+    "domains": [
+      "gallery.am"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "National Gallery of Armenia",
+    "sitelinks": 36,
+    "source": "wikidata",
+    "wikidata_id": "Q2087788"
+  },
   "nationalgalleryofart": {
     "domains": [
       "nga.gov"
@@ -8023,6 +10839,19 @@
     "sitelinks": 58,
     "source": "wikidata",
     "wikidata_id": "Q214867"
+  },
+  "nationalgalleryofcanada": {
+    "domains": [
+      "beaux-arts.ca",
+      "gallery.ca"
+    ],
+    "favicon_attempts": 2,
+    "favicon_hash_count": 1,
+    "favicon_successes": 2,
+    "name": "National Gallery of Canada",
+    "sitelinks": 33,
+    "source": "wikidata",
+    "wikidata_id": "Q1068063"
   },
   "nationalgeographic": {
     "domains": [
@@ -8047,6 +10876,18 @@
     "sitelinks": 67,
     "source": "wikidata",
     "wikidata_id": "Q167186"
+  },
+  "nationallibraryofserbia": {
+    "domains": [
+      "nb.rs"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "National Library of Serbia",
+    "sitelinks": 35,
+    "source": "wikidata",
+    "wikidata_id": "Q945496"
   },
   "nationallibraryofsweden": {
     "domains": [
@@ -8084,6 +10925,18 @@
     "source": "wikidata",
     "wikidata_id": "Q188112"
   },
+  "nationalmuseumofwesternart": {
+    "domains": [
+      "nmwa.go.jp"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "National Museum of Western Art",
+    "sitelinks": 35,
+    "source": "wikidata",
+    "wikidata_id": "Q1362629"
+  },
   "nationaltaiwanuniversity": {
     "domains": [
       "ntu.edu.tw"
@@ -8107,6 +10960,18 @@
     "sitelinks": 38,
     "source": "wikidata",
     "wikidata_id": "Q732697"
+  },
+  "nationaluniversityofkyivmohylaacademy": {
+    "domains": [
+      "ukma.edu.ua"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "National University of Kyiv-Mohyla Academy",
+    "sitelinks": 34,
+    "source": "wikidata",
+    "wikidata_id": "Q1133013"
   },
   "nationaluniversityofsanmarcos": {
     "domains": [
@@ -8180,6 +11045,18 @@
     "source": "wikidata",
     "wikidata_id": "Q13974"
   },
+  "nbcnews": {
+    "domains": [
+      "nbcnews.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "NBC News",
+    "sitelinks": 33,
+    "source": "wikidata",
+    "wikidata_id": "Q2877626"
+  },
   "nbcuniversal": {
     "domains": [
       "nbcuniversal.com"
@@ -8194,15 +11071,28 @@
   },
   "nec": {
     "domains": [
-      "nec.com"
+      "nec.com",
+      "group.nec"
     ],
-    "favicon_attempts": 1,
+    "favicon_attempts": 2,
     "favicon_hash_count": 0,
     "favicon_successes": 0,
     "name": "NEC",
     "sitelinks": 51,
     "source": "wikidata",
     "wikidata_id": "Q219203"
+  },
+  "nepalairlines": {
+    "domains": [
+      "nepalairlines.com.np"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "Nepal Airlines",
+    "sitelinks": 36,
+    "source": "wikidata",
+    "wikidata_id": "Q588909"
   },
   "nescaf": {
     "domains": [
@@ -8263,6 +11153,18 @@
     "sitelinks": 39,
     "source": "wikidata",
     "wikidata_id": "Q742988"
+  },
+  "newdevelopmentbank": {
+    "domains": [
+      "ndb.int"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "New Development Bank",
+    "sitelinks": 37,
+    "source": "wikidata",
+    "wikidata_id": "Q8579145"
   },
   "newgrounds": {
     "domains": [
@@ -8329,9 +11231,9 @@
       "jp.nikon.com",
       "nikon.com"
     ],
-    "favicon_attempts": 1,
+    "favicon_attempts": 2,
     "favicon_hash_count": 1,
-    "favicon_successes": 1,
+    "favicon_successes": 2,
     "name": "Nikon",
     "sitelinks": 66,
     "source": "wikidata",
@@ -8355,7 +11257,7 @@
       "nivea.es",
       "nivea.fr"
     ],
-    "favicon_attempts": 1,
+    "favicon_attempts": 3,
     "favicon_hash_count": 0,
     "favicon_successes": 0,
     "name": "Nivea",
@@ -8374,6 +11276,30 @@
     "sitelinks": 42,
     "source": "wikidata",
     "wikidata_id": "Q333696"
+  },
+  "nmbssncb": {
+    "domains": [
+      "belgiantrain.be"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "NMBS/SNCB",
+    "sitelinks": 33,
+    "source": "wikidata",
+    "wikidata_id": "Q524255"
+  },
+  "northcarolinastateuniversity": {
+    "domains": [
+      "ncsu.edu"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "North Carolina State University",
+    "sitelinks": 34,
+    "source": "wikidata",
+    "wikidata_id": "Q1132346"
   },
   "northropgrummancorporation": {
     "domains": [
@@ -8404,9 +11330,9 @@
       "norwegian.com",
       "norwegian.no"
     ],
-    "favicon_attempts": 1,
+    "favicon_attempts": 2,
     "favicon_hash_count": 1,
-    "favicon_successes": 1,
+    "favicon_successes": 2,
     "name": "Norwegian Air Shuttle",
     "sitelinks": 73,
     "source": "wikidata",
@@ -8460,6 +11386,18 @@
     "source": "wikidata",
     "wikidata_id": "Q223407"
   },
+  "novonordisk": {
+    "domains": [
+      "novonordisk.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "Novo Nordisk",
+    "sitelinks": 34,
+    "source": "wikidata",
+    "wikidata_id": "Q818846"
+  },
   "npr": {
     "domains": [
       "npr.org"
@@ -8483,6 +11421,19 @@
     "sitelinks": 38,
     "source": "wikidata",
     "wikidata_id": "Q574625"
+  },
+  "nuclearblast": {
+    "domains": [
+      "nuclearblast.de",
+      "nuclearblast.com"
+    ],
+    "favicon_attempts": 2,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "Nuclear Blast",
+    "sitelinks": 35,
+    "source": "wikidata",
+    "wikidata_id": "Q158886"
   },
   "nutella": {
     "domains": [
@@ -8520,6 +11471,18 @@
     "source": "wikidata",
     "wikidata_id": "Q192381"
   },
+  "obsidianentertainment": {
+    "domains": [
+      "obsidian.net"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "Obsidian Entertainment",
+    "sitelinks": 34,
+    "source": "wikidata",
+    "wikidata_id": "Q629821"
+  },
   "oclcinc": {
     "domains": [
       "oclc.org"
@@ -8531,6 +11494,42 @@
     "sitelinks": 73,
     "source": "wikidata",
     "wikidata_id": "Q190593"
+  },
+  "odesauniversity": {
+    "domains": [
+      "onu.edu.ua"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "Odesa University",
+    "sitelinks": 36,
+    "source": "wikidata",
+    "wikidata_id": "Q85300"
+  },
+  "officialchartscompany": {
+    "domains": [
+      "officialcharts.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "Official Charts Company",
+    "sitelinks": 33,
+    "source": "wikidata",
+    "wikidata_id": "Q2072376"
+  },
+  "olivetti": {
+    "domains": [
+      "olivetti.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "Olivetti",
+    "sitelinks": 34,
+    "source": "wikidata",
+    "wikidata_id": "Q673267"
   },
   "olympuscorporation": {
     "domains": [
@@ -8616,6 +11615,18 @@
     "source": "wikidata",
     "wikidata_id": "Q21708200"
   },
+  "opera": {
+    "domains": [
+      "opera.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "Opera",
+    "sitelinks": 34,
+    "source": "wikidata",
+    "wikidata_id": "Q215639"
+  },
   "oppo": {
     "domains": [
       "oppo.com"
@@ -8651,6 +11662,21 @@
     "sitelinks": 38,
     "source": "wikidata",
     "wikidata_id": "Q476215"
+  },
+  "oriflamecosmetics": {
+    "domains": [
+      "oriflame.com",
+      "id.oriflame.com",
+      "in.oriflame.com",
+      "oriflame.ru"
+    ],
+    "favicon_attempts": 4,
+    "favicon_hash_count": 2,
+    "favicon_successes": 4,
+    "name": "Oriflame Cosmetics",
+    "sitelinks": 36,
+    "source": "wikidata",
+    "wikidata_id": "Q730893"
   },
   "oxforduniversitypress": {
     "domains": [
@@ -8724,12 +11750,24 @@
     "source": "wikidata",
     "wikidata_id": "Q53247"
   },
+  "pantone": {
+    "domains": [
+      "pantone.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "Pantone",
+    "sitelinks": 36,
+    "source": "wikidata",
+    "wikidata_id": "Q2050040"
+  },
   "paradoxinteractive": {
     "domains": [
       "paradoxinteractive.com",
       "paradoxplaza.com"
     ],
-    "favicon_attempts": 1,
+    "favicon_attempts": 2,
     "favicon_hash_count": 1,
     "favicon_successes": 1,
     "name": "Paradox Interactive",
@@ -8772,6 +11810,18 @@
     "sitelinks": 87,
     "source": "wikidata",
     "wikidata_id": "Q159846"
+  },
+  "parc": {
+    "domains": [
+      "parc.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "PARC",
+    "sitelinks": 35,
+    "source": "wikidata",
+    "wikidata_id": "Q750428"
   },
   "pardubice": {
     "domains": [
@@ -8821,6 +11871,42 @@
     "source": "wikidata",
     "wikidata_id": "Q659096"
   },
+  "path": {
+    "domains": [
+      "pathe.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "Pathé",
+    "sitelinks": 36,
+    "source": "wikidata",
+    "wikidata_id": "Q1544011"
+  },
+  "pdvsa": {
+    "domains": [
+      "pdvsa.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "PDVSA",
+    "sitelinks": 35,
+    "source": "wikidata",
+    "wikidata_id": "Q718194"
+  },
+  "pearsonplc": {
+    "domains": [
+      "pearson.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "Pearson plc",
+    "sitelinks": 33,
+    "source": "wikidata",
+    "wikidata_id": "Q1916402"
+  },
   "pegasusairlines": {
     "domains": [
       "flypgs.com"
@@ -8832,6 +11918,42 @@
     "sitelinks": 45,
     "source": "wikidata",
     "wikidata_id": "Q1100424"
+  },
+  "pemex": {
+    "domains": [
+      "pemex.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "Pemex",
+    "sitelinks": 33,
+    "source": "wikidata",
+    "wikidata_id": "Q871308"
+  },
+  "penguinbooks": {
+    "domains": [
+      "penguin.co.uk"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "Penguin Books",
+    "sitelinks": 35,
+    "source": "wikidata",
+    "wikidata_id": "Q1336200"
+  },
+  "pentax": {
+    "domains": [
+      "ricoh-imaging.co.jp"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "Pentax",
+    "sitelinks": 37,
+    "source": "wikidata",
+    "wikidata_id": "Q503673"
   },
   "peoplesbankofchina": {
     "domains": [
@@ -8854,9 +11976,9 @@
       "cn.rudn.ru",
       "ar.rudn.ru"
     ],
-    "favicon_attempts": 1,
-    "favicon_hash_count": 0,
-    "favicon_successes": 0,
+    "favicon_attempts": 4,
+    "favicon_hash_count": 1,
+    "favicon_successes": 3,
     "name": "Peoples' Friendship University of Russia",
     "sitelinks": 42,
     "source": "wikidata",
@@ -8867,8 +11989,8 @@
       "pepsi.com"
     ],
     "favicon_attempts": 1,
-    "favicon_hash_count": 0,
-    "favicon_successes": 0,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
     "name": "Pepsi",
     "sitelinks": 102,
     "source": "wikidata",
@@ -8924,9 +12046,10 @@
   },
   "petrochinacompanylimited": {
     "domains": [
-      "petrochina.com.cn"
+      "petrochina.com.cn",
+      "petrochinaintl.com.hk"
     ],
-    "favicon_attempts": 1,
+    "favicon_attempts": 2,
     "favicon_hash_count": 1,
     "favicon_successes": 1,
     "name": "PetroChina Company Limited",
@@ -8939,9 +12062,9 @@
       "petronas.com",
       "petronasgas.com"
     ],
-    "favicon_attempts": 1,
-    "favicon_hash_count": 1,
-    "favicon_successes": 1,
+    "favicon_attempts": 2,
+    "favicon_hash_count": 2,
+    "favicon_successes": 2,
     "name": "Petronas Gas Berhad",
     "sitelinks": 45,
     "source": "wikidata",
@@ -9018,6 +12141,30 @@
     "sitelinks": 38,
     "source": "wikidata",
     "wikidata_id": "Q331630"
+  },
+  "pinacotecadibrera": {
+    "domains": [
+      "pinacotecabrera.org"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "Pinacoteca di Brera",
+    "sitelinks": 37,
+    "source": "wikidata",
+    "wikidata_id": "Q150066"
+  },
+  "pinewoodstudios": {
+    "domains": [
+      "pinewoodgroup.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "Pinewood Studios",
+    "sitelinks": 33,
+    "source": "wikidata",
+    "wikidata_id": "Q661896"
   },
   "pininfarina": {
     "domains": [
@@ -9115,6 +12262,18 @@
     "source": "wikidata",
     "wikidata_id": "Q155152"
   },
+  "pombiasafaripark": {
+    "domains": [
+      "safaripark.it"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "Pombia Safari Park",
+    "sitelinks": 35,
+    "source": "wikidata",
+    "wikidata_id": "Q15503298"
+  },
   "pontiac": {
     "domains": [
       "pontiac.com"
@@ -9138,6 +12297,30 @@
     "sitelinks": 96,
     "source": "wikidata",
     "wikidata_id": "Q923610"
+  },
+  "pontificalcatholicuniversityofchile": {
+    "domains": [
+      "uc.cl"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "Pontifical Catholic University of Chile",
+    "sitelinks": 36,
+    "source": "wikidata",
+    "wikidata_id": "Q1129925"
+  },
+  "popeyes": {
+    "domains": [
+      "popeyes.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "Popeyes",
+    "sitelinks": 36,
+    "source": "wikidata",
+    "wikidata_id": "Q1330910"
   },
   "porsche": {
     "domains": [
@@ -9199,6 +12382,30 @@
     "source": "wikidata",
     "wikidata_id": "Q488048"
   },
+  "pridefightingchampionships": {
+    "domains": [
+      "pridefc.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "Pride Fighting Championships",
+    "sitelinks": 33,
+    "source": "wikidata",
+    "wikidata_id": "Q521096"
+  },
+  "primark": {
+    "domains": [
+      "primark.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "Primark",
+    "sitelinks": 35,
+    "source": "wikidata",
+    "wikidata_id": "Q137023"
+  },
   "princetonuniversity": {
     "domains": [
       "princeton.edu"
@@ -9247,11 +12454,37 @@
     "source": "wikidata",
     "wikidata_id": "Q22673"
   },
-  "puma": {
+  "proton": {
     "domains": [
-      "eu.puma.com"
+      "proton.com"
     ],
     "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "Proton",
+    "sitelinks": 34,
+    "source": "wikidata",
+    "wikidata_id": "Q827306"
+  },
+  "publicis": {
+    "domains": [
+      "publicisgroupe.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "Publicis",
+    "sitelinks": 34,
+    "source": "wikidata",
+    "wikidata_id": "Q1537378"
+  },
+  "puma": {
+    "domains": [
+      "eu.puma.com",
+      "puma.com",
+      "puma-catchup.com"
+    ],
+    "favicon_attempts": 3,
     "favicon_hash_count": 1,
     "favicon_successes": 1,
     "name": "Puma",
@@ -9379,17 +12612,42 @@
     "source": "wikidata",
     "wikidata_id": "Q329494"
   },
-  "randomhouse": {
+  "rakutengroupinc": {
     "domains": [
-      "randomhouse.com"
+      "corp.rakuten.co.jp"
     ],
     "favicon_attempts": 1,
-    "favicon_hash_count": 1,
-    "favicon_successes": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "Rakuten Group, Inc.",
+    "sitelinks": 37,
+    "source": "wikidata",
+    "wikidata_id": "Q973054"
+  },
+  "randomhouse": {
+    "domains": [
+      "randomhouse.com",
+      "penguinrandomhouse.com"
+    ],
+    "favicon_attempts": 2,
+    "favicon_hash_count": 2,
+    "favicon_successes": 2,
     "name": "Random House",
     "sitelinks": 39,
     "source": "wikidata",
     "wikidata_id": "Q744182"
+  },
+  "rapidshare": {
+    "domains": [
+      "rapidshare.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "RapidShare",
+    "sitelinks": 33,
+    "source": "wikidata",
+    "wikidata_id": "Q208194"
   },
   "raspberrypi": {
     "domains": [
@@ -9414,6 +12672,30 @@
     "sitelinks": 41,
     "source": "wikidata",
     "wikidata_id": "Q653941"
+  },
+  "razerinc": {
+    "domains": [
+      "razer.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "Razer Inc.",
+    "sitelinks": 37,
+    "source": "wikidata",
+    "wikidata_id": "Q367412"
+  },
+  "rcacorporation": {
+    "domains": [
+      "rca.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "RCA Corporation",
+    "sitelinks": 36,
+    "source": "wikidata",
+    "wikidata_id": "Q218038"
   },
   "rcarecords": {
     "domains": [
@@ -9511,6 +12793,30 @@
     "source": "wikidata",
     "wikidata_id": "Q6686"
   },
+  "renfeoperadora": {
+    "domains": [
+      "renfe.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "Renfe Operadora",
+    "sitelinks": 35,
+    "source": "wikidata",
+    "wikidata_id": "Q2476154"
+  },
+  "repriserecords": {
+    "domains": [
+      "repriserecords.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "Reprise Records",
+    "sitelinks": 35,
+    "source": "wikidata",
+    "wikidata_id": "Q645889"
+  },
   "repsol": {
     "domains": [
       "repsol.com"
@@ -9559,6 +12865,18 @@
     "source": "wikidata",
     "wikidata_id": "Q130879"
   },
+  "revolut": {
+    "domains": [
+      "revolut.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "Revolut",
+    "sitelinks": 35,
+    "source": "wikidata",
+    "wikidata_id": "Q22908307"
+  },
   "rhaetianrailway": {
     "domains": [
       "rhb.ch"
@@ -9595,6 +12913,18 @@
     "source": "wikidata",
     "wikidata_id": "Q821172"
   },
+  "rigatechnicaluniversity": {
+    "domains": [
+      "rtu.lv"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "Riga Technical University",
+    "sitelinks": 37,
+    "source": "wikidata",
+    "wikidata_id": "Q411895"
+  },
   "rijksmuseum": {
     "domains": [
       "rijksmuseum.nl"
@@ -9606,6 +12936,18 @@
     "sitelinks": 69,
     "source": "wikidata",
     "wikidata_id": "Q190804"
+  },
+  "riotgames": {
+    "domains": [
+      "riotgames.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "Riot Games",
+    "sitelinks": 36,
+    "source": "wikidata",
+    "wikidata_id": "Q1060165"
   },
   "riotintogroup": {
     "domains": [
@@ -9655,6 +12997,18 @@
     "source": "wikidata",
     "wikidata_id": "Q94912"
   },
+  "rolandcorporation": {
+    "domains": [
+      "roland.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "Roland Corporation",
+    "sitelinks": 35,
+    "source": "wikidata",
+    "wikidata_id": "Q848490"
+  },
   "rolex": {
     "domains": [
       "rolex.com"
@@ -9679,6 +13033,18 @@
     "source": "wikidata",
     "wikidata_id": "Q243278"
   },
+  "rollsroycelimited": {
+    "domains": [
+      "rolls-royce.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "Rolls-Royce Limited",
+    "sitelinks": 36,
+    "source": "wikidata",
+    "wikidata_id": "Q679888"
+  },
   "rollsroycemotorcars": {
     "domains": [
       "rolls-roycemotorcars.com"
@@ -9690,6 +13056,18 @@
     "sitelinks": 61,
     "source": "wikidata",
     "wikidata_id": "Q234803"
+  },
+  "ronovpodradhotm": {
+    "domains": [
+      "roznov.cz"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "Rožnov pod Radhoštěm",
+    "sitelinks": 36,
+    "source": "wikidata",
+    "wikidata_id": "Q1008696"
   },
   "rosatom": {
     "domains": [
@@ -9715,6 +13093,18 @@
     "source": "wikidata",
     "wikidata_id": "Q190795"
   },
+  "rosetower": {
+    "domains": [
+      "rotana.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "Rose Tower",
+    "sitelinks": 37,
+    "source": "wikidata",
+    "wikidata_id": "Q648338"
+  },
   "rosneft": {
     "domains": [
       "rosneft.com"
@@ -9726,6 +13116,18 @@
     "sitelinks": 45,
     "source": "wikidata",
     "wikidata_id": "Q1141123"
+  },
+  "rossiya": {
+    "domains": [
+      "rossiya-airlines.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "Rossiya",
+    "sitelinks": 37,
+    "source": "wikidata",
+    "wikidata_id": "Q727452"
   },
   "rottentomatoes": {
     "domains": [
@@ -9751,6 +13153,18 @@
     "source": "wikidata",
     "wikidata_id": "Q1508259"
   },
+  "rovioentertainment": {
+    "domains": [
+      "rovio.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "Rovio Entertainment",
+    "sitelinks": 33,
+    "source": "wikidata",
+    "wikidata_id": "Q870095"
+  },
   "royalairmaroc": {
     "domains": [
       "royalairmaroc.com"
@@ -9763,6 +13177,30 @@
     "source": "wikidata",
     "wikidata_id": "Q866103"
   },
+  "royalbruneiairlines": {
+    "domains": [
+      "flyroyalbrunei.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "Royal Brunei Airlines",
+    "sitelinks": 36,
+    "source": "wikidata",
+    "wikidata_id": "Q1050783"
+  },
+  "royalinstituteoftechnology": {
+    "domains": [
+      "kth.se"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "Royal Institute of Technology",
+    "sitelinks": 36,
+    "source": "wikidata",
+    "wikidata_id": "Q854280"
+  },
   "royaljordanian": {
     "domains": [
       "rj.com"
@@ -9774,6 +13212,18 @@
     "sitelinks": 44,
     "source": "wikidata",
     "wikidata_id": "Q824225"
+  },
+  "royalmail": {
+    "domains": [
+      "royalmail.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "Royal Mail",
+    "sitelinks": 35,
+    "source": "wikidata",
+    "wikidata_id": "Q638098"
   },
   "royalsociety": {
     "domains": [
@@ -9840,7 +13290,7 @@
       "eng.rzd.ru",
       "rzd.ru"
     ],
-    "favicon_attempts": 1,
+    "favicon_attempts": 2,
     "favicon_hash_count": 0,
     "favicon_successes": 0,
     "name": "Russian Railways",
@@ -9872,6 +13322,31 @@
     "source": "wikidata",
     "wikidata_id": "Q219501"
   },
+  "sabena": {
+    "domains": [
+      "sabena.com",
+      "sabena.be"
+    ],
+    "favicon_attempts": 2,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "Sabena",
+    "sitelinks": 34,
+    "source": "wikidata",
+    "wikidata_id": "Q141146"
+  },
+  "sabmiller": {
+    "domains": [
+      "sabmiller.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "SABMiller",
+    "sitelinks": 34,
+    "source": "wikidata",
+    "wikidata_id": "Q4995"
+  },
   "safran": {
     "domains": [
       "safran-group.com"
@@ -9896,6 +13371,18 @@
     "source": "wikidata",
     "wikidata_id": "Q910401"
   },
+  "sainsburys": {
+    "domains": [
+      "sainsburys.co.uk"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "Sainsbury's",
+    "sitelinks": 35,
+    "source": "wikidata",
+    "wikidata_id": "Q152096"
+  },
   "saintpetersburgstateuniversity": {
     "domains": [
       "spbu.ru"
@@ -9908,12 +13395,24 @@
     "source": "wikidata",
     "wikidata_id": "Q27621"
   },
+  "salesforce": {
+    "domains": [
+      "salesforce.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "Salesforce",
+    "sitelinks": 34,
+    "source": "wikidata",
+    "wikidata_id": "Q941127"
+  },
   "samsungelectronics": {
     "domains": [
       "samsung.com",
       "samsungsales.co.kr"
     ],
-    "favicon_attempts": 1,
+    "favicon_attempts": 2,
     "favicon_hash_count": 0,
     "favicon_successes": 0,
     "name": "Samsung Electronics",
@@ -9932,6 +13431,18 @@
     "sitelinks": 129,
     "source": "wikidata",
     "wikidata_id": "Q20716"
+  },
+  "sandisk": {
+    "domains": [
+      "sandisk.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "Sandisk",
+    "sitelinks": 35,
+    "source": "wikidata",
+    "wikidata_id": "Q260833"
   },
   "sanofi": {
     "domains": [
@@ -10012,7 +13523,7 @@
       "sas.no",
       "sas.se"
     ],
-    "favicon_attempts": 1,
+    "favicon_attempts": 4,
     "favicon_hash_count": 0,
     "favicon_successes": 0,
     "name": "Scandinavian Airlines",
@@ -10104,6 +13615,30 @@
     "source": "wikidata",
     "wikidata_id": "Q705392"
   },
+  "searchlightpictures": {
+    "domains": [
+      "searchlightpictures.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "Searchlight Pictures",
+    "sitelinks": 35,
+    "source": "wikidata",
+    "wikidata_id": "Q953040"
+  },
+  "sears": {
+    "domains": [
+      "sears.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "Sears",
+    "sitelinks": 33,
+    "source": "wikidata",
+    "wikidata_id": "Q6499202"
+  },
   "seat": {
     "domains": [
       "seat.com"
@@ -10127,6 +13662,30 @@
     "sitelinks": 39,
     "source": "wikidata",
     "wikidata_id": "Q322601"
+  },
+  "seikoepson": {
+    "domains": [
+      "corporate.epson"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "Seiko Epson",
+    "sitelinks": 35,
+    "source": "wikidata",
+    "wikidata_id": "Q159614"
+  },
+  "sennheiser": {
+    "domains": [
+      "sennheiser.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "Sennheiser",
+    "sitelinks": 35,
+    "source": "wikidata",
+    "wikidata_id": "Q167221"
   },
   "seoulbroadcastingsystem": {
     "domains": [
@@ -10164,14 +13723,26 @@
     "source": "wikidata",
     "wikidata_id": "Q607965"
   },
+  "shanghaiairlines": {
+    "domains": [
+      "shanghai-air.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "Shanghai Airlines",
+    "sitelinks": 36,
+    "source": "wikidata",
+    "wikidata_id": "Q721994"
+  },
   "sharpcorporation": {
     "domains": [
       "global.sharp",
       "corporate.jp.sharp"
     ],
-    "favicon_attempts": 1,
-    "favicon_hash_count": 0,
-    "favicon_successes": 0,
+    "favicon_attempts": 2,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
     "name": "Sharp Corporation",
     "sitelinks": 58,
     "source": "wikidata",
@@ -10206,12 +13777,36 @@
       "szairport.com"
     ],
     "favicon_attempts": 1,
-    "favicon_hash_count": 0,
-    "favicon_successes": 0,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
     "name": "Shenzhen Bao'an International Airport",
     "sitelinks": 39,
     "source": "wikidata",
     "wikidata_id": "Q842297"
+  },
+  "shogakukan": {
+    "domains": [
+      "shogakukan.co.jp"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "Shogakukan",
+    "sitelinks": 35,
+    "source": "wikidata",
+    "wikidata_id": "Q785697"
+  },
+  "shopify": {
+    "domains": [
+      "shopify.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "Shopify",
+    "sitelinks": 33,
+    "source": "wikidata",
+    "wikidata_id": "Q7501150"
   },
   "showtime": {
     "domains": [
@@ -10249,6 +13844,30 @@
     "source": "wikidata",
     "wikidata_id": "Q81230"
   },
+  "sierraentertainment": {
+    "domains": [
+      "sierragames.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "Sierra Entertainment",
+    "sitelinks": 33,
+    "source": "wikidata",
+    "wikidata_id": "Q494614"
+  },
+  "sigmacorporation": {
+    "domains": [
+      "sigmaphoto.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "Sigma Corporation",
+    "sitelinks": 33,
+    "source": "wikidata",
+    "wikidata_id": "Q354764"
+  },
   "sikorskyaircraftcorporation": {
     "domains": [
       "sikorsky.com"
@@ -10260,6 +13879,42 @@
     "sitelinks": 42,
     "source": "wikidata",
     "wikidata_id": "Q549189"
+  },
+  "silicongraphics": {
+    "domains": [
+      "sgi.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "Silicon Graphics",
+    "sitelinks": 36,
+    "source": "wikidata",
+    "wikidata_id": "Q623459"
+  },
+  "siliconvalleybank": {
+    "domains": [
+      "svb.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "Silicon Valley Bank",
+    "sitelinks": 35,
+    "source": "wikidata",
+    "wikidata_id": "Q17112054"
+  },
+  "silkair": {
+    "domains": [
+      "silkair.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "SilkAir",
+    "sitelinks": 33,
+    "source": "wikidata",
+    "wikidata_id": "Q284748"
   },
   "silkroad": {
     "domains": [
@@ -10297,17 +13952,80 @@
     "source": "wikidata",
     "wikidata_id": "Q32245"
   },
+  "singercorporation": {
+    "domains": [
+      "singer.com",
+      "singerbd.com",
+      "singerfrance.com"
+    ],
+    "favicon_attempts": 3,
+    "favicon_hash_count": 2,
+    "favicon_successes": 2,
+    "name": "Singer Corporation",
+    "sitelinks": 36,
+    "source": "wikidata",
+    "wikidata_id": "Q1330508"
+  },
   "sinopec": {
     "domains": [
-      "sinopecgroup.com"
+      "sinopecgroup.com",
+      "sinopechongkong.com"
     ],
-    "favicon_attempts": 1,
-    "favicon_hash_count": 0,
-    "favicon_successes": 0,
+    "favicon_attempts": 2,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
     "name": "Sinopec",
     "sitelinks": 40,
     "source": "wikidata",
     "wikidata_id": "Q831445"
+  },
+  "sinovacbiotech": {
+    "domains": [
+      "sinovac.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "Sinovac Biotech",
+    "sitelinks": 34,
+    "source": "wikidata",
+    "wikidata_id": "Q3485048"
+  },
+  "sistemabrasileirodeteleviso": {
+    "domains": [
+      "sbt.com.br"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "Sistema Brasileiro de Televisão",
+    "sitelinks": 35,
+    "source": "wikidata",
+    "wikidata_id": "Q965371"
+  },
+  "skf": {
+    "domains": [
+      "skf.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "SKF",
+    "sitelinks": 33,
+    "source": "wikidata",
+    "wikidata_id": "Q52846"
+  },
+  "skittles": {
+    "domains": [
+      "skittles.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "Skittles",
+    "sitelinks": 34,
+    "source": "wikidata",
+    "wikidata_id": "Q868612"
   },
   "sksigmaolomouc": {
     "domains": [
@@ -10333,17 +14051,43 @@
     "source": "wikidata",
     "wikidata_id": "Q194393"
   },
-  "smart": {
+  "skygroup": {
     "domains": [
-      "global.smart.com"
+      "skygroup.sky"
     ],
     "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "Sky Group",
+    "sitelinks": 37,
+    "source": "wikidata",
+    "wikidata_id": "Q918390"
+  },
+  "smart": {
+    "domains": [
+      "global.smart.com",
+      "smart.com"
+    ],
+    "favicon_attempts": 2,
     "favicon_hash_count": 1,
-    "favicon_successes": 1,
+    "favicon_successes": 2,
     "name": "Smart",
     "sitelinks": 49,
     "source": "wikidata",
     "wikidata_id": "Q156490"
+  },
+  "smashburger": {
+    "domains": [
+      "smashburger.com",
+      "order.store"
+    ],
+    "favicon_attempts": 2,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "Smashburger",
+    "sitelinks": 35,
+    "source": "wikidata",
+    "wikidata_id": "Q17061332"
   },
   "smentertainment": {
     "domains": [
@@ -10356,6 +14100,18 @@
     "sitelinks": 46,
     "source": "wikidata",
     "wikidata_id": "Q483938"
+  },
+  "smithwesson": {
+    "domains": [
+      "smith-wesson.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "Smith & Wesson",
+    "sitelinks": 36,
+    "source": "wikidata",
+    "wikidata_id": "Q463090"
   },
   "snickers": {
     "domains": [
@@ -10429,12 +14185,24 @@
     "source": "wikidata",
     "wikidata_id": "Q201653"
   },
+  "solarcity": {
+    "domains": [
+      "solarcity.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "SolarCity",
+    "sitelinks": 36,
+    "source": "wikidata",
+    "wikidata_id": "Q7555824"
+  },
   "sonygroup": {
     "domains": [
       "sony.co.in",
       "sony.com"
     ],
-    "favicon_attempts": 1,
+    "favicon_attempts": 2,
     "favicon_hash_count": 0,
     "favicon_successes": 0,
     "name": "Sony Group",
@@ -10502,6 +14270,30 @@
     "source": "wikidata",
     "wikidata_id": "Q1416835"
   },
+  "sorbonnenouvelleparis3": {
+    "domains": [
+      "sorbonne-nouvelle.fr"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "Sorbonne Nouvelle-Paris 3",
+    "sitelinks": 33,
+    "source": "wikidata",
+    "wikidata_id": "Q571293"
+  },
+  "sothebys": {
+    "domains": [
+      "sothebys.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "Sotheby's",
+    "sitelinks": 37,
+    "source": "wikidata",
+    "wikidata_id": "Q654762"
+  },
   "southafricanairways": {
     "domains": [
       "flysaa.com"
@@ -10519,9 +14311,9 @@
       "southwest.com",
       "espanol.southwest.com"
     ],
-    "favicon_attempts": 1,
+    "favicon_attempts": 2,
     "favicon_hash_count": 1,
-    "favicon_successes": 1,
+    "favicon_successes": 2,
     "name": "Southwest Airlines",
     "sitelinks": 54,
     "source": "wikidata",
@@ -10587,6 +14379,18 @@
     "source": "wikidata",
     "wikidata_id": "Q106158"
   },
+  "spicejet": {
+    "domains": [
+      "spicejet.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "SpiceJet",
+    "sitelinks": 35,
+    "source": "wikidata",
+    "wikidata_id": "Q943813"
+  },
   "spiritairlines": {
     "domains": [
       "spirit.com"
@@ -10599,17 +14403,42 @@
     "source": "wikidata",
     "wikidata_id": "Q1190598"
   },
-  "spotify": {
+  "spkorolevrocketandspacecorporationenergia": {
     "domains": [
-      "spotify.com"
+      "energia.ru"
     ],
     "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "S.P. Korolev Rocket and Space Corporation Energia",
+    "sitelinks": 36,
+    "source": "wikidata",
+    "wikidata_id": "Q763402"
+  },
+  "spotify": {
+    "domains": [
+      "spotify.com",
+      "spotifycdn.com"
+    ],
+    "favicon_attempts": 2,
     "favicon_hash_count": 1,
     "favicon_successes": 1,
     "name": "Spotify",
     "sitelinks": 103,
     "source": "wikidata",
     "wikidata_id": "Q689141"
+  },
+  "springersciencebusinessmedia": {
+    "domains": [
+      "springer.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "Springer Science+Business Media",
+    "sitelinks": 35,
+    "source": "wikidata",
+    "wikidata_id": "Q176916"
   },
   "sprite": {
     "domains": [
@@ -10640,9 +14469,9 @@
       "jp.square-enix.com",
       "square-enix.com"
     ],
-    "favicon_attempts": 1,
+    "favicon_attempts": 2,
     "favicon_hash_count": 1,
-    "favicon_successes": 1,
+    "favicon_successes": 2,
     "name": "Square Enix",
     "sitelinks": 50,
     "source": "wikidata",
@@ -10659,6 +14488,18 @@
     "sitelinks": 47,
     "source": "wikidata",
     "wikidata_id": "Q853293"
+  },
+  "stadlerrail": {
+    "domains": [
+      "stadlerrail.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "Stadler Rail",
+    "sitelinks": 35,
+    "source": "wikidata",
+    "wikidata_id": "Q666703"
   },
   "standardchartered": {
     "domains": [
@@ -10731,6 +14572,30 @@
     "sitelinks": 40,
     "source": "wikidata",
     "wikidata_id": "Q1340361"
+  },
+  "stategridcorporationofchina": {
+    "domains": [
+      "sgcc.com.cn"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "State Grid Corporation of China",
+    "sitelinks": 34,
+    "source": "wikidata",
+    "wikidata_id": "Q209078"
+  },
+  "statensmuseumforkunst": {
+    "domains": [
+      "smk.dk"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "Statens Museum for Kunst",
+    "sitelinks": 33,
+    "source": "wikidata",
+    "wikidata_id": "Q671384"
   },
   "stateuniversityoffeiradesantana": {
     "domains": [
@@ -10840,6 +14705,30 @@
     "source": "wikidata",
     "wikidata_id": "Q262386"
   },
+  "stihl": {
+    "domains": [
+      "stihl.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "Stihl",
+    "sitelinks": 33,
+    "source": "wikidata",
+    "wikidata_id": "Q239372"
+  },
+  "stmicroelectronics": {
+    "domains": [
+      "st.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "STMicroelectronics",
+    "sitelinks": 37,
+    "source": "wikidata",
+    "wikidata_id": "Q661845"
+  },
   "stockholmuniversity": {
     "domains": [
       "su.se"
@@ -10851,6 +14740,30 @@
     "sitelinks": 58,
     "source": "wikidata",
     "wikidata_id": "Q221645"
+  },
+  "stonewallinn": {
+    "domains": [
+      "thestonewallinnnyc.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "Stonewall Inn",
+    "sitelinks": 33,
+    "source": "wikidata",
+    "wikidata_id": "Q1261362"
+  },
+  "stratfor": {
+    "domains": [
+      "stratfor.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "Stratfor",
+    "sitelinks": 33,
+    "source": "wikidata",
+    "wikidata_id": "Q1165036"
   },
   "studioghibli": {
     "domains": [
@@ -10876,6 +14789,18 @@
     "source": "wikidata",
     "wikidata_id": "Q172741"
   },
+  "subpop": {
+    "domains": [
+      "subpop.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "Sub Pop",
+    "sitelinks": 34,
+    "source": "wikidata",
+    "wikidata_id": "Q778673"
+  },
   "subway": {
     "domains": [
       "subway.com"
@@ -10899,6 +14824,30 @@
     "sitelinks": 59,
     "source": "wikidata",
     "wikidata_id": "Q193007"
+  },
+  "summitentertainment": {
+    "domains": [
+      "lionsgate.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "Summit Entertainment",
+    "sitelinks": 34,
+    "source": "wikidata",
+    "wikidata_id": "Q632323"
+  },
+  "sunexpress": {
+    "domains": [
+      "sunexpress.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "SunExpress",
+    "sitelinks": 35,
+    "source": "wikidata",
+    "wikidata_id": "Q1137136"
   },
   "sunmicrosystems": {
     "domains": [
@@ -10984,6 +14933,18 @@
     "source": "wikidata",
     "wikidata_id": "Q611115"
   },
+  "swedisharmedforces": {
+    "domains": [
+      "forsvarsmakten.se"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "Swedish Armed Forces",
+    "sitelinks": 35,
+    "source": "wikidata",
+    "wikidata_id": "Q783911"
+  },
   "swedishhockeyleague": {
     "domains": [
       "shl.se"
@@ -11014,7 +14975,7 @@
       "ffs.ch",
       "sbb.ch"
     ],
-    "favicon_attempts": 1,
+    "favicon_attempts": 3,
     "favicon_hash_count": 0,
     "favicon_successes": 0,
     "name": "Swiss Federal Railways",
@@ -11061,9 +15022,9 @@
       "tabasco.de",
       "tabascocanada.ca"
     ],
-    "favicon_attempts": 1,
-    "favicon_hash_count": 0,
-    "favicon_successes": 0,
+    "favicon_attempts": 4,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
     "name": "Tabasco sauce",
     "sitelinks": 46,
     "source": "wikidata",
@@ -11213,6 +15174,30 @@
     "source": "wikidata",
     "wikidata_id": "Q188514"
   },
+  "tatasteel": {
+    "domains": [
+      "tatasteel.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "Tata Steel",
+    "sitelinks": 33,
+    "source": "wikidata",
+    "wikidata_id": "Q963101"
+  },
+  "tate": {
+    "domains": [
+      "tate.org.uk"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "Tate",
+    "sitelinks": 35,
+    "source": "wikidata",
+    "wikidata_id": "Q430682"
+  },
   "tatra": {
     "domains": [
       "tatra.cz"
@@ -11224,6 +15209,42 @@
     "sitelinks": 43,
     "source": "wikidata",
     "wikidata_id": "Q45464"
+  },
+  "tbsholdingsinc": {
+    "domains": [
+      "tbsholdings.co.jp"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "TBS Holdings Inc.",
+    "sitelinks": 33,
+    "source": "wikidata",
+    "wikidata_id": "Q605233"
+  },
+  "tcltechnology": {
+    "domains": [
+      "tcl.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "TCL Technology",
+    "sitelinks": 34,
+    "source": "wikidata",
+    "wikidata_id": "Q733958"
+  },
+  "tdk": {
+    "domains": [
+      "tdk.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "TDK",
+    "sitelinks": 35,
+    "source": "wikidata",
+    "wikidata_id": "Q855479"
   },
   "technionisraelinstituteoftechnology": {
     "domains": [
@@ -11261,6 +15282,18 @@
     "source": "wikidata",
     "wikidata_id": "Q319239"
   },
+  "tele2": {
+    "domains": [
+      "tele2.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "Tele2",
+    "sitelinks": 35,
+    "source": "wikidata",
+    "wikidata_id": "Q309865"
+  },
   "telefnica": {
     "domains": [
       "telefonica.com"
@@ -11297,6 +15330,18 @@
     "source": "wikidata",
     "wikidata_id": "Q845632"
   },
+  "teleperformance": {
+    "domains": [
+      "teleperformance.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "Teleperformance",
+    "sitelinks": 35,
+    "source": "wikidata",
+    "wikidata_id": "Q2392255"
+  },
   "televisinnacionaldechile": {
     "domains": [
       "tvn.cl"
@@ -11320,6 +15365,18 @@
     "sitelinks": 45,
     "source": "wikidata",
     "wikidata_id": "Q129110"
+  },
+  "teliacompany": {
+    "domains": [
+      "teliacompany.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "Telia Company",
+    "sitelinks": 34,
+    "source": "wikidata",
+    "wikidata_id": "Q862303"
   },
   "temu": {
     "domains": [
@@ -11369,6 +15426,30 @@
     "source": "wikidata",
     "wikidata_id": "Q478214"
   },
+  "tetrapak": {
+    "domains": [
+      "tetrapak.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "Tetra Pak",
+    "sitelinks": 35,
+    "source": "wikidata",
+    "wikidata_id": "Q659200"
+  },
+  "texaco": {
+    "domains": [
+      "texaco.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "Texaco",
+    "sitelinks": 35,
+    "source": "wikidata",
+    "wikidata_id": "Q775060"
+  },
   "texasinstruments": {
     "domains": [
       "ti.com"
@@ -11405,15 +15486,27 @@
     "source": "wikidata",
     "wikidata_id": "Q1161666"
   },
+  "thalys": {
+    "domains": [
+      "thalys.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "Thalys",
+    "sitelinks": 34,
+    "source": "wikidata",
+    "wikidata_id": "Q466985"
+  },
   "theatlantic": {
     "domains": [
       "theatlantic.com",
       "books.google.com",
       "catalog.hathitrust.org"
     ],
-    "favicon_attempts": 1,
-    "favicon_hash_count": 1,
-    "favicon_successes": 1,
+    "favicon_attempts": 3,
+    "favicon_hash_count": 3,
+    "favicon_successes": 3,
     "name": "The Atlantic",
     "sitelinks": 39,
     "source": "wikidata",
@@ -11442,6 +15535,18 @@
     "sitelinks": 73,
     "source": "wikidata",
     "wikidata_id": "Q3295867"
+  },
+  "thehomedepot": {
+    "domains": [
+      "homedepot.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "The Home Depot",
+    "sitelinks": 33,
+    "source": "wikidata",
+    "wikidata_id": "Q864407"
   },
   "thejerusalempost": {
     "domains": [
@@ -11479,18 +15584,90 @@
     "source": "wikidata",
     "wikidata_id": "Q10583424"
   },
+  "thenewschool": {
+    "domains": [
+      "newschool.edu"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "The New School",
+    "sitelinks": 36,
+    "source": "wikidata",
+    "wikidata_id": "Q599316"
+  },
   "thenewyorker": {
     "domains": [
       "images.cdn.overdrive.com",
       "newyorker.com"
     ],
-    "favicon_attempts": 1,
-    "favicon_hash_count": 1,
-    "favicon_successes": 1,
+    "favicon_attempts": 2,
+    "favicon_hash_count": 2,
+    "favicon_successes": 2,
     "name": "The New Yorker",
     "sitelinks": 56,
     "source": "wikidata",
     "wikidata_id": "Q217305"
+  },
+  "thenorthfaceinc": {
+    "domains": [
+      "thenorthface.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "The North Face, Inc.",
+    "sitelinks": 36,
+    "source": "wikidata",
+    "wikidata_id": "Q152784"
+  },
+  "theopenuniversity": {
+    "domains": [
+      "open.ac.uk"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "The Open University",
+    "sitelinks": 35,
+    "source": "wikidata",
+    "wikidata_id": "Q2413375"
+  },
+  "thepokmoncompany": {
+    "domains": [
+      "corporate.pokemon.co.jp"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "The Pokémon Company",
+    "sitelinks": 35,
+    "source": "wikidata",
+    "wikidata_id": "Q1156046"
+  },
+  "theroyalbankofscotland": {
+    "domains": [
+      "rbs.co.uk"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "The Royal Bank of Scotland",
+    "sitelinks": 33,
+    "source": "wikidata",
+    "wikidata_id": "Q160126"
+  },
+  "thesydneymorningherald": {
+    "domains": [
+      "smh.com.au"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "The Sydney Morning Herald",
+    "sitelinks": 34,
+    "source": "wikidata",
+    "wikidata_id": "Q390216"
   },
   "thetrumporganization": {
     "domains": [
@@ -11521,13 +15698,25 @@
       "thewaltdisneycompany.com",
       "disney.com"
     ],
-    "favicon_attempts": 1,
+    "favicon_attempts": 2,
     "favicon_hash_count": 1,
     "favicon_successes": 1,
     "name": "The Walt Disney Company",
     "sitelinks": 141,
     "source": "wikidata",
     "wikidata_id": "Q7414"
+  },
+  "thinkpad": {
+    "domains": [
+      "lenovo.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "ThinkPad",
+    "sitelinks": 33,
+    "source": "wikidata",
+    "wikidata_id": "Q861126"
   },
   "thyssenkruppag": {
     "domains": [
@@ -11553,6 +15742,18 @@
     "source": "wikidata",
     "wikidata_id": "Q1066858"
   },
+  "timhortons": {
+    "domains": [
+      "timhortons.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "Tim Hortons",
+    "sitelinks": 36,
+    "source": "wikidata",
+    "wikidata_id": "Q175106"
+  },
   "tinder": {
     "domains": [
       "tinder.com"
@@ -11564,6 +15765,18 @@
     "sitelinks": 46,
     "source": "wikidata",
     "wikidata_id": "Q15078152"
+  },
+  "tissot": {
+    "domains": [
+      "tissotwatches.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "Tissot",
+    "sitelinks": 37,
+    "source": "wikidata",
+    "wikidata_id": "Q659530"
   },
   "tivoligardens": {
     "domains": [
@@ -11661,6 +15874,18 @@
     "source": "wikidata",
     "wikidata_id": "Q843997"
   },
+  "tokyodisneyresort": {
+    "domains": [
+      "tokyodisneyresort.jp"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "Tokyo Disney Resort",
+    "sitelinks": 33,
+    "source": "wikidata",
+    "wikidata_id": "Q605492"
+  },
   "tokyoelectricpowercompanyholdings": {
     "domains": [
       "tepco.co.jp"
@@ -11684,6 +15909,30 @@
     "sitelinks": 39,
     "source": "wikidata",
     "wikidata_id": "Q587326"
+  },
+  "tokyometro": {
+    "domains": [
+      "tokyometro.jp"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "Tokyo Metro",
+    "sitelinks": 37,
+    "source": "wikidata",
+    "wikidata_id": "Q682894"
+  },
+  "tommyhilfigerbv": {
+    "domains": [
+      "usa.tommy.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "Tommy Hilfiger B.V.",
+    "sitelinks": 37,
+    "source": "wikidata",
+    "wikidata_id": "Q634881"
   },
   "toshiba": {
     "domains": [
@@ -11733,6 +15982,42 @@
     "source": "wikidata",
     "wikidata_id": "Q53268"
   },
+  "tplink": {
+    "domains": [
+      "tp-link.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "TP-Link",
+    "sitelinks": 33,
+    "source": "wikidata",
+    "wikidata_id": "Q1852050"
+  },
+  "transaeroairlines": {
+    "domains": [
+      "transaero.ru"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "Transaero Airlines",
+    "sitelinks": 34,
+    "source": "wikidata",
+    "wikidata_id": "Q509920"
+  },
+  "transavia": {
+    "domains": [
+      "transavia.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "Transavia",
+    "sitelinks": 36,
+    "source": "wikidata",
+    "wikidata_id": "Q246952"
+  },
   "transformers": {
     "domains": [
       "transformers.hasbro.com"
@@ -11757,6 +16042,18 @@
     "source": "wikidata",
     "wikidata_id": "Q527341"
   },
+  "trenitalia": {
+    "domains": [
+      "trenitalia.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "Trenitalia",
+    "sitelinks": 33,
+    "source": "wikidata",
+    "wikidata_id": "Q286650"
+  },
   "treyarch": {
     "domains": [
       "treyarch.com"
@@ -11769,6 +16066,18 @@
     "source": "wikidata",
     "wikidata_id": "Q382543"
   },
+  "tripadvisor": {
+    "domains": [
+      "tripadvisor.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "Tripadvisor",
+    "sitelinks": 35,
+    "source": "wikidata",
+    "wikidata_id": "Q1770710"
+  },
   "tristarpictures": {
     "domains": [
       "sonypictures.com"
@@ -11780,6 +16089,19 @@
     "sitelinks": 42,
     "source": "wikidata",
     "wikidata_id": "Q651454"
+  },
+  "trivago": {
+    "domains": [
+      "trivago.com",
+      "trivago.cz"
+    ],
+    "favicon_attempts": 2,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "Trivago",
+    "sitelinks": 35,
+    "source": "wikidata",
+    "wikidata_id": "Q265286"
   },
   "trumpinternationalhotelandtower": {
     "domains": [
@@ -11817,6 +16139,18 @@
     "source": "wikidata",
     "wikidata_id": "Q713418"
   },
+  "tunisair": {
+    "domains": [
+      "tunisair.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "Tunisair",
+    "sitelinks": 35,
+    "source": "wikidata",
+    "wikidata_id": "Q692811"
+  },
   "tupolev": {
     "domains": [
       "tupolev.ru"
@@ -11828,6 +16162,18 @@
     "sitelinks": 57,
     "source": "wikidata",
     "wikidata_id": "Q194009"
+  },
+  "turkcell": {
+    "domains": [
+      "turkcell.com.tr"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "Turkcell",
+    "sitelinks": 33,
+    "source": "wikidata",
+    "wikidata_id": "Q283852"
   },
   "turkishairlines": {
     "domains": [
@@ -11853,6 +16199,18 @@
     "source": "wikidata",
     "wikidata_id": "Q796158"
   },
+  "tvasahi": {
+    "domains": [
+      "tv-asahi.co.jp"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "TV Asahi",
+    "sitelinks": 34,
+    "source": "wikidata",
+    "wikidata_id": "Q908436"
+  },
   "tvazteca": {
     "domains": [
       "tvazteca.com"
@@ -11876,6 +16234,30 @@
     "sitelinks": 45,
     "source": "wikidata",
     "wikidata_id": "Q734663"
+  },
+  "twix": {
+    "domains": [
+      "twix.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "Twix",
+    "sitelinks": 33,
+    "source": "wikidata",
+    "wikidata_id": "Q869733"
+  },
+  "uaz": {
+    "domains": [
+      "uaz.ru"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "UAZ",
+    "sitelinks": 35,
+    "source": "wikidata",
+    "wikidata_id": "Q658242"
   },
   "uber": {
     "domains": [
@@ -11901,6 +16283,18 @@
     "source": "wikidata",
     "wikidata_id": "Q188273"
   },
+  "ubisoftmontreal": {
+    "domains": [
+      "montreal.ubisoft.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "Ubisoft Montreal",
+    "sitelinks": 33,
+    "source": "wikidata",
+    "wikidata_id": "Q903621"
+  },
   "ubs": {
     "domains": [
       "ubs.com"
@@ -11913,6 +16307,18 @@
     "source": "wikidata",
     "wikidata_id": "Q193199"
   },
+  "uclouvain": {
+    "domains": [
+      "uclouvain.be"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "UCLouvain",
+    "sitelinks": 37,
+    "source": "wikidata",
+    "wikidata_id": "Q378134"
+  },
   "ukraineinternationalairlines": {
     "domains": [
       "flyuia.com"
@@ -11924,6 +16330,18 @@
     "sitelinks": 40,
     "source": "wikidata",
     "wikidata_id": "Q836560"
+  },
+  "ukrainianrailways": {
+    "domains": [
+      "uz.gov.ua"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "Ukrainian Railways",
+    "sitelinks": 37,
+    "source": "wikidata",
+    "wikidata_id": "Q923337"
   },
   "ultimatefightingchampionship": {
     "domains": [
@@ -11973,6 +16391,18 @@
     "source": "wikidata",
     "wikidata_id": "Q2031485"
   },
+  "unicredit": {
+    "domains": [
+      "unicreditgroup.eu"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "UniCredit",
+    "sitelinks": 37,
+    "source": "wikidata",
+    "wikidata_id": "Q45568"
+  },
   "unilever": {
     "domains": [
       "unilever.com"
@@ -12009,6 +16439,18 @@
     "source": "wikidata",
     "wikidata_id": "Q26070"
   },
+  "unitedaircraftcorporation": {
+    "domains": [
+      "uacrussia.ru"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "United Aircraft Corporation",
+    "sitelinks": 37,
+    "source": "wikidata",
+    "wikidata_id": "Q1136226"
+  },
   "unitedairlines": {
     "domains": [
       "united.com"
@@ -12020,6 +16462,19 @@
     "sitelinks": 79,
     "source": "wikidata",
     "wikidata_id": "Q174769"
+  },
+  "unitedhealthgroup": {
+    "domains": [
+      "unitedhealthgroup.com",
+      "uhc.com"
+    ],
+    "favicon_attempts": 2,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "UnitedHealth Group",
+    "sitelinks": 33,
+    "source": "wikidata",
+    "wikidata_id": "Q2103926"
   },
   "unitedparcelservice": {
     "domains": [
@@ -12098,9 +16553,9 @@
       "universalmusic.com",
       "universalmusic.fr"
     ],
-    "favicon_attempts": 1,
-    "favicon_hash_count": 1,
-    "favicon_successes": 1,
+    "favicon_attempts": 2,
+    "favicon_hash_count": 2,
+    "favicon_successes": 2,
     "name": "Universal Music Group",
     "sitelinks": 64,
     "source": "wikidata",
@@ -12142,6 +16597,18 @@
     "source": "wikidata",
     "wikidata_id": "Q6614109"
   },
+  "universitasgadjahmada": {
+    "domains": [
+      "ugm.ac.id"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "Universitas Gadjah Mada",
+    "sitelinks": 34,
+    "source": "wikidata",
+    "wikidata_id": "Q1145992"
+  },
   "universitimalaya": {
     "domains": [
       "um.edu.my"
@@ -12153,6 +16620,18 @@
     "sitelinks": 42,
     "source": "wikidata",
     "wikidata_id": "Q1142924"
+  },
+  "universityatbuffalo": {
+    "domains": [
+      "buffalo.edu"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "University at Buffalo",
+    "sitelinks": 35,
+    "source": "wikidata",
+    "wikidata_id": "Q681025"
   },
   "universityofalberta": {
     "domains": [
@@ -12303,8 +16782,8 @@
       "unibuc.ro"
     ],
     "favicon_attempts": 1,
-    "favicon_hash_count": 1,
-    "favicon_successes": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
     "name": "University of Bucharest",
     "sitelinks": 50,
     "source": "wikidata",
@@ -12321,6 +16800,18 @@
     "sitelinks": 63,
     "source": "wikidata",
     "wikidata_id": "Q194223"
+  },
+  "universityofcalgary": {
+    "domains": [
+      "ucalgary.ca"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "University of Calgary",
+    "sitelinks": 37,
+    "source": "wikidata",
+    "wikidata_id": "Q1067471"
   },
   "universityofcalifornia": {
     "domains": [
@@ -12345,6 +16836,18 @@
     "sitelinks": 49,
     "source": "wikidata",
     "wikidata_id": "Q129421"
+  },
+  "universityofcanterbury": {
+    "domains": [
+      "canterbury.ac.nz"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "University of Canterbury",
+    "sitelinks": 34,
+    "source": "wikidata",
+    "wikidata_id": "Q432475"
   },
   "universityofcapetown": {
     "domains": [
@@ -12406,6 +16909,18 @@
     "source": "wikidata",
     "wikidata_id": "Q199948"
   },
+  "universityofdebrecen": {
+    "domains": [
+      "unideb.hu"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "University of Debrecen",
+    "sitelinks": 33,
+    "source": "wikidata",
+    "wikidata_id": "Q903092"
+  },
   "universityofedinburgh": {
     "domains": [
       "ed.ac.uk"
@@ -12423,7 +16938,7 @@
       "exeter.ac.uk",
       "info.ex.ac.uk"
     ],
-    "favicon_attempts": 1,
+    "favicon_attempts": 2,
     "favicon_hash_count": 0,
     "favicon_successes": 0,
     "name": "University of Exeter",
@@ -12466,6 +16981,18 @@
     "sitelinks": 76,
     "source": "wikidata",
     "wikidata_id": "Q503473"
+  },
+  "universityofghana": {
+    "domains": [
+      "ug.edu.gh"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "University of Ghana",
+    "sitelinks": 35,
+    "source": "wikidata",
+    "wikidata_id": "Q2303765"
   },
   "universityofglasgow": {
     "domains": [
@@ -12544,9 +17071,9 @@
       "english.hi.is",
       "hi.is"
     ],
-    "favicon_attempts": 1,
-    "favicon_hash_count": 0,
-    "favicon_successes": 0,
+    "favicon_attempts": 2,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
     "name": "University of Iceland",
     "sitelinks": 52,
     "source": "wikidata",
@@ -12576,6 +17103,18 @@
     "source": "wikidata",
     "wikidata_id": "Q52413"
   },
+  "universityofkent": {
+    "domains": [
+      "kent.ac.uk"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "University of Kent",
+    "sitelinks": 36,
+    "source": "wikidata",
+    "wikidata_id": "Q1516684"
+  },
   "universityofkentucky": {
     "domains": [
       "uky.edu"
@@ -12587,6 +17126,19 @@
     "sitelinks": 38,
     "source": "wikidata",
     "wikidata_id": "Q1360303"
+  },
+  "universityoflancaster": {
+    "domains": [
+      "lancs.ac.uk",
+      "lancaster.ac.uk"
+    ],
+    "favicon_attempts": 2,
+    "favicon_hash_count": 1,
+    "favicon_successes": 2,
+    "name": "University of Lancaster",
+    "sitelinks": 36,
+    "source": "wikidata",
+    "wikidata_id": "Q262854"
   },
   "universityoflatvia": {
     "domains": [
@@ -12701,8 +17253,8 @@
       "unimelb.edu.au"
     ],
     "favicon_attempts": 1,
-    "favicon_hash_count": 1,
-    "favicon_successes": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
     "name": "University of Melbourne",
     "sitelinks": 57,
     "source": "wikidata",
@@ -12725,13 +17277,25 @@
       "international.unina.it",
       "unina.it"
     ],
-    "favicon_attempts": 1,
+    "favicon_attempts": 2,
     "favicon_hash_count": 0,
     "favicon_successes": 0,
     "name": "University of Naples Federico II",
     "sitelinks": 42,
     "source": "wikidata",
     "wikidata_id": "Q691851"
+  },
+  "universityofnebraskalincoln": {
+    "domains": [
+      "unl.edu"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "University of Nebraska–Lincoln",
+    "sitelinks": 33,
+    "source": "wikidata",
+    "wikidata_id": "Q1353679"
   },
   "universityofnewsouthwales": {
     "domains": [
@@ -12781,6 +17345,18 @@
     "source": "wikidata",
     "wikidata_id": "Q486156"
   },
+  "universityofottawa": {
+    "domains": [
+      "uottawa.ca"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "University of Ottawa",
+    "sitelinks": 33,
+    "source": "wikidata",
+    "wikidata_id": "Q627969"
+  },
   "universityofpisa": {
     "domains": [
       "unipi.it"
@@ -12804,6 +17380,18 @@
     "sitelinks": 58,
     "source": "wikidata",
     "wikidata_id": "Q235034"
+  },
+  "universityofpoitiers": {
+    "domains": [
+      "univ-poitiers.fr"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "University of Poitiers",
+    "sitelinks": 37,
+    "source": "wikidata",
+    "wikidata_id": "Q661056"
   },
   "universityofpotsdam": {
     "domains": [
@@ -12870,9 +17458,9 @@
       "usp.br",
       "www5.usp.br"
     ],
-    "favicon_attempts": 1,
-    "favicon_hash_count": 1,
-    "favicon_successes": 1,
+    "favicon_attempts": 2,
+    "favicon_hash_count": 2,
+    "favicon_successes": 2,
     "name": "University of São Paulo",
     "sitelinks": 43,
     "source": "wikidata",
@@ -12883,13 +17471,25 @@
       "usc.cn",
       "usc.edu"
     ],
-    "favicon_attempts": 1,
-    "favicon_hash_count": 1,
-    "favicon_successes": 1,
+    "favicon_attempts": 2,
+    "favicon_hash_count": 2,
+    "favicon_successes": 2,
     "name": "University of Southern California",
     "sitelinks": 67,
     "source": "wikidata",
     "wikidata_id": "Q4614"
+  },
+  "universityofsouthflorida": {
+    "domains": [
+      "usf.edu"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "University of South Florida",
+    "sitelinks": 34,
+    "source": "wikidata",
+    "wikidata_id": "Q500606"
   },
   "universityofstandrews": {
     "domains": [
@@ -12915,6 +17515,18 @@
     "source": "wikidata",
     "wikidata_id": "Q122453"
   },
+  "universityofsurrey": {
+    "domains": [
+      "surrey.ac.uk"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "University of Surrey",
+    "sitelinks": 33,
+    "source": "wikidata",
+    "wikidata_id": "Q546976"
+  },
   "universityoftbingen": {
     "domains": [
       "uni-tuebingen.de"
@@ -12939,6 +17551,18 @@
     "source": "wikidata",
     "wikidata_id": "Q38779"
   },
+  "universityofthephilippines": {
+    "domains": [
+      "up.edu.ph"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "University of the Philippines",
+    "sitelinks": 35,
+    "source": "wikidata",
+    "wikidata_id": "Q746592"
+  },
   "universityofturin": {
     "domains": [
       "unito.it"
@@ -12951,6 +17575,18 @@
     "source": "wikidata",
     "wikidata_id": "Q499911"
   },
+  "universityofvermont": {
+    "domains": [
+      "uvm.edu"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "University of Vermont",
+    "sitelinks": 33,
+    "source": "wikidata",
+    "wikidata_id": "Q1048898"
+  },
   "universityofwarwick": {
     "domains": [
       "warwick.ac.uk"
@@ -12962,6 +17598,30 @@
     "sitelinks": 43,
     "source": "wikidata",
     "wikidata_id": "Q865528"
+  },
+  "universityofwaterloo": {
+    "domains": [
+      "uwaterloo.ca"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "University of Waterloo",
+    "sitelinks": 36,
+    "source": "wikidata",
+    "wikidata_id": "Q1049470"
+  },
+  "universityofwestminster": {
+    "domains": [
+      "westminster.ac.uk"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "University of Westminster",
+    "sitelinks": 35,
+    "source": "wikidata",
+    "wikidata_id": "Q1247544"
   },
   "universityofwrocaw": {
     "domains": [
@@ -12999,6 +17659,18 @@
     "source": "wikidata",
     "wikidata_id": "Q185246"
   },
+  "uralairlines": {
+    "domains": [
+      "uralairlines.ru"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "Ural Airlines",
+    "sitelinks": 34,
+    "source": "wikidata",
+    "wikidata_id": "Q581161"
+  },
   "uruguayanprimeradivisin": {
     "domains": [
       "auf.org.uy"
@@ -13034,6 +17706,18 @@
     "sitelinks": 41,
     "source": "wikidata",
     "wikidata_id": "Q610003"
+  },
+  "vale": {
+    "domains": [
+      "vale.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "Vale",
+    "sitelinks": 34,
+    "source": "wikidata",
+    "wikidata_id": "Q583268"
   },
   "valvecorporation": {
     "domains": [
@@ -13083,6 +17767,30 @@
     "source": "wikidata",
     "wikidata_id": "Q59187"
   },
+  "velcro": {
+    "domains": [
+      "velcro.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "Velcro",
+    "sitelinks": 33,
+    "source": "wikidata",
+    "wikidata_id": "Q207649"
+  },
+  "veolia": {
+    "domains": [
+      "veolia.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "Veolia",
+    "sitelinks": 37,
+    "source": "wikidata",
+    "wikidata_id": "Q1632461"
+  },
   "verisign": {
     "domains": [
       "verisign.com"
@@ -13100,9 +17808,9 @@
       "verizon.com",
       "verizon.net"
     ],
-    "favicon_attempts": 1,
-    "favicon_hash_count": 1,
-    "favicon_successes": 1,
+    "favicon_attempts": 2,
+    "favicon_hash_count": 2,
+    "favicon_successes": 2,
     "name": "Verizon",
     "sitelinks": 50,
     "source": "wikidata",
@@ -13125,7 +17833,7 @@
       "es.vespa.com",
       "vespa.com"
     ],
-    "favicon_attempts": 1,
+    "favicon_attempts": 2,
     "favicon_hash_count": 0,
     "favicon_successes": 0,
     "name": "Vespa",
@@ -13180,6 +17888,18 @@
     "sitelinks": 59,
     "source": "wikidata",
     "wikidata_id": "Q332477"
+  },
+  "victorinox": {
+    "domains": [
+      "victorinox.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "Victorinox",
+    "sitelinks": 35,
+    "source": "wikidata",
+    "wikidata_id": "Q503405"
   },
   "vietjetair": {
     "domains": [
@@ -13381,9 +18101,9 @@
       "proquest.com",
       "vogue.co.th"
     ],
-    "favicon_attempts": 1,
-    "favicon_hash_count": 1,
-    "favicon_successes": 1,
+    "favicon_attempts": 4,
+    "favicon_hash_count": 3,
+    "favicon_successes": 3,
     "name": "Vogue",
     "sitelinks": 68,
     "source": "wikidata",
@@ -13403,9 +18123,10 @@
   },
   "volkswagengroup": {
     "domains": [
-      "volkswagenag.com"
+      "volkswagenag.com",
+      "volkswagen-group.com"
     ],
-    "favicon_attempts": 1,
+    "favicon_attempts": 2,
     "favicon_hash_count": 0,
     "favicon_successes": 0,
     "name": "Volkswagen Group",
@@ -13436,6 +18157,19 @@
     "sitelinks": 47,
     "source": "wikidata",
     "wikidata_id": "Q646741"
+  },
+  "waldorfastoriahotel": {
+    "domains": [
+      "hilton.com",
+      "waldorftowers.nyc"
+    ],
+    "favicon_attempts": 2,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "Waldorf-Astoria Hotel",
+    "sitelinks": 34,
+    "source": "wikidata",
+    "wikidata_id": "Q1123997"
   },
   "waltdisneypictures": {
     "domains": [
@@ -13508,6 +18242,30 @@
     "sitelinks": 98,
     "source": "wikidata",
     "wikidata_id": "Q126399"
+  },
+  "warnerbrospictures": {
+    "domains": [
+      "warnerbros.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "Warner Bros. Pictures",
+    "sitelinks": 34,
+    "source": "wikidata",
+    "wikidata_id": "Q8016302"
+  },
+  "warnerbrostelevisionstudios": {
+    "domains": [
+      "warnerbros.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "Warner Bros. Television Studios",
+    "sitelinks": 33,
+    "source": "wikidata",
+    "wikidata_id": "Q1156642"
   },
   "warnermedia": {
     "domains": [
@@ -13605,6 +18363,30 @@
     "source": "wikidata",
     "wikidata_id": "Q861042"
   },
+  "westjapanrailwaycompany": {
+    "domains": [
+      "westjr.co.jp"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "West Japan Railway Company",
+    "sitelinks": 35,
+    "source": "wikidata",
+    "wikidata_id": "Q502125"
+  },
+  "westjet": {
+    "domains": [
+      "westjet.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 1,
+    "favicon_successes": 1,
+    "name": "WestJet",
+    "sitelinks": 37,
+    "source": "wikidata",
+    "wikidata_id": "Q1059770"
+  },
   "whataburger": {
     "domains": [
       "whataburger.com"
@@ -13616,6 +18398,18 @@
     "sitelinks": 45,
     "source": "wikidata",
     "wikidata_id": "Q376627"
+  },
+  "whirlpool": {
+    "domains": [
+      "whirlpoolcorp.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "Whirlpool",
+    "sitelinks": 35,
+    "source": "wikidata",
+    "wikidata_id": "Q1471346"
   },
   "wienerschnitzel": {
     "domains": [
@@ -13799,9 +18593,10 @@
   },
   "yamaha": {
     "domains": [
-      "jp.yamaha.com"
+      "jp.yamaha.com",
+      "yamaha.com"
     ],
-    "favicon_attempts": 1,
+    "favicon_attempts": 2,
     "favicon_hash_count": 0,
     "favicon_successes": 0,
     "name": "Yamaha",
@@ -13826,13 +18621,25 @@
       "ya.ru",
       "yandex.com"
     ],
-    "favicon_attempts": 1,
-    "favicon_hash_count": 1,
-    "favicon_successes": 1,
+    "favicon_attempts": 2,
+    "favicon_hash_count": 2,
+    "favicon_successes": 2,
     "name": "Yandex",
     "sitelinks": 71,
     "source": "wikidata",
     "wikidata_id": "Q5281"
+  },
+  "yetiairlines": {
+    "domains": [
+      "yetiairlines.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "Yeti Airlines",
+    "sitelinks": 34,
+    "source": "wikidata",
+    "wikidata_id": "Q1480118"
   },
   "ygentertainment": {
     "domains": [
@@ -13851,9 +18658,9 @@
       "svenska.yle.fi",
       "yle.fi"
     ],
-    "favicon_attempts": 1,
-    "favicon_hash_count": 1,
-    "favicon_successes": 1,
+    "favicon_attempts": 2,
+    "favicon_hash_count": 2,
+    "favicon_successes": 2,
     "name": "Yle",
     "sitelinks": 45,
     "source": "wikidata",
@@ -13870,6 +18677,18 @@
     "sitelinks": 39,
     "source": "wikidata",
     "wikidata_id": "Q39988"
+  },
+  "yumbrands": {
+    "domains": [
+      "yum.com"
+    ],
+    "favicon_attempts": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
+    "name": "Yum! Brands",
+    "sitelinks": 36,
+    "source": "wikidata",
+    "wikidata_id": "Q668737"
   },
   "yvessaintlaurent": {
     "domains": [
@@ -13948,8 +18767,8 @@
       "zumba.com"
     ],
     "favicon_attempts": 1,
-    "favicon_hash_count": 1,
-    "favicon_successes": 1,
+    "favicon_hash_count": 0,
+    "favicon_successes": 0,
     "name": "Zumba",
     "sitelinks": 39,
     "source": "wikidata",

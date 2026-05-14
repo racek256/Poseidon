@@ -10,6 +10,9 @@ use reqwest::redirect::Policy;
 use serde_json::{Value, json};
 use sha2::{Digest, Sha256};
 
+use Poseidon::modules::url_analysis::domain::parse_url_parts;
+use Poseidon::modules::url_analysis::page_metadata::fetch_page_metadata;
+
 const WIKIDATA_SPARQL_URL: &str = "https://query.wikidata.org/sparql";
 const DEFAULT_BRAND_CATALOG_PATH: &str = "data/brand_catalog.json";
 const DEFAULT_FAVICON_HASHES_PATH: &str = "data/favicon_hashes.json";
@@ -33,7 +36,7 @@ fn run() -> Result<(), String> {
     let min_sitelinks = env_usize("POSEIDON_WIKIDATA_MIN_SITELINKS", 10);
     let brand_limit = env_usize("POSEIDON_BRAND_LIMIT", 2_000);
     let workers = env_usize("POSEIDON_FAVICON_WORKERS", 24).max(1);
-    let max_domains_per_brand = env_usize("POSEIDON_MAX_DOMAINS_PER_BRAND", 2).max(1);
+    let max_domains_per_brand = env_usize("POSEIDON_MAX_DOMAINS_PER_BRAND", 4).max(1);
 
     ensure_parent(&catalog_path)?;
     ensure_parent(&favicon_path)?;
@@ -62,6 +65,9 @@ fn run() -> Result<(), String> {
         workers,
         max_domains_per_brand
     );
+
+    let brands = discover_related_domains(brands, workers)?;
+
     let favicon_results = scrape_favicons(&brands, workers, max_domains_per_brand)?;
 
     let mut favicon_hashes = serde_json::Map::new();
@@ -291,6 +297,120 @@ fn scrape_brand_favicons(
         attempts,
         successes,
     }
+}
+
+fn discover_related_domains(
+    brands: Vec<BrandEntry>,
+    workers: usize,
+) -> Result<Vec<BrandEntry>, String> {
+    let exclude_domains: HashMap<String, ()> = [
+        "facebook.com",
+        "twitter.com",
+        "x.com",
+        "instagram.com",
+        "linkedin.com",
+        "youtube.com",
+        "tiktok.com",
+        "pinterest.com",
+        "reddit.com",
+        "github.com",
+        "medium.com",
+        "wikipedia.org",
+        "wikidata.org",
+        "google.com",
+        "apple.com",
+        "play.google.com",
+        "apps.apple.com",
+        "microsoft.com",
+        "windows.net",
+    ]
+    .iter()
+    .map(|d| (d.to_string(), ()))
+    .collect();
+
+    let queue = Arc::new(Mutex::new(VecDeque::from(brands)));
+    let results = Arc::new(Mutex::new(Vec::new()));
+    let completed = Arc::new(Mutex::new(0_usize));
+    let total = {
+        let q = queue.lock().expect("discover queue poisoned");
+        q.len()
+    };
+
+    thread::scope(|scope| {
+        for _ in 0..workers {
+            let queue = Arc::clone(&queue);
+            let results = Arc::clone(&results);
+            let completed = Arc::clone(&completed);
+            let exclude = &exclude_domains;
+            scope.spawn(move || {
+                loop {
+                    let mut brand = {
+                        let mut queue = queue.lock().expect("discover queue poisoned");
+                        queue.pop_front()
+                    };
+                    let Some(ref mut brand) = brand else { break };
+
+                    let primary = brand.domains.first().cloned().unwrap_or_default();
+                    if !primary.is_empty() {
+                        let url = format!("https://{primary}/");
+                        let metadata = fetch_page_metadata(&url);
+                        let mut found = Vec::new();
+                        for domain in metadata
+                            .canonical_domain
+                            .into_iter()
+                            .chain(metadata.organization_domains)
+                            .chain(metadata.same_as_domains)
+                            .chain(metadata.manifest_domain)
+                        {
+                            if domain.is_empty() || exclude.contains_key(&domain) {
+                                continue;
+                            }
+                            let parts = parse_url_parts(&format!("https://{domain}/"));
+                            let rd = parts.registrable_domain;
+                            if rd.is_empty()
+                                || rd == primary
+                                || brand.domains.iter().any(|d| d == &rd)
+                                || exclude.contains_key(&rd)
+                            {
+                                continue;
+                            }
+                            let brand_token = normalize_key(&brand.name);
+                            let domain_label = rd.split('.').next().unwrap_or("");
+                            if !brand_token.is_empty()
+                                && (rd.contains(&brand_token)
+                                    || normalize_key(domain_label).contains(&brand_token))
+                            {
+                                if !found.iter().any(|d: &String| d == &rd) {
+                                    found.push(rd);
+                                }
+                            }
+                        }
+                        if !found.is_empty() {
+                            brand.domains.extend(found);
+                        }
+                    }
+
+                    {
+                        let mut results = results.lock().expect("discover results poisoned");
+                        results.push(brand.clone());
+                    }
+                    let done = {
+                        let mut completed = completed.lock().expect("discover counter poisoned");
+                        *completed += 1;
+                        *completed
+                    };
+                    if done % 100 == 0 || done == total {
+                        eprintln!("domain discovery: {done}/{total} brands");
+                    }
+                }
+            });
+        }
+    });
+
+    Arc::try_unwrap(results)
+        .map_err(|_| "discover results still shared".to_string())?
+        .into_inner()
+        .map_err(|_| "discover results poisoned".to_string())
 }
 
 fn catalog_json(brands: &[BrandEntry]) -> Value {

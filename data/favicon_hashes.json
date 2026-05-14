@@ -1,6 +1,12 @@
 {
+  "1fcslovcko": [
+    "ad6e940582cb30367273d1f2a6218fecc25e0d59f4ca22933c74bbcd01b207b1"
+  ],
   "7up": [
     "3dd8fc7b9c804a8094270231eee75cdabd3de16018fd66dfd7ebabe4acac201a"
+  ],
+  "9gag": [
+    "a55afdd48e695f38999fc0f0f8f5a64a3388f5b50794ba2decb5c7b52debafc4"
   ],
   "aardmananimations": [
     "c9b1aca147515cd7ac567b843ad87da134222aab7a106fe21d5b03b60995e1e3"
@@ -17,8 +23,15 @@
   "abvolvo": [
     "7060e8d2c2717dc373567d53028ec7bd6419408d5b1495c3d0ec02c05939d708"
   ],
+  "academiaedu": [
+    "b1d6b366ed793b4684807997cf899e7c882a46131a5b9b54d7bd1c97ef229850"
+  ],
   "accenture": [
     "dfbd00e4e16de838daa18e8d2163b53bca3e1095affc27696578ffb7d403e6c5"
+  ],
+  "accor": [
+    "af6ba5dafd23d0bce06386cf28c57e729ca4f4b5ffe6cfde3e88f05b72db635d",
+    "c65b6e7b8026ce7a3585b02ea946115e448b5cd58f71d6cc122ee8a9a0fa0a12"
   ],
   "acspartaprague": [
     "fb9b8ac6ea73c4dbeb0288681a6aa3cd03b949eace09c79712d115bc2b96f64b"
@@ -39,16 +52,31 @@
     "f1de60bb62243c5ae677d622926e350bb276b6f39d5e8559d1f0abe9f2c87dd8"
   ],
   "africandevelopmentbank": [
-    "60814779380ccef9c2e994ee77ef3a52ea44a4a911115344b72d5de45ef8eb59"
+    "8053f98e533e38dce6e2a2393320ad7abe92a5e35ddc283182fd1ae752c78fe9"
+  ],
+  "afriqiyahairways": [
+    "e9d24b651659f7d87bb5ab5e438e917cc1f14d2785fa5aed1b08e15182b0c2e6"
+  ],
+  "agriculturalbankofchina": [
+    "ee4cf23632b38cd3ba6d10b8e21e59aa3d5801ceec5ead1f34ca414189b0c150"
+  ],
+  "agustawestland": [
+    "9dd2d919c9a0af28940c425cea119aa11858040949e76011a32afe3f98d8b03b"
   ],
   "aiesec": [
     "842d8d7e6ff7fa05c30e43015b25819f4fb7eeabda5d4d1a11574afface6ea11"
+  ],
+  "airalgrie": [
+    "6c5300cef804f49be051e408eb2c600a7202660045fdac776edf4418cd404c6c"
   ],
   "airalo": [
     "2acd5bab1bd0f177b41092e0a433e2d310cd86b7ee2f27cf00fd1f83e5b326be"
   ],
   "airarabia": [
     "9deb629637088856fe61dc868bf40a7d21ed942e4117659f3d6c3408f59b906b"
+  ],
+  "airaustral": [
+    "a3384d4be7459ba64e209852427fa6c4749a244e7d423041b72cd95d94337bcb"
   ],
   "airbaltic": [
     "a0fb71dd90dbee003afded48f6bdf06bb7aad71515ef5f30bed913924b6c9015"
@@ -59,14 +87,23 @@
   "aircanada": [
     "4c00f3abaaed1adddc3d1d018d2fdedf17db32e5034d82fdcee44bd59763b09f"
   ],
+  "airindiaexpress": [
+    "a75aecf20bc76d858828d596cf4a72a33753cd6bade2c248f43fb4ad2501b6b2"
+  ],
   "airlanggauniversity": [
     "b10db942f5e5e59a64fcdde6c966bb6fe80a062b86a8fcffd8d89a281143494c"
+  ],
+  "airliquide": [
+    "a104a70ddbb119aeaaf6ca69efc0433849f7203d9d7633f8429037c16f6e5c75"
   ],
   "airmalta": [
     "807881ac784efe4a6f6a60ade27aeb58eae03ba794647b689c3f75faecc07c8b"
   ],
   "airmauritius": [
-    "12b9838e058c706fad96b1eef8b4315507f6576020dfcc9b12ff4610892935db"
+    "5a7edf64ef05a99dd40bf51265122e7e26b73de87a13f71ba5c6fd2d85820f88"
+  ],
+  "airnamibia": [
+    "71f80ef28a3d928ff175392632b47cb79c5c5ee3e9c78b064de43baff05c29b2"
   ],
   "airnewzealand": [
     "f9490ea2bcd17a4333589cb0d851e42e8364e19d3f2071819066b638e44d4e92"
@@ -86,11 +123,20 @@
   "alibabagroup": [
     "ce6ae4bea1382bccf0d4bb27ddec042b1eb6f3c8d99083c16b092d522cecf7ad"
   ],
+  "alienware": [
+    "d6a3cf5f4447cf6abf044460855327e573584ba214690300c7ec656077dce3be"
+  ],
   "aliexpress": [
     "320b81fe5f8e5ba1f16caea5d225329d379ad6ff406f108bd81d163fe8cade80"
   ],
+  "alipay": [
+    "b662de58b15b34d1bf4d2a8bc546f7062a3faaa22acd2ecbbbad70f1e7f37a39"
+  ],
   "alitalia": [
     "cef7056161d22d13887e56b6e674080f4bead3611ec4b2ac8b09745667d87532"
+  ],
+  "allelitewrestling": [
+    "d600c061fd38c31d9bc3ed83e212c3a02c2b80f3806d846877bf86210913218b"
   ],
   "allsvenskan": [
     "f1bce27f20d904480f0d74ba674472d5ac19cb4c329503384c6e49af3a096bd5"
@@ -110,6 +156,9 @@
   "amazonwebservices": [
     "4f56a75f3860c7136ab3a07347e57a7ef06dd84d324d19af0dac6b5f3268e023"
   ],
+  "amblinentertainment": [
+    "56350c10e042ed89926b5c061de900cae01a89c4733c215b402d802e754a1027"
+  ],
   "americanacademyofartsandsciences": [
     "c6081e99c8f0982851435eb0c9aa556a340110a4fa551a56b3918ccab4fbc7d8"
   ],
@@ -125,8 +174,14 @@
   "americaninternationalgroup": [
     "4c0b221ef5b266ed1d15bc1fb926d4585fad43e10904b066e9ef33247332c0c4"
   ],
+  "americanpsychologicalassociation": [
+    "c6afcd4ba3f0e1ecbb2487823d691af85cc5c3240e0525edea833a05f71bcc22"
+  ],
   "amtrak": [
     "1cb6efffef7d059fe558a5a9a2c67310a9c450d9b729b886776bdaa1acc01065"
+  ],
+  "anadoluagency": [
+    "f2e214e9ab0e4ce446b03e43960681934aa5386cd7e2fc3c83831b09854700cf"
   ],
   "ankarauniversity": [
     "53d043fc0e2617ffb49d79a1165afef7aec29c048087b36c99d8b337cba05a1f"
@@ -149,8 +204,11 @@
   "arcelormittal": [
     "2b8ad2d33455a8f736fc3a8ebf8f0bdea8848ad4c0db48a2833bd0f9cd775932"
   ],
+  "aristotleuniversityofthessaloniki": [
+    "1a89bbf9fd9741a8ca3a5e17429a330313ea6de1da0b5331da52973a5dba9464"
+  ],
   "asiandevelopmentbank": [
-    "5c4fc21da13657529c9a76c53d3998e86ea587aba1213af5c34aa61910e2ebf0"
+    "f3640d2e4a2121d78c8ea76567d606ca783a99dedcac53274cd150a9d5a47e3d"
   ],
   "asianinfrastructureinvestmentbank": [
     "39540110c5875e38d8f9d51d62590bab50ae01db37eee5d88533a8c1ed12f766"
@@ -164,14 +222,29 @@
   "asus": [
     "5b6a6fe201f8f83109ebf040dd5182a2000f01b0fed65316ac63da58e5d5d7fe"
   ],
+  "atlanticairways": [
+    "eac76989f0216785d58a7e8334a59ee9b804b184a7b69a6014b0e3741926194b"
+  ],
+  "atosse": [
+    "db2c50307623f5009978b75bbda07d96d5cfd1b7a5634726e31ce605317ce844"
+  ],
   "atr": [
     "82eebe58fb3f0dbda3e65970aa317518b84148c0f997cf91ad6992c5f1781efa"
   ],
   "att": [
     "c0c2c3d5d4acd6e9ad9a14984bc1f63e51b4e5069b1b6be17b1bb59965f0860e"
   ],
+  "australianbroadcastingcorporation": [
+    "f6a7dadcb54ab831684d46d1a2425d3425367975bb00ce691df962044b2466f3"
+  ],
+  "australianrecordingindustryassociation": [
+    "25922e8ddbc3ae8d18def5a103e3881b06cb9a7fa9185357050f1b0948eb3d0c"
+  ],
   "austrianairlines": [
     "2ef79336250cc9c75c1a0fe33ccf2d53c330322d7f9d5118e07d2eb5bc1181a5"
+  ],
+  "avionexpress": [
+    "41de175f9454191f8fdf378e278a80e92aa2f0623efebe07e9b6f760c5926d79"
   ],
   "avtovaz": [
     "b19a06d2da3ee025015e1aaa094f2d5b8a5ef5ff3de96ea5a018c22661df05c1"
@@ -179,20 +252,33 @@
   "axa": [
     "e96676961c6d8e1f0b5cb4b0f87f4f0c6402e8b6fe346e6dc1b85374fb435334"
   ],
-  "azerbaijanairlines": [
-    "8f2a60c5a890a73353a78400e5a4b0a05ab02af834a2ae3d7236bbaf3388e189"
-  ],
   "baesystems": [
-    "61d7ddb19eca7a43fecfe473ad194631275937a0cb5944f9c7fa7e2f5072d596"
+    "ff74a69da51533cee3d12afb3f3fac76a72e09f7fdd80fdd17bbcd248c087b92"
   ],
   "baidu": [
     "c70088079fe9441a726c66ce0e73ae38315ec80051d3dd542c41b82fa0a1993a"
   ],
+  "baileysirishcream": [
+    "ac7c0a56d96ffc9913d4e47dc0a6be1b059ad16d6d408730c6b3e6a13f917082"
+  ],
+  "bajajauto": [
+    "427fd7741f16d2941055397f8b9be915509428d6286e56d8c6d382ec788fb6dd"
+  ],
   "bambooairways": [
     "156c69be06389ce48cbe2ddf5fa5dd3743aeab7e58513d0cec9d579b4773b782"
   ],
+  "bandai": [
+    "82f559d14bffff26021cddf7eceb67d8bd7b9f4bd6957248f83b3f278e02623a"
+  ],
+  "bandainamcoentertainment": [
+    "2d803bda205071d9fa687e5d9df02578f75a57ea9e75e721f10c98f7272608f5",
+    "d8f030f987cfd3c2932825db0ad6c35911d9e898255df45ad0754e6396ac7cb1"
+  ],
   "bankofamerica": [
     "1776ec2d36cfe2cab1aeffeb1d8d8eb4ccc53014fb6948c8ab46673df08bd7c0"
+  ],
+  "bankofcanada": [
+    "cb130114f647bb51e9fbde30609726cb34676a82b192041eee4dd52cec8832ba"
   ],
   "bankofchina": [
     "d943ce00fb62c37509cbb07959cb941b6f85f9e6bfe7ce2f478c5317ed220467"
@@ -206,14 +292,26 @@
   "bankofisrael": [
     "fff6bca0caeebdc9ec229ef727d524f8042270e45b4c7a079517fb3f00b11e17"
   ],
+  "bankofitaly": [
+    "e9319e449a02670aeb02289af7556d856c73f57100ab1c2ccf47efb085b43123"
+  ],
   "bankofjapan": [
     "f9cd0250d50b8cfec984af88d60939ca8bf395f5292d653755dbbee747b19ccc"
+  ],
+  "bankofspain": [
+    "4e6ff90a1796d67faecfd94947cc43d64411deef6ca3d76f708d979d5ba8b8de"
   ],
   "basf": [
     "c8243467b78121683d1766f23eca9311258fa857ab74dda721240f71be99dad7"
   ],
+  "bbkelectronics": [
+    "c82d799333f656317cda4face62350a134462a0a2af25c1d8824c5a8b5a80c19"
+  ],
   "belltextron": [
     "3fcb8ec3d971c772b1f445f407081e7c1cd10594b45f7723084d93bf414c8f96"
+  ],
+  "benq": [
+    "0bd2c7f41f6caa5695ba2da665f82108dd21bc45ad50da3352dab27ea40add3d"
   ],
   "bertelsmann": [
     "c0fc8a27c22f00523b6cddc3e4301ceec284615dbd36d11e9b91263ad91ba8ee"
@@ -224,6 +322,9 @@
   "bibliothquenationaledefrance": [
     "36a9e7f1c95b82ffb99743e0c5c4ce95d83c9a430aac59f84ef3cbfab6145068"
   ],
+  "bighitmusic": [
+    "e23a5c313130aa90f7e132ba01c1818eba900cc4aeb28010015f7977d3b2797f"
+  ],
   "bild": [
     "2f5ab8718e3adc194bfbe535e612c3179062de826ed6995923decedb20f59ee6"
   ],
@@ -231,7 +332,13 @@
     "9deb629637088856fe61dc868bf40a7d21ed942e4117659f3d6c3408f59b906b"
   ],
   "biontech": [
-    "db18766d13525c9cad5ead0e88d2a4cdb961679a1a9d5582c1680a0456aafba3"
+    "4c69dfb886f41440d16ee23b3dea75611ebec4d68d0d0ff4fe921bc495d66b05"
+  ],
+  "bioware": [
+    "2fd64c6a7dc77772560e5d4951ba1c0dc9505600448a01ff16d3f1866427387e"
+  ],
+  "bitdefender": [
+    "232b5e52d560aad91940527cf85e92063d209de2f9126d06b17116e1cec5a69b"
   ],
   "blackberry": [
     "d5443b065eb328ba5da0d6939235cef57996253fb8f8af6bfdb18923085d8d9e"
@@ -248,11 +355,13 @@
   "bloomsburypublishing": [
     "5178133c31182c864711eaa0f2cb1b87f3f25ee7aeaee20a099f31c491c7fbef"
   ],
+  "bochniasaltmine": [
+    "190f999cc60ce8cdec065ac403d7ac76aa7f51996129305722096f49f8a9b5ba",
+    "683a308133c0eead9e32538598509f02438071d32f09fe381c853328e148b6ec",
+    "bb156ebee6889accdde3e470ba541430bf7afd01dba180123d263d7f456caac5"
+  ],
   "boeing": [
     "c6ef1aab1164902257a05875fbf8d3597f70bfa61a8d4312e1aef75426490ce1"
-  ],
-  "bolshoitheatre": [
-    "021a1faf1e0770bfc1e7026629b804e48c6daa233ff1b5513c8c2e256486d42c"
   ],
   "bostonuniversity": [
     "09bf531e02b207fd7c5612b5dcdc05022d5aea3e087773708354a5cbdb1c24d5"
@@ -260,8 +369,14 @@
   "bottegaveneta": [
     "8c19bd63d099ca88dc107f810620c383682681421c57db2bdbc07676044f1364"
   ],
+  "bounty": [
+    "d9a6f3a332e2237313dab282a609d4e65202ed88b3ebe20801b4ee175a77a967"
+  ],
   "boxofficemojo": [
     "5c22e72d7765648387c8346da9327a9200677bdc200b5d8825682cbbe5e2dba1"
+  ],
+  "braziliannationalarchives": [
+    "ea97e76dc8d99a1055e53c5ade0deadc911b13b469d7e8740b717c7f3a9d9668"
   ],
   "brazzers": [
     "a61e1e88ad3248c9b1edd2421994338f9978ce0c50cb853fd5a1117f0f17a9fd"
@@ -270,13 +385,13 @@
     "9c1c49c00fe8ad1630245015a8f1940327c141166a37eef2f43a2960ebbc0c6e"
   ],
   "britishairways": [
-    "a10e11990737727594ddd8398a81400176abb2a8109ce06fe499770beb4e70d5"
+    "1b933944ad3c986d99cabeb47e0c3d38e8aa80aeacbb7e791e3f8462db4c10e8"
   ],
   "brndbyif": [
     "e51568255cc5af161459523a67a13196dc9f4f4ddeb089c48216b3fb2b856654"
   ],
   "buick": [
-    "a2190be9e7050b4360bf38e53e3497be9c2c18be34b74e983fa8fd1ced41313c"
+    "350b1fb8f2dd2f4a97265acde3687c36c91c61ba45d56ac7906a80734c1ca0d5"
   ],
   "burberry": [
     "4b1b2b0fca81dcf59cab104e5cc2e45e9ec6a7d4140bbd057ffab761cf74c00e"
@@ -291,7 +406,8 @@
     "92cdb8d8511b53097a269e6005e4a9b2af941045b680512b1cb0714e94f1129b"
   ],
   "cadillac": [
-    "c246a240edd7f64320646c25dd291e0a4905fbb253ad26f50f366a6e0c46d93d"
+    "cac64a86c49722e9cd79d9d8dd481cf8bb6dd3fbbf9b5e784038e7c3f695a889",
+    "09f5822a99bdaeaaa9fa8113796bd144cc280c578456dc1727238b7e3070e46e"
   ],
   "cambridgeuniversitypress": [
     "91862aefe4ec445c869aaba8c94785f7516bbd723d0cde01da92e4e1a74059c4"
@@ -303,7 +419,8 @@
     "7ba745b636f727062daa60f1d44836364e8b4735654667fac1ec79d9a355c91b"
   ],
   "capcom": [
-    "ece6ce0640cc49ef520c2cc2557bbe84e0c0abb7eb1a7e77b9b550aaf2b64d4b"
+    "ece6ce0640cc49ef520c2cc2557bbe84e0c0abb7eb1a7e77b9b550aaf2b64d4b",
+    "a8b51e1631e8a283089bd713fa76ceef580e7739418f94a76ec892fceb0edb12"
   ],
   "capgemini": [
     "9deb629637088856fe61dc868bf40a7d21ed942e4117659f3d6c3408f59b906b"
@@ -316,6 +433,9 @@
   ],
   "carlzeissag": [
     "690a4aa06b1f63a17cd71417c44a120ecb9d6c361eb72ebf905f120ab216e378"
+  ],
+  "casio": [
+    "614cc86403e9ee94509a030a2d663473cc06ce1d6b8314b5efc269ab8d2707a7"
   ],
   "cbeebies": [
     "0b7eee805f3bd387d054e8d0d215569b79e4dd58d22a31d4af538949f20ca689"
@@ -338,11 +458,15 @@
   "charlesuniversity": [
     "96567594ca1a819a7b1d82e89f217d6c4c93d6d0d70ba1982a3e42d380655369"
   ],
+  "cheryautomobile": [
+    "40d1b60b40fad33ef47f94c4d5a84fda2f5cc5ad58fb045ddd61443e1df50667",
+    "0b9b83d7b180f7ddea2b38f891568b3d0b836656f7632d955dc73f2673e27393"
+  ],
   "chesscom": [
     "c9887d8310dfca1d691db128841c25305d959fecdf9c0ad97a34bee5e5b3f38c"
   ],
   "chevrolet": [
-    "2af0ba58f15f43f14cf4d5eddbbbfaa464c1e8a10e80971fefd0e1654b5df9b6"
+    "8bcf3a81b0fa96b1a205ff9c6d20a06b6674d8622319954c1efc7199d123225b"
   ],
   "chinaairlines": [
     "db81e0e43fc45509422c41c71aa10cbff185228e1d3cc0bdb4604bbe658bcdfc"
@@ -350,11 +474,17 @@
   "chinacentraltelevision": [
     "874b465ad27f9d26906787511ff8f0ea670ed69f6dbd7390f45fc8cf944c06bf"
   ],
+  "chinaconstructionbank": [
+    "771e2420f5d2fbe5d09fba31bb29021821e02c62a500893ef361fec2bf9969d5"
+  ],
   "chinaeasternairlines": [
-    "ff30e164a097aba92d9a180a8390f21412adc71dfe1241b323214e33e38edaec"
+    "217912fff263d771f1a387c5f66440be3700de85534c9e94b7fde9dc7806539e"
   ],
   "chinamobile": [
     "bbab1897abc8ef68d383c3346fd9211ad552bc0b716f4560ac4901bd3154ccf2"
+  ],
+  "chinanationalpetroleumcorporation": [
+    "10215c9817fb671d4df1d0a388a7f8f757b07842ec4a0477f7eebe9a2510e738"
   ],
   "chinasouthernairlines": [
     "d48b8499f0aac0a75b3d16ce777c952bfaa158459a8a0dc68bf2e09bf01d5624"
@@ -389,11 +519,23 @@
   "cocacola": [
     "057048998e3ab64d72e5c78ae2818d2d95cef1dda897da6deb497129f5da69c0"
   ],
+  "coinbase": [
+    "d31e282ffb3bb5dd30928d26363a710a61d3909673cfb551f10195517c34e30b"
+  ],
   "columbiapictures": [
     "1937342dd2d899ece96d3941a34f4dd87b5af0eacc2a2e8a16bf1a4d4e9bf568"
   ],
   "columbiarecords": [
     "444bd4bbed555a97f249634747e2fc1a0ccfc674a442ae021d53895d13b058ca"
+  ],
+  "comcast": [
+    "aa050de8862f7eaa8ea290eb9612bf949d6a2c8a6ea60ce60df5af3697c89a7d"
+  ],
+  "condorflugdienst": [
+    "f649754fb2058a7087148195396c66ef88c82482749e75fa614c5df87697214f"
+  ],
+  "conocophillips": [
+    "387f0599e40996719fc04b22316df6eeefdfbe83b9b49a155629e601d163480f"
   ],
   "continentalag": [
     "b62bc1df7fbb5a40e3b52a3f9d14fe15b699280e2a1545e60583cf81407d0e20"
@@ -402,7 +544,10 @@
     "b62bc1df7fbb5a40e3b52a3f9d14fe15b699280e2a1545e60583cf81407d0e20"
   ],
   "copaairlines": [
-    "c808618914411677f1afb8c2eb0c7d226dea3fa274bedf9bc6df48f93d85b93c"
+    "3916035ffaab2ec9b16f6e05be4715f56109433974316d53d8e95cd71ce99498"
+  ],
+  "corona": [
+    "3c9e101b30bc48769e1ca5aa395b297812195184e3cb8abc6568f8f041195042"
   ],
   "couchsurfing": [
     "0e2fac723a5120d807a6cf27eb7db9cd32457121b17050a6a87013ac920b6efd"
@@ -410,11 +555,15 @@
   "coursera": [
     "6e736e02c4a67c5cc974c5ea510c4e308939d9c1646b608d50a4674e0d03db8a"
   ],
+  "covax": [
+    "7a18512082e8a8166164615759bb8fb002f61c96f3c549be3b82d8ffca19de33",
+    "621a54fd47363c36b42e3791b1e5b36049b66c3693a7ff0c9ce20024f5620add"
+  ],
   "creativecommons": [
     "6bdb369337ac2496761c6f063bffea0aa6a91d4662279c399071a468251f51f0"
   ],
   "creditsuisse": [
-    "9a2306f52388fee5034f4a6e5af0c46d17a197223921a6ad26b20d9f4f12e2dc"
+    "6f0237812ddd6632492cd9ee3bfa9532d9a735b7052981292243ed9a87ce06fc"
   ],
   "croatiaairlines": [
     "dcf9584fbe6b582c512bfb5c406c2ef36048390866cdbf96ae78ba0af58a4b6e"
@@ -431,6 +580,12 @@
   "dailymotion": [
     "46eb3a648f5f33bd3fc0f169f7874c5d06a1d34edb6a99934d71118c1ce0615f"
   ],
+  "danmarksnationalbank": [
+    "cce43ad4929301e8d7e729ae7911e80bdfb402faf62da91daaf50228c48e86f0"
+  ],
+  "darkhorsecomics": [
+    "8f58d7dcab446dbb02d576884885b6e9b437734644f3320082024eb928be3584"
+  ],
   "dassaultaviation": [
     "59a9291245f21a39a98aed89cec8e95838533818ef07303637463c756233bffc"
   ],
@@ -441,7 +596,8 @@
     "6b41748b4d6a84b0618b75dac695a9bf2d34351218b3353d18521ec70ceec324"
   ],
   "debeers": [
-    "4aaf29f73202ff28f1ecc4bf9b25490c146b59a84df9835e28ba82c782599339"
+    "4aaf29f73202ff28f1ecc4bf9b25490c146b59a84df9835e28ba82c782599339",
+    "9deb629637088856fe61dc868bf40a7d21ed942e4117659f3d6c3408f59b906b"
   ],
   "decca": [
     "0197235984f83121295fb5fdcf01ee17e7280bbda0509fa2699fac9e6f26b139"
@@ -470,11 +626,17 @@
   "deutschetelekom": [
     "39bba7574db59bf98bae991a66b38b77980495a740f38919bf00e5849cd71333"
   ],
+  "diadora": [
+    "37bdb4056a5c769e08eb8e514a018e7667be5acb82507a23bd3aa790798eff99"
+  ],
   "diageo": [
     "9deb629637088856fe61dc868bf40a7d21ed942e4117659f3d6c3408f59b906b"
   ],
+  "dice": [
+    "b5ba4497d8793b46a68e1df14d2ffd8dd731b68b755a218e58a50c68baba82d7"
+  ],
   "digitalequipmentcorporation": [
-    "d11b040d374eae507dbed85b7b05f743865d27e9e5943ebd21c5e98aa1e37b9b"
+    "af9b45fc96d5c1dfee39b250e89380c13eabbe7ea00333ae3f7c42ab57c5cf4f"
   ],
   "disneychannel": [
     "34102c8aac71aba709f0a84b48d669ef2bda1ff6ae8dd44c4caa0e5d3e4bdfe0"
@@ -485,11 +647,21 @@
   "dji": [
     "25ea4eb22326d78bdd2e90256408496941f214fb182babefa781b3bcc9c8922d"
   ],
+  "dolby": [
+    "ff38e993358418e23151313f01c849682f84d442789a82f1abebaaad86f30f35"
+  ],
   "dolcegabbana": [
     "2af23d7e4dc87675aa9b28a14544ff3fd38b4bd8209cfb116015c4deba42dfd1"
   ],
+  "dongfengmotorcorporation": [
+    "fb70eebafeee5275fc5976783fa44eb77da34f322510f1ac9c43c7292d9cd1cf"
+  ],
   "donkervoort": [
     "2b8ad2d33455a8f736fc3a8ebf8f0bdea8848ad4c0db48a2833bd0f9cd775932"
+  ],
+  "drmartens": [
+    "ee90bef6229030fb54b183e667164c7f65a6466788646fe82be408bd6d5271ec",
+    "7d470fabb71bd4578c58fd4b2966acfd9424b3fc022d7a13a2419754bac6b470"
   ],
   "dunkin": [
     "c2a8cbe33395ff632ed0ded054f3de3627d7a5add9750d881f3ea52e2af8bde9"
@@ -536,8 +708,21 @@
   "emirates": [
     "985829e36de39448697d796f80d4ce99eb492f16f7afb2ce84a5a3d171105213"
   ],
+  "emlyonbusinessschool": [
+    "fd2f44ae76578992f08f8a6a5feaf948a3024ac9a7b5316d460c786b306f10f2",
+    "d59daa94dd92684c2a8978588bb51135be386c77820cf0bc4ad144991cf1c0e5"
+  ],
+  "endemol": [
+    "1503b1f5fdbdf9ded70beb6c0caf8795acb74f6196755c062652ce223b101dd7"
+  ],
   "enel": [
     "c192945743ebab48abfbc8363c6ac62d9c7b03bb790a20b162c6ea95dbd31dce"
+  ],
+  "engie": [
+    "c6a99c823781822222fb48c150688fa7058bb9aee1d034a58c29052ee36a8021"
+  ],
+  "eonproductions": [
+    "6bdb369337ac2496761c6f063bffea0aa6a91d4662279c399071a468251f51f0"
   ],
   "epicgames": [
     "d72592a16964d610ed4f8c4d65de2433f9082e364e6cefeb25a858677de01601"
@@ -547,6 +732,12 @@
   ],
   "ericsson": [
     "0d12e9662dbe71706a6f0d8200e35694fe0936e0ae0522c06f78ef4a2da1eca9"
+  ],
+  "eset": [
+    "70307205f7e8b6551b98c014b5ce40d074d2390b25fcbef228319e6a0d0427bd"
+  ],
+  "eskdrhy": [
+    "848ed5c4b0ae7de24c314ef046b95544a32b63c9a2e2cd677bc0a70ef0d696c1"
   ],
   "ethiopianairlines": [
     "f2328dc979f4c3f22f8eb3a0c5bd0ed27cc308ac1aa48020d7f47634ff550797"
@@ -566,29 +757,42 @@
   "eurowings": [
     "c76bda95bcacd257168c2f72762beb0734756591abfe0e29968fdffaa0be490f"
   ],
+  "eutelsat": [
+    "cf4724b2f736ed1a0ae6bc28f1ead963d9cd2c1fd87b6ef32e7799fc1c5c8bda"
+  ],
+  "evergrandegroup": [
+    "6490cabbb34ceb3308b32dd23d22c10f11c4d1ec6ba42dd975b1e86522b75268"
+  ],
   "exxonmobil": [
-    "5697e4bd74ed0c7d9441a28e239bebeab15ada47104a9820360aca9ddc63e34c"
+    "6d3615b2cc07c028912b6623d719bcb17d77619f5f757f86869d98020d42169e",
+    "dbba238086bd86baedb82d81568684fc400aede3d19f56b3a105e4964b14d24c"
   ],
   "fanta": [
     "5a58f414d35b490617f535dae4bcee4dbc51a53bd7912973033e16e5bca00197"
   ],
   "federalcenteroftechnologicaleducationcelsosuckowdafonseca": [
-    "9a8d9b63bd627b00ce78f30a721b1f5c7076827b0fa4ddccb87c60ff762b88a2"
+    "03b8ef36a8af0be3b7575d4665666f418afe931455129ee94c146f01dfc34752"
   ],
   "federalreservesystem": [
     "5322be26eae637bea75d91e3ad908b42d810bd734f4cb434294122540546bc78"
   ],
   "federaluniversityofminasgerais": [
-    "260e55f8b5652a587302c1d14fcc359939c2e9ad1019deed35d9ecabbd9765f4"
+    "2ab5a2d7125104160ad2f0dbb356def59f7c623b050d437f8173cad586a72189"
   ],
   "fedex": [
-    "2c357b5c732251cc32b1ad6220947c0e22d31e8f305e1692b8ff651f4fe45dc9"
+    "d79aaeba1ecb1913d711005e5bcab46c2c931b32d1d5ab9955ccb0b39a149786"
   ],
   "ferrerorocher": [
     "261b11bf36ce8fac3238f009a9fb1182d1d90a8b6d871d2d288a01087db141ce"
   ],
+  "ferrerospa": [
+    "707b2337af1d8c43833d114cac4d52b7990740cfdaf258946d72c39fb5e93c76"
+  ],
   "finnair": [
     "b392382ee0df1016ae5ced8251f4d5e5997dae9b1f42dbcc895318d01ecba2d7"
+  ],
+  "flybe": [
+    "d828d3b389edb78de667261348b5009b5581b09e135952fc0d7840541043bf2e"
   ],
   "fnherstal": [
     "0d76e085b34190cd5966a561526966db6b51cdb44e8075a7470a299cee852872"
@@ -598,6 +802,9 @@
   ],
   "foxconn": [
     "37790f3fef081b2dc8cc149e5d73e6a21b21d322998b3761aba915551bfdcb16"
+  ],
+  "foxcorporation": [
+    "6bdb369337ac2496761c6f063bffea0aa6a91d4662279c399071a468251f51f0"
   ],
   "foxnews": [
     "da28a769b9385dc0741044701981995fd58c247aa190267d944401b354acdef5"
@@ -623,6 +830,9 @@
   "gapinc": [
     "a703445b6285fb3d9543d3d10f631a97aef4149d377b38da98b380db4dab4b7a"
   ],
+  "geforce": [
+    "bedcb14e0470ff8abe26405a630e9604ac4fa581b385a7cfb00420c22f541b6e"
+  ],
   "gendigital": [
     "c38142c529aee2c09cb46cbf7bb37f87aa54f6959525acc39dcb8c20b6b23f4d"
   ],
@@ -636,7 +846,7 @@
     "c501aa25197e3210303e64a0e85d22038153f05d58ead2bc33a566fea7a86d8c"
   ],
   "generalmotors": [
-    "8669b6349f05c80bad68ba02dfc61938e71eb594e95fcd5b1ee2eb25af1aea13"
+    "2bddce178306ba542b93a91b60ac7809bba4b955bb2f0a7e1d1b4787a4e63ca6"
   ],
   "germanfederalbank": [
     "da05254e33000ebbe8afa0bbba2abe3f3346dd794a6e4fc73bd7fc54bc7a6709"
@@ -652,6 +862,9 @@
   ],
   "gmanetworkinc": [
     "8147b131cae8d90c8ae90c1c5119cd8c1cfdf9f93228119833aa8fb5bc96aaa0"
+  ],
+  "gmc": [
+    "e5cc21f5da8a5580318b73d03ba67a8978e56f16ca08f302cc4a8521d0627eed"
   ],
   "google": [
     "6da5620880159634213e197fafca1dde0272153be3e4590818533fab8d040770"
@@ -669,7 +882,11 @@
     "e6f7b53cb8b2a49db6957277a4ca1543862db4ece2cda6d598724e0f81807975"
   ],
   "granapadano": [
-    "d03fac2aac6e34391c5a6382b1220b49d34ddbaf7e47100fe8a4944134cd651a"
+    "23b93779208f4f38e838fa75e4c1699399c8ea51f6b188490e84106becbc23d0"
+  ],
+  "greatwallmotor": [
+    "58bd0ab5764b765bb1530945db87ce02a51cee01c38a12e94a64b48e0b013ccb",
+    "4ad97d594a14a4ee69eb67fcd4c43ffceb6f41f6130f1741c184d3f14573a815"
   ],
   "grupotelevisa": [
     "5fa2a11fe962213663e82b095039f8261c5a2435e997d04796a75775adf568ab"
@@ -680,6 +897,9 @@
   "guangzhoubaiyuninternationalairport": [
     "b72046337e1915189f882c3e9103e7dbe96d146ff0852a71496a993d7396e24a"
   ],
+  "guess": [
+    "957cf68944b90ed2f02f1d0d2762bdbca1333b2fd179203e86b0f29ae7253b8f"
+  ],
   "guinness": [
     "7935afedd4989f4e440666b72faf82e949ade53b8f78443c1748d55433cd62c4"
   ],
@@ -689,17 +909,35 @@
   "gum": [
     "91fef06399b00eb6447ced8d3c99ad7c1696e89e6545b294f2e2c08e3bb2ee69"
   ],
+  "hagendazs": [
+    "b4d74cea191b549519ce90b7cf379de31867661e73a0afdaa82ac67ee4db8019"
+  ],
+  "haier": [
+    "20ae70e3956e664fec99191deb7997c4f10ac2ec6950a2de41ddc4d6296a87a8"
+  ],
+  "hainanairlines": [
+    "24fe06be3e29d13108befff3fd5c30b3fd1b538c983d147c879137451eafd653"
+  ],
   "hankyucorporation": [
     "656aa86c22f15d725c3d67e66537380c38d91c1edeac93e4ec128aef4ba2e6c4"
   ],
   "haribo": [
-    "69c42b9429812ab9bb677af44d1672fa0ad6558537563e2207ad3b7184b0f40f"
+    "ba6ffe8629461b3197963081559d50a964e8ab7380347a814ff7bb2df6751938"
+  ],
+  "harlandandwolff": [
+    "c4f965b47e9bcb83f5a73b8c9db1c3a57bf2cadf1a2b89b4cbe430c1ad77cb13"
   ],
   "harleydavidson": [
     "44eb46a59c4fe35338ace403bc3d9f711270f5fee08d345a333339c9962b37a6"
   ],
+  "harvardlawschool": [
+    "6bdb369337ac2496761c6f063bffea0aa6a91d4662279c399071a468251f51f0"
+  ],
   "hasbro": [
     "c2216cdd14a25eb7528bde2523f11cb2aba05b84d14c38579bcb9aed4fcf7784"
+  ],
+  "hasselblad": [
+    "6af9a052a33bd19ca99d6bd9d2b8585238905815aba5eb3b71ba3a8c27766124"
   ],
   "hawaiianairlines": [
     "ab9cc04ffdb4e4a64f06976b0ea7caba0e7057a7b557d82cbb9a4aa0a468cd7c"
@@ -707,26 +945,61 @@
   "hbo": [
     "f1af3b51967560e4a6bb25b8809bc74acb325abba1f323b0dc49ff751e90f297"
   ],
+  "hecklerkoch": [
+    "4fb98829bce6c36132df8503e3622bdaa572c049b0c697b4d21012b02654c579"
+  ],
   "heidelberguniversity": [
     "71bc42b8e950092afd331fcdd60025a2f4f5bab5d2a0739b3868a276c4b73dfb"
+  ],
+  "herbalife": [
+    "8593349227598cc06c47fd85afb5b9be408d1e2335bcef777c8bfab2c13ec082"
   ],
   "herms": [
     "6d8a4254f614c8bbbb62016159ab8dcb6dbe06810bd003d4050143111aed498a"
   ],
+  "herzogdemeuron": [
+    "152817a7bad963fd96f980152b51b9b3f28902690b5ad5e8f30fa29b7c718853"
+  ],
   "hewlettpackard": [
     "49680babe4f6f5f9f535f0b3aa0529f3fa953b68c6a08c05ac6b8cc15f42b5dd"
+  ],
+  "hilti": [
+    "d9471cd8685156079f6bd8178289cbcf1108092a48e561ab09ba3a7e7e1de751",
+    "ea49490dd98d19d21c16fe4828e458f61425b8d0be3c0ae03300197a5374827f"
+  ],
+  "hindustanaeronauticslimited": [
+    "2d0a4f5a77c788b084919b1b8cad5713d9dfc3388ef29969c4cb66c28092e683"
+  ],
+  "hinomotors": [
+    "ab620b342d5f33240e6e392d704fa5ea91dd53c3b117256f34545c7480465830"
   ],
   "hitachi": [
     "a52a151e7640a904c9e36976e4b82341c1d2908d4aa7ab48bf1e73158b11f48c"
   ],
+  "hokkaidouniversity": [
+    "2f3dfa48699fa861b1721fceea95a876bde474ab78bbb7f6ecc562d455f3475c",
+    "c5889dd5953cb91952d9907c9cb2584b4e740c4880921ccdff8f8ad5264a288d"
+  ],
   "holden": [
-    "019d11d2569ead0cf811aa5aadeb0a6afa1402df03255df579688f1456935e15"
+    "ead379895f3896e1fa32e869bbc595ec5a40bba5ce47c93966df4eb72a315caa"
   ],
   "hollywoodrecords": [
-    "efca00af92c6a1296127201ad0a3388152a938499976c4502226d0c5bc2466da"
+    "80984c80b5ef3fd1be45860452a9a7d34b0d4f69c2fad362c6440216ecd3ecb3"
   ],
   "honda": [
     "35eedc23380264fa040bbe318ff5d967d2724097f29df8e9d7d99e7a94fd5140"
+  ],
+  "hongkongairlines": [
+    "22e0fadd8e92ed951fcb1c025bd8b35bdb4686402adc3257d2de1f2411797e15"
+  ],
+  "hongkongdisneyland": [
+    "dd623eda2a58cec0f60d2fdd701ae5c40cdb6ae5341d369d68637ec245a4dd1b"
+  ],
+  "hormel": [
+    "6bdb369337ac2496761c6f063bffea0aa6a91d4662279c399071a468251f51f0"
+  ],
+  "htelritzparis": [
+    "0d6dab536a8ba838744823576420e844d67ebf31ac77d38b0719a20396ff3c67"
   ],
   "huawei": [
     "d65bc96ef9c70743ec0ff3b6460c3793b099f9633311590393254817f983e9ff"
@@ -735,10 +1008,16 @@
     "7dd37f5957a07ef68513911499c4c444de5d79ba1d66875692a9bf5b92eb9f2c"
   ],
   "hummer": [
-    "9c5377b2bbf5d1122c1709bdd9fb2e0974caf64ef457ae00e3b4186fb6c03740"
+    "08dd414ba6e30fb4ad0145ed425af54ef998d54b4b9405195ef29532c1e426aa"
+  ],
+  "hungariannationalbank": [
+    "a1afdec9f9332b70a3bb11ea52a42d35f6db26e788f497ad915be479ee157148"
   ],
   "hyundaimotorcompany": [
     "68413bbcfa8bc90cc07c3210f978eedd8e0547cab34f2b146c2a01ae62bed9fc"
+  ],
+  "ibanez": [
+    "f02249e7a9f4b6a175363087b83508a4e142a26a5b0cbb434c30e7c0bef4f7c2"
   ],
   "ibm": [
     "3a2e015580f7185539eb91f5ae7952ffee9d02c5e4914d3370ff1a755b0048af"
@@ -759,7 +1038,7 @@
     "b92b63a4ca86601fc2d4437ce85886a6b71f950b361e1c246c4e0a94d24d9f47"
   ],
   "indianrailways": [
-    "3c5b26e9ea5f1f3966d875097633b65bd076f8f8c06009f6e965b97391e5bf1a"
+    "98877f7cfba5d9bde406155e53742b5e0fdc2452942f8180e768a97763c215e6"
   ],
   "industrialandcommercialbankofchina": [
     "a2382fa766fd421dbee5c8a379bcd978b08a4cec0a40724ed4ec5e7ac5ff48b5"
@@ -773,17 +1052,32 @@
   "intel": [
     "6a7454788b5c59012786cfad7eb2159bb18a2719a63138994f5786d20508b474"
   ],
+  "interfax": [
+    "fd87a0753194759d35a5e2ca2109670f0c8f7f3e788c7600d2eeb78bebd6417e"
+  ],
   "internationalorganizationformigration": [
-    "1d2fce2cfa47c6cc4f0522ab0669c2e096ef50a8b9a4250b42f047853648cca2"
+    "a97a40e9c9cc0820b687441f5925257e61411803b70cc5a9037e534c9882ae30"
+  ],
+  "internationalunionofgeologicalsciences": [
+    "f5139e6a372a7e6beea719b2414a5dccffae77f7c106715b9e19aa66824840d6"
   ],
   "islamicdevelopmentbank": [
     "d43eaabae88340786dc713b2c1f4ac6de1021e11d5c65dfe0ce869564154f46e"
+  ],
+  "islandrecords": [
+    "67ecdd7066f8c14377c58340398d8b700a5d58f6f62e3d6b722f2188ee11b92f"
   ],
   "istanbuluniversity": [
     "741817849377a1db528ea977e9d7d8760d9936e10e72e8a33fdad5ceeb5829f5"
   ],
   "itaairways": [
     "cef7056161d22d13887e56b6e674080f4bead3611ec4b2ac8b09745667d87532"
+  ],
+  "italianstockexchange": [
+    "63a8d21b2e94b4330da810597848441b63e48c9571b38caa77fc4cd27c993bbc"
+  ],
+  "itanium": [
+    "6a7454788b5c59012786cfad7eb2159bb18a2719a63138994f5786d20508b474"
   ],
   "ivecospa": [
     "a9bc1ab7f7c0c6bc5d097050968993474e32346cffa537be1e0335a19645f12e"
@@ -794,11 +1088,18 @@
   "jackinthebox": [
     "a15fc334ce11b7dea48483688486b607e06b9156210f46a94e9c30bf8379dad3"
   ],
+  "jacuzzi": [
+    "34e0352ef384c4896ba55ebf16a1a812f2ffeadd0fd157bf5daafaa8a7f9b806"
+  ],
   "japanaerospaceexplorationagency": [
     "c033e3abc5fb281b195d923dc62aa52d5a9eb0c11ab561584a0d2f5f745a56d8"
   ],
+  "jbl": [
+    "62e4fc44bd5fca207a821684074f281e3bf56e72ae6c840c3c21dbc046835785",
+    "fe4581547730a7184192f7a052fc7284e9ccadff50e8080b5338d0ea29bbd2d3"
+  ],
   "jetairways": [
-    "db3567c21094bb7c69c58c5680d250799b21029700ead404741b0ab8ad45e131"
+    "1aebb0d99c8d31ae0b99383c1fa77827e5451a6141c11b63d6970d7ba6c088c6"
   ],
   "jetblueairways": [
     "2cb55fe0dcdd22607d5e464addf1cd165fadbe6de5993f0d901210fda8752400"
@@ -806,26 +1107,38 @@
   "jgermeister": [
     "e4546567e2c4124fea1f72f1f5c78a196e8b1a8f61c59a9da7001e52f5c27a8e"
   ],
+  "johannesgutenberguniversitymainz": [
+    "cb9d098c827e6cc3dbd5ac2cbc9b112032be399f5fbb185cb6bcea0e04a69704"
+  ],
   "johnniewalker": [
     "f6eacdbd33a7db120863d4aae4d580f90540577bfcc9aa6ffdf7f45a1a40974d"
+  ],
+  "johnsonjohnson": [
+    "ef5b2d5f94db7952dae0dc5c9f9b3bb4880010cf6e5fe4c568a8b07303e13f15",
+    "21db10d15940a800d0b78b54fa6a2935316c1bb13148a808a5aadacdb5a9d278"
   ],
   "joma": [
     "40b3b4fc6726cf149d627f0412539e13f9c07a78ed9ee29440cd8c71289431c3"
   ],
   "jpmorganchase": [
-    "1a993c0e89ba68d3126e388ebb0737489fc807cbe5ec1757e67a932ae91fe0a7"
+    "1a993c0e89ba68d3126e388ebb0737489fc807cbe5ec1757e67a932ae91fe0a7",
+    "62a36457dd2a780bb74e5ad63bb6f745b9d74f497920ec35569e5edd98d93df8"
   ],
   "jvc": [
-    "8fc0fd5f08dcceaa8605292724ad9250a40f03985476d7f069ba373c2f4a6063"
+    "8fc0fd5f08dcceaa8605292724ad9250a40f03985476d7f069ba373c2f4a6063",
+    "f208b01d83bf10399c03966c60fe2ead996bdef1606570e7989a0485339d6038"
   ],
   "jypentertainment": [
-    "8a394aec01cb6e71c7c5c5c0fd2679b6222587ad56546b1baaea04b50f7730db"
+    "6fa95d520aff810dafd39582959feef9230eb7f921d39c5356d618b56ccc6722"
+  ],
+  "kaist": [
+    "5636c80d459ec9a7e2afc1a082da2d9bedeb4279710a60ed2e3ba47a2fdcec6a"
   ],
   "kamaz": [
     "754fa89d37741c28755cd9afc908af70c8cb4be1839ffd8769a4d4144eb4fcfc"
   ],
   "karolinskainstitutet": [
-    "8c8d96da0c3eb838cc8219059fbe7f79206f90d8105a8df7ba5fc0440be51d50"
+    "ac6ced8939a62ba1e048fa498e9d22b1c3511b24a1c33bab4d1435bf71be32fe"
   ],
   "kasperskylab": [
     "ebefb9fcffacc72b520e93be5a0d928e635a9767819fd451fe8291f2dce092ae"
@@ -833,8 +1146,14 @@
   "katholiekeuniversiteitleuven": [
     "7fd8df17a41fc1aa211dcb99201d61dd84204408572880ff361479e2d68621d6"
   ],
+  "kehlsteinhaus": [
+    "6bdb369337ac2496761c6f063bffea0aa6a91d4662279c399071a468251f51f0"
+  ],
   "keiouniversity": [
     "7df0918afaa9be26bbf93a0c5a9307dbebe75b4ff6cf63900bd5845eb762a859"
+  ],
+  "kenwoodcorporation": [
+    "c1749caddc1eb68034345a521e41d9678eb55ae581a5ff35309e0255301e697c"
   ],
   "kgmobility": [
     "c5a621842174c67683f1bd6a2535dd46cea4153cc23c17e38dbd04e8de947728"
@@ -858,7 +1177,8 @@
     "5473ab90f4a57fefcd8d41cc5c9a91596cd86e8c832094182c18bdfd4e4d20d7"
   ],
   "kodak": [
-    "b9ecd08d1591ea824ed82b45da1a8fa8e4ad082620a91d18fcb8be24a42570aa"
+    "b9ecd08d1591ea824ed82b45da1a8fa8e4ad082620a91d18fcb8be24a42570aa",
+    "48780a9cbe7066a56248b1fd9a6cd87bb5a6ac3e1b4a0091dbdcfe12f6d23584"
   ],
   "konami": [
     "17c320a85a54596b772c18a98ae87b01881293f41ebe10236e8e8e5442dc919e"
@@ -872,17 +1192,33 @@
   "koreancentralnewsagency": [
     "41ba44e1fab5a992a768e218783a7f1dd46b5d9b7a8520ff25e75f7a8e228ead"
   ],
+  "koreanstockexchange": [
+    "cb7d887a20a3b6b06326015bc885a3ee05763d2efeae73b7fa9fba712d2baa6e"
+  ],
   "ktm": [
     "2d5babc3d9246a406c292dabf7692e7e7fcd92484cb5b25443da6d10563b8e09"
   ],
+  "kuka": [
+    "72d6e5974f09718e1cc67a76a1d8856a787c4fae92ea3a381b36d71bc6fd5df5"
+  ],
   "kyotoanimation": [
     "b363222b717040a77b380ff3977a9e7e31f23c1e9b280b72d839b2dcc2523cfe"
+  ],
+  "kyushuuniversity": [
+    "2ffab995f2b84fe1f2f62389369e03f88db9a9e04f759698c3fc981f67b26467"
   ],
   "lada": [
     "b19a06d2da3ee025015e1aaa094f2d5b8a5ef5ff3de96ea5a018c22661df05c1"
   ],
   "laliga": [
     "91587f16b84071b65e887ba16963545403a37975655fc54f7cf819ace0403a9e"
+  ],
+  "laoairlines": [
+    "217cef6ea583a8eb3e37a61ac5999d48691ad5fbe2ed53a133c95f1937d33104"
+  ],
+  "latvijastelevzija": [
+    "c4a07b596020f2051c8ca5e0690849fc74fb95cadc3e456d1ace4cc8cec84eca",
+    "e75ae95d23d1b3cf6b01b6351cf1b6b93c5acc498e68cb0f5f973daba0d80b67"
   ],
   "lays": [
     "f96da7991d80881c6c733ab978cb57a3d430aa4ae0f3fa17ab43b1e16205068d"
@@ -897,7 +1233,13 @@
     "7c5eed0f1dc77ab224e3c1f26e7ac7dd347730ef908e145fc1183a8819e5eabe"
   ],
   "leipziguniversity": [
-    "1c3196d16dd73cd3fb9c41a79cd320f79c69f176ad8a1afcffe6d99a54552baf"
+    "683c1d549506b0d7e2938d3012fcdcc31a3baa76324e8bceee6989b81d18fbeb"
+  ],
+  "lenfilm": [
+    "bd779e2b24aefc5fdd469f86859d4ffdb16c334febd2a19fd781b879aea6c842"
+  ],
+  "leonardo": [
+    "9dd2d919c9a0af28940c425cea119aa11858040949e76011a32afe3f98d8b03b"
   ],
   "levistraussco": [
     "900a1cd11deb2d909e75087cab5fca73880a85c0fbb1b133140521c9bb87fe1c"
@@ -908,11 +1250,17 @@
   "lggroup": [
     "3b48781d908b4b8677015c44030ebc3381a80b0d3389fe511a1475a15f6bc874"
   ],
+  "librivox": [
+    "8a5e382f87319c38b6af5044de512dc13dcc7d3cf2ce3bbc48b8603d4efd5f54"
+  ],
+  "liebherrgroup": [
+    "99a0b0dde8415c253474d59a7b8307f5f2190a9fd7210a075c850243b0e9cbe8"
+  ],
   "ligue1": [
     "0c773a7e7942f6b52f3c4653d62ad057f93256d26eb5505253d6786bd994c796"
   ],
   "ligue2": [
-    "655cee12af223cee586df63887d737ddf7a3cb5f25fa7fb47b4b0a87206d8fa1"
+    "f90e4982ec910476ffbd0e8f3bf112be3bfea849b34860ddbe4c03c0ec05e7bd"
   ],
   "liiga": [
     "75ffb00aebacf94f15ba28b31586409d753138396322f014c5645774d67c66a7"
@@ -920,11 +1268,11 @@
   "lindtsprngli": [
     "6be70050e0a42a412b4341e789f4103bb1ece08a00190919ae2c501449d5a1e9"
   ],
+  "linkpinguniversity": [
+    "7184a62f7600e56b45d6e860358c869ffee319ec49db24bd117cb2eda4184748"
+  ],
   "lionair": [
     "2cd8f79006a25a156c83475859cb86fd667223f6991f09de56fb9a4f6c7d4bb6"
-  ],
-  "locarnofilmfestival": [
-    "8d506fc462bdb559a447f57c6c7448af97dc95c28dd386abb51280c273a8700c"
   ],
   "lockheedmartin": [
     "d474f603dd702b484b81a56b7f4a16b78f21790f4f30ec65f5009c425078a91f"
@@ -939,12 +1287,15 @@
     "bc84143f0d50d4db3f745ce263b0d3a9422c2d7e1ac3c041edbca550c518947d"
   ],
   "lotpolishairlines": [
-    "1883f2f54a7d5aef548fda6739b64a681a1000484303fa6580e2553c0ac392bb"
+    "4de1c96b4556fd66e30ed87e1d26eb8341146aee2922a324fc8b35b52dccffe7"
   ],
   "lotuscars": [
     "fa791bfdb8d51b2b1cf57b1d5fbea482b4b273f3fb64f963235651fde4943349"
   ],
   "lucasfilm": [
+    "6bdb369337ac2496761c6f063bffea0aa6a91d4662279c399071a468251f51f0"
+  ],
+  "lucasfilmgames": [
     "6bdb369337ac2496761c6f063bffea0aa6a91d4662279c399071a468251f51f0"
   ],
   "lufthansa": [
@@ -953,14 +1304,26 @@
   "lvmh": [
     "2b8ad2d33455a8f736fc3a8ebf8f0bdea8848ad4c0db48a2833bd0f9cd775932"
   ],
+  "macappstore": [
+    "5493c61cf725cf3a1d63cd9d07de75b0d6faa5564e772f7d0a6074f341442938"
+  ],
+  "macktrucks": [
+    "fcfd97f5c1413dc81574f6e2bec2bf1a37dfd5f6cf1d71799ba6d0d5d411f067"
+  ],
+  "macmillanpublishers": [
+    "336fb94dbdbbce17c87ccd6000c8191ceb65fe2819e93a4cb0f45d5eb9f414d9"
+  ],
   "macromedia": [
     "f300557f0fc2a509179e6a5e71ee96eeaa28adba5f69869fb771afd3ce9e551d"
+  ],
+  "madhouse": [
+    "4c1a844b2bb5484139a8b3252f1a889aad4c1b86e2b1ed0e80b1072b17fc75a0"
   ],
   "maersk": [
     "d5b6e34567b8cd63470a8df72a6b5dd3949c0f9971fd318ed68d51d4ff5fe9b4"
   ],
   "maggi": [
-    "5d881fb2232de1676cdcc4776854c26fac24a76fbc2fee93e0d770341f5ea8ad"
+    "ffc70415a23d30adf05435893c06778e9138fc3afbe2eafa4dde1fdf9b3ed9d8"
   ],
   "magnumphotos": [
     "6bdb369337ac2496761c6f063bffea0aa6a91d4662279c399071a468251f51f0"
@@ -977,8 +1340,14 @@
   "manse": [
     "ffb52ab3c665a4d6bbda381cb3fecdf5d891e7f9312a58f6257987a07ad26123"
   ],
+  "maralago": [
+    "a7f924335f7379827c1b62efa3910f0de23fcee8a2f71789a369108322c77089"
+  ],
   "marksspencer": [
     "d176a5debbedb60e9f5926ce591cb1085f28e33e55d5fe11893858e132ab596b"
+  ],
+  "marriottinternational": [
+    "dd73a26a14dbe4c22b9606359b7b91cb2029210f0375ce23c87436c077c6006f"
   ],
   "marsincorporated": [
     "d9a6f3a332e2237313dab282a609d4e65202ed88b3ebe20801b4ee175a77a967"
@@ -998,6 +1367,9 @@
   "massachusettsinstituteoftechnology": [
     "615256c20ac7b5bff1156ef17a43b6031d4223aaaafb0f1af109de101d19b52b"
   ],
+  "matra": [
+    "8e72c63d947415457274cd3799ac939542b1a94b3b6c24e381b36fe3f0a5b70e"
+  ],
   "mattel": [
     "f7627d5ecc988f3b9ec92c073c799a639f138168247229f2180b00a72689dfb6"
   ],
@@ -1006,6 +1378,18 @@
   ],
   "mcgilluniversity": [
     "2ed585408376b9b3794723cd305838b29c6abeaa9563cb80ab9271496f98a7b4"
+  ],
+  "mclarenautomotive": [
+    "a56b722bf2806e2baf7edc10cc1d3136c535b6ef8727f30ca5e695f9169bd767"
+  ],
+  "mediatek": [
+    "86e16020044e39d72f0ba96c8de51861649a5b9edbb1bff08f3fc510d26b25d6"
+  ],
+  "mega": [
+    "e9416eb9b9115eb91706cc5eceea35ada6b492cc3b62226e8dd2f636211e075a"
+  ],
+  "meizu": [
+    "1d4c6139e2cf9fce165ac918e1bcf195449be66798544e16dea968a65afca3ea"
   ],
   "mercedesf1team": [
     "3061a56856743c16f36d3290c101749b347376e094db361b4e0c6319f3c98e20"
@@ -1038,10 +1422,13 @@
     "b31cb0807042dd2c71f205f86f0ce44972833313ad4c8320f89dad344fba3d8a"
   ],
   "middleeastairlinesairliban": [
-    "005c0ab72584079992397202ff87f8a9e1b3073c7ccd2a07f3935aa07ee7d88f"
+    "c1012cced2c5afbecbda268212abed990242e1718f97c6b4bc9fbbd9dc98b743"
   ],
   "mirinda": [
     "d02032286070b4dd9d8fbd985a7bdca8af8edf52b89ff177db3bfcb2c8a9c43d"
+  ],
+  "mistralai": [
+    "4d0b6362e4e5b2505f3a5a741b76adfd31aee73636f672ef7e80ac4c62c7b2b4"
   ],
   "mms": [
     "e84ad5f122c3a0779a808a50b8dcf3d044912d415fb58b4839181f611977a8c2"
@@ -1055,11 +1442,17 @@
   "monsterenergy": [
     "02e291b89f202590a7df5b25f2f7ff4756887e154c096840d91824df7cad6993"
   ],
+  "montenegroairlines": [
+    "933e1e6c568780540ab66f1bf907b06ac78791ecf3fc81121d35dcbc0e64f8e7"
+  ],
+  "moodyscorporation": [
+    "1d8944281b3d1d17cbc92ef7232053a757c4f954aab6aefe3e91f49908435c35"
+  ],
   "moskvitch": [
     "c31fc42da7b039c98447109d9f52b17637a3e736dbd92e8155c977e29c5ea077"
   ],
   "motchandon": [
-    "96260ac0dee001995ad8d057db92b1b121b4b8cfe52fd4b9f3e185436ca62690"
+    "66e2ea61ffcdda35a77f431bbd8c2481d9cbf8301124297af7482097d8387d1c"
   ],
   "motown": [
     "6bdb369337ac2496761c6f063bffea0aa6a91d4662279c399071a468251f51f0"
@@ -1073,20 +1466,40 @@
   "myheritage": [
     "13eabcbcdd1ecd39f30f2b9847dd406d32bd6711201e7cc562f3c347233e848a"
   ],
+  "nagoyauniversity": [
+    "6bdb369337ac2496761c6f063bffea0aa6a91d4662279c399071a468251f51f0",
+    "249b3d940d9e81ed9d4db67eeb7f844bc499a0d4fe8becf28c734ac4988044c8"
+  ],
   "namco": [
-    "04cee9a6c4c5f46e201136d2c277532e62ff26ff0ea3400ac3af309ba8a6d138"
+    "04cee9a6c4c5f46e201136d2c277532e62ff26ff0ea3400ac3af309ba8a6d138",
+    "72e7fdb41009b9a393e8ceca4551c25a1259bbb1c9ded0bfdde9afd2ccdd0634"
   ],
   "nanyangtechnologicaluniversity": [
     "94049c481e4d9881c239c3d9502143c287a0ae6996ac889e5e3188b2dcfdd392"
   ],
+  "narodowybankpolski": [
+    "3c5f1526b73fc657024376ef1101742ec2e90e7aecb82ba6a5f657df9436633c"
+  ],
   "nationalautonomousuniversityofmexico": [
-    "ea31ff9b842bedbd4499ceb8700c34a7eaf2b5c344debd2315799e827124b33d"
+    "7b950977425c632bcba1f7744b886d3ef153285c69e77324c02b7683f1fb03de"
+  ],
+  "nationalbankofromania": [
+    "1dfc58ffbcb07c761f79eb6b46f50b3789bd21e41a0b4cb1aca82b1dd8020fcc"
+  ],
+  "nationalbankofukraine": [
+    "7cc1ef36111148f4377b398fb005554c6b87f1bf0605499b084bf05c80788f14"
   ],
   "nationalbasketballassociation": [
     "8c7946d2e5f23c867368b45178f5043b2e4660a418feb15bc50142f9cb8a0cd6"
   ],
+  "nationalgalleryofarmenia": [
+    "e0c1d6cd39ffe3772e5bff9f56f5249ac141381693840a333ecbed3e1cf99bc3"
+  ],
   "nationalgalleryofart": [
     "179d7770166ac1ee9c7e1d6dd43545a2ab0722489821b29b17833c08fb83f42b"
+  ],
+  "nationalgalleryofcanada": [
+    "11ca2cec3cb07afb1cfc35cb0d22a801f8041f34fc14e2b05d6ac1965240ca59"
   ],
   "nationalgeographic": [
     "6855286d7472e1af093e4947f6a8a7b01b6012dabc3176d59286f3f2d621c4dc"
@@ -1107,10 +1520,10 @@
     "b2f827a2509c59227607ca62c5faf4d259720809e0a51b7d6873022bfb4d6d13"
   ],
   "nationaluniversityofsingapore": [
-    "1e8bb146da218abb2d23b2f8b385626e0d769379d000bdd1735f55885183905b"
+    "c1ca0e920181d084157904dcaa7c637a1423c6a9ea4789f829067f1d751933be"
   ],
   "naturalhistorymuseumvienna": [
-    "aba20550f011035b430d98263f70d13c877b8ac168a9b7cf944350655e434413"
+    "d2f858ca801da205064c59273b269c341a11748500e7efceda74213895a668b1"
   ],
   "nauruairlines": [
     "74bcffb913ad15b758e475f2fa9a6ff750129c12c89543fc1464e214d66b80bb"
@@ -1120,6 +1533,9 @@
   ],
   "netflix": [
     "abe8012eb65c0dc0ac3e87dcc1e60e1908ebd8f12b7c47a5df1856f7a7bb1edd"
+  ],
+  "newdevelopmentbank": [
+    "0694bf73c96fdf34b33ddfca3d1c31dbea841ffbb1173cb3d97cf34410dc00b1"
   ],
   "newscorporation": [
     "b7a2300a429c855e159f425c750a2efa27acde87a4b6e40c08487fc2e414036d"
@@ -1163,11 +1579,20 @@
   "oclcinc": [
     "cbe7e80f5a73d3b223ce97e5d7dbeacd8a3a2e5250ae080ea7a010d93c57c554"
   ],
+  "odesauniversity": [
+    "6b2284cf6bf3b40185ba43c8eba2983c89f2027bcca124ad914e7d5a37aa658a"
+  ],
+  "officialchartscompany": [
+    "560a481d94b94be28e45a6ee498682f92b2eb99f8f6f5956c9aad969f61ee5e5"
+  ],
   "olympuscorporation": [
     "93eab4d7bc2a4934375ecab0dbc4d7afb4039b6820dcc41d3d3fd971732f8426"
   ],
   "openai": [
     "9747c13cd87b36ebf2ab567b9d0bc2ff49b5a4f46f4f51e4d053024f579fb9a0"
+  ],
+  "opera": [
+    "07e8d69985547e670f5752809928fb887516ddd67e56d24c1323b4abc88723b3"
   ],
   "oppo": [
     "619fad8b67cd54f49d3c1424d16c278b28da8fe8d1811b2cf4174c00400f7cfb"
@@ -1175,11 +1600,18 @@
   "oricon": [
     "7268170304762734eae8830b9a3154c85068bb87b956da45b103aad1eaf7e6ae"
   ],
+  "oriflamecosmetics": [
+    "71ada9d17d949a780fbc14b4180c6bc76a7d502b382e357e9a6147fcb4beb579",
+    "538dadcf074718a9222c26947645cdc3e01f6619e86d0ad481c4df0e6ccc00f9"
+  ],
   "paganiautomobili": [
     "a45fcc710f1c484e1f53782eb990783aa58c2ad575ab9b66cbb6521bebf65bab"
   ],
   "palantirtechnologies": [
     "bcb8975e6e37afaa6695c39e21b3dd45be205635d1e183ebc4c511f437d9fc71"
+  ],
+  "pantone": [
+    "1012d22fa12c8b25b77bf605815338bb37a3fc3578f70181f78d888d65de3b31"
   ],
   "paradoxinteractive": [
     "8f98e85071612fb5d55e90888919bb58233633991875562d974e23487dce227b"
@@ -1190,14 +1622,32 @@
   "paramountglobal": [
     "31061a132c730160355c034e122cd46a905aa9c8fe1afc36da4c76d708a07de4"
   ],
+  "parc": [
+    "25d43db19d83d78dcf703de9ac7802566319c53db2f061a93294041bf014573a"
+  ],
   "parisopera": [
     "7ff63ad1441d4311a5c2eb2b400b22810eac8d1dfed246311622269cf4a57dbe"
   ],
   "patekphilippeco": [
     "2cc9c65c8b6287f5010cd4d8bf84d780449ecef65d7c175f789b9bb6cf1be79a"
   ],
+  "path": [
+    "6bdb369337ac2496761c6f063bffea0aa6a91d4662279c399071a468251f51f0"
+  ],
   "pegasusairlines": [
     "26dc5ff4bfb9213291735808465e156d4a4691135f3815e3613761243e1f69c3"
+  ],
+  "penguinbooks": [
+    "406fc02af6827cf6378a66080540e3755eaedc09dd0d1ae8f20744c0cdf8005c"
+  ],
+  "pentax": [
+    "a5928a1dc1e43005f8e61ac665fca107a9553291f99077824dd2aafdc3e7c321"
+  ],
+  "peoplesfriendshipuniversityofrussia": [
+    "e87eb6eb99977afb631807f7b9f3131bbe8ac862e5a977b7e7f69544e364a442"
+  ],
+  "pepsi": [
+    "d02032286070b4dd9d8fbd985a7bdca8af8edf52b89ff177db3bfcb2c8a9c43d"
   ],
   "pepsico": [
     "1cdd1d9e66fa2cfc5fed9900e616ab776cf2c0afeca9d976860dd3656001c7c1"
@@ -1212,7 +1662,8 @@
     "10215c9817fb671d4df1d0a388a7f8f757b07842ec4a0477f7eebe9a2510e738"
   ],
   "petronasgasberhad": [
-    "cb2687ce6e9ea4eb173d700d44ec8351e271fe6073006310668dd97c9b0f54bc"
+    "98eb95260552b02a5015a52db29704844c8d98c1a394c5c40d0161b2c85b50eb",
+    "bf53d0dabaf4cbf1cbf41c72428cd0fe20004e3b40c9b06c8f69104116eb166d"
   ],
   "pewresearchcenter": [
     "e23bba364c471b0a2e2d7a889c72a90ddc94dbbe36433222516e5a821575c145"
@@ -1226,26 +1677,41 @@
   "piaggio": [
     "784dd51875cddbada765c086bdb4efceae3827c76a37e122ebc4beaa3abf86e0"
   ],
+  "pinewoodstudios": [
+    "4e6da194d9c4babf7638ab2a65b7285ee4d6b9715de28f12ff72a7a3ec8abb7e"
+  ],
   "pixar": [
     "4468bc682fa64755dbb3f40b2492d55edb8fa276639aa415ce2cd26da5306367"
   ],
   "polishacademyofsciences": [
     "6bdb369337ac2496761c6f063bffea0aa6a91d4662279c399071a468251f51f0"
   ],
+  "pombiasafaripark": [
+    "9bceb6c310ff9ef9375f031d1fa4e3ce0775b134851b62571d9ad4fbaf8591cb"
+  ],
   "pontiac": [
-    "83612488dd7fa75633c1b7894dca351379c895d4c6afdd12d6e5462cf8a96231"
+    "39cfd6262c3b6619aaf8f3343b300af219484d839d72d8fdccb4c3cdb03de84d"
+  ],
+  "popeyes": [
+    "2023c6c6dac7c963a293d4d5c540a03116b8ec39b8507b2f1820850f849ef48d"
   ],
   "porsche": [
     "1f2d080477f75cac778b71344ecaed1c4003300da3605c1715952a987696db76"
   ],
   "prattwhitney": [
-    "472e129fed174424d48f3ffaa5ede0f8dca9c7be0866b3d22cd1d1b9896ba3fa"
+    "c7d3f7f1e605ae8b517f2bee157d5bb0a8ab6949d3fd5c4300b97ef773ace669"
   ],
   "proctergamble": [
     "47bb34a3cf564f06bdb5af9a08ad67b332ef21d37872ebbd2c702365e40bb6ac"
   ],
   "projectgutenberg": [
     "b71e72a17c6bffa58f509f5f95fdbc9dc310d94c1a27cc27fd2531454f2fa2ec"
+  ],
+  "proton": [
+    "9b27487226d5d1be92a3ca5a37648331e36886f9eebb4fd0402ca35ce7479850"
+  ],
+  "publicis": [
+    "9068417e3a58ef02e50ec7d9a41c9ec4d82d429dbef293b95ddfc2d358155812"
   ],
   "puma": [
     "374399a1b70d5a413441efcb0ca56e76176d64c975e755c2df57c2a1a79cc18d"
@@ -1263,13 +1729,14 @@
     "c66c1a875e90e13aa7aa59ca0caac49b24b4f3ec01bcdca4600052d63c79a4ab"
   ],
   "randomhouse": [
-    "20c7cd78f82fdb97b1f014163ca4658f56acd00e24aed9f6cf941e6f72682c29"
+    "20c7cd78f82fdb97b1f014163ca4658f56acd00e24aed9f6cf941e6f72682c29",
+    "1560fed1c2528b6bc61c578a8332c21ac95e8ea5fdac37bfc41c293d846dd626"
   ],
   "raspberrypi": [
     "26ebde71a3ebe630b0879778ac96cec1de42c4c14008afd25cf488e2fd752800"
   ],
   "rcarecords": [
-    "2f25ea1b02cd88ce6efd79aeaad280e72b9f6e8e202e4d9239550116fbe1ce44"
+    "ef9101a9f02a114187b23ffc28d45cb44358048c7c1edb576d6629821cad8d7a"
   ],
   "realme": [
     "1291c1b0914dcb8c741e53450eb056db36e3d26340b478dc05c80446b7068ee2"
@@ -1286,8 +1753,11 @@
   "renault": [
     "b7c3f5d4becf9acd7465d9cf1c8133df1f8645f72dcec8837926c33c7c16ee7a"
   ],
+  "renfeoperadora": [
+    "d8a241a57482336c4485c59e3f734da6c68ac0c8c83e5e9e04a82b9bbe4e488f"
+  ],
   "reservebankofindia": [
-    "be4d5c974d76dd71fe5a61e94b4738bf9f89f6472036c2019e4be3a13e9b538e"
+    "1ceb5d2752984d49a86a9b280abcec75c605ab8d72723c36d8e06db437947eb7"
   ],
   "reuters": [
     "821bc756e59ef5044ee35b8af0e8488f18016f86e9dcb3501a5841a7f8552120"
@@ -1304,23 +1774,44 @@
   "rijksmuseum": [
     "841db64e672a47a2f76f082689a54092ddcaa1930c0e9009afa6173c518e1753"
   ],
+  "riotgames": [
+    "2023ebdbb3f719860a31f381fdc1e50e349188cf0e72336deba61d9e882e4b45"
+  ],
   "riotintogroup": [
     "2875fadb3736bc77dd403deae52e5a5527a1aa17fd869b44414de8e22723a623"
   ],
   "rockstargames": [
     "f2ddcb2992cc336952917f712a1f1d377d3cf11595749cf306d956c16cc28b06"
   ],
+  "rolandcorporation": [
+    "15759d77753678a41cd820211f10b968594132b01ddc64227311a0abd4257804"
+  ],
   "rollsroyce": [
     "9deb629637088856fe61dc868bf40a7d21ed942e4117659f3d6c3408f59b906b"
   ],
+  "rollsroycelimited": [
+    "9deb629637088856fe61dc868bf40a7d21ed942e4117659f3d6c3408f59b906b"
+  ],
+  "ronovpodradhotm": [
+    "4c5aef40ca61a31f68d5c14603f1c04aa2ffd341d75ebc13e85ebd48277a905f"
+  ],
+  "rosetower": [
+    "d9a0f1d372bc97a87806bf0ce584fcf062df182e507113ace7a312f3097ad3c0"
+  ],
+  "rossiya": [
+    "cd9c1f418cc65eff10e6e7f073d9af97dcd1bca92a42dd8dc7428809e7edae0a"
+  ],
   "routledge": [
     "12330a6cb530724a1156d3769de7245a16586afaf6c90927a3cc5daee22996f1"
+  ],
+  "royalbruneiairlines": [
+    "6bdb369337ac2496761c6f063bffea0aa6a91d4662279c399071a468251f51f0"
   ],
   "royaljordanian": [
     "c2c31727f3a996bf9fd06cee01256b5ca2fda6dc375d1a451bd5996dafe1bd70"
   ],
   "rtlgroup": [
-    "61812bf0663a0158e66b406f7b55c64e485cd1f16b042331a8bfc26a55c7280a"
+    "972b6ce9395245b65ac44f7863f5ad7295d678983ec9218ee075c56e75a7c444"
   ],
   "russianacademyofsciences": [
     "36a6f4ba02692dd0d4f25aa288e598a8f36d5e1a18513f0bdbbc0ada9f5b729d"
@@ -1328,11 +1819,17 @@
   "ryanair": [
     "1759125cd2704d691c5f227a4f3e2d49a0db601b99c7423942bd1c447e60910f"
   ],
+  "sabmiller": [
+    "c4c9092d5556fba26766bfcd5f621103c0e059581292f73b506e755def75f759"
+  ],
   "saicmotor": [
     "1e8e8044628557f6e85f967a10fd87ede4d9f15c8e29a58dddb173c02054e7ee"
   ],
   "saintpetersburgstateuniversity": [
     "3e2237227460709d8247600b1f79be4cdfdb7f2dccc9c38a4c69d3799a6444c3"
+  ],
+  "salesforce": [
+    "92842fc6c2f66b46f69458c14621fc2eca5d6c02d7937f9124fe8a3a9a55bc91"
   ],
   "sanofi": [
     "6e1cf455d18af6aaf30838dddd50b2e8d536965d87c74f268ca7477d793eda87"
@@ -1355,8 +1852,14 @@
   "seiko": [
     "81ca1546fc25c444cc180fe87987ef694afd3b56121e9511aa372417286debac"
   ],
+  "sennheiser": [
+    "0a07acdf9a1a6deaf16dc3c3c651c0bcd711a3746a1171f6256ff4e67242d75a"
+  ],
   "seoulbroadcastingsystem": [
     "7b32565c77024e5910640eb3c0e0dbaeef9e203b8760771a6b05ad8b48217899"
+  ],
+  "sharpcorporation": [
+    "86195c871941fd819c33e320e0f8ff85c711906d96922914c80e8d7b663db64c"
   ],
   "shein": [
     "88d3e8b406fff09e775f77f4d2d1a715c75efb37044b64693277b4b15173e975"
@@ -1364,8 +1867,17 @@
   "shell": [
     "7344614726013fed339c6d14c995d09f60157207a48f0d792c2a6b1a2d89cc34"
   ],
+  "shenzhenbaoaninternationalairport": [
+    "7a525782334218470b588722c36562564ceac471109f73fcd934588022a4f2ae"
+  ],
+  "shogakukan": [
+    "36419a599e33e2f8c8edc52f8474db418d5edb9d6569d01fc31f77f66ba823a8"
+  ],
+  "shopify": [
+    "a0d9f7b8adf1a699a94c7d8381d7a47a7a7fa810faebe8a67e7b9aab525546d3"
+  ],
   "showtime": [
-    "c05f7939a770558101c5d1bea8fa012f62d00373ab57ba5f70885563a3a21d7e"
+    "4dc4eb33e55a24602553e18b93346b485d7c20567bfc7263e802faa10300436a"
   ],
   "shueisha": [
     "ed1063ee2068a7e180a02699decdf743ed20e433c814166dff7f27cbcf82d055"
@@ -1376,14 +1888,45 @@
   "sikorskyaircraftcorporation": [
     "2a3edb355ae276986bf9557a2ec2090d454df789868b6b83fb0423b1c605aca2"
   ],
+  "siliconvalleybank": [
+    "2d677426b5b4d5dab51937ecf2016f146b07a7537a18f84e315dae5b3fe15931"
+  ],
+  "silkair": [
+    "ed8264a27effd031b74acb25fb2b4f81d93aacb81cf9a7c14afe22d6cbd49c6c"
+  ],
   "simonschuster": [
     "13f4532b087c27bc65868ba154001605a0833af537186f9374671bd591448d74"
+  ],
+  "singercorporation": [
+    "656c603b80803a362917a8f4d7d5795bb67ac718d103f1585692c0aeea22b6a8",
+    "dab190685f3862ce2dfc4ac7ab64ef3e0147f9e3d6290e08fe10b5ae4d78cf8a"
+  ],
+  "sinopec": [
+    "917455f4068e17c32e73706728b9faecc6230b0444fe1958f72ade2b30efcc5b"
+  ],
+  "sinovacbiotech": [
+    "4bdcc3c866eba7e9f48b767a6d5e1e898967835b5b17eb5eb1ec19567bb369d8"
+  ],
+  "sistemabrasileirodeteleviso": [
+    "6c55a521808f3f258be928881eea5c48cf40aab4637b7db5a08e5d15e4a82156"
+  ],
+  "skf": [
+    "c5bbe2d28c089d78f3504315c94326bc37f08d4a5923408eff8e1227190a5cbf"
+  ],
+  "skittles": [
+    "4a068cbf2e8dedcf9bde544da5df2c3de3c0c3fe59e8f9337e7b300b689b9249"
   ],
   "smart": [
     "4b89a2218fda21a58fc8bf94bd04dad0a2524afe1d49e0a36561a73b1edfc4ce"
   ],
+  "smashburger": [
+    "4dd4ce172e09909fa516f4fb2cf8c6b71a5b94b79f8879fd2d8a19dc50cbd34f"
+  ],
   "smentertainment": [
     "6bdb369337ac2496761c6f063bffea0aa6a91d4662279c399071a468251f51f0"
+  ],
+  "smithwesson": [
+    "306de4c4faf2815dc3c9f8f2d62d36c39e074be7aea581850ced06423bf27da4"
   ],
   "snickers": [
     "4ffa3065afbd58397db321cc2f8d54313b4f829d0ac4c87901d3feada0b08608"
@@ -1415,11 +1958,17 @@
   "spar": [
     "bbbef2bbb47cf474e6a9e57a7f5df09b80eba5655927dc7df861c77d02eee2df"
   ],
+  "spicejet": [
+    "b25f81ddd13c66fdd1c2e2959cf96090939f51dd021b4313df5b58351af94706"
+  ],
   "spiritairlines": [
     "5f7b8cafa6dc14b8e30c3247e0c8954bbc5f808b87decb9a290b42ce1739856e"
   ],
   "spotify": [
     "d2534e9fb333a6e277f1edf9b9843564e094027fb79979081e41fd778c339ae5"
+  ],
+  "springersciencebusinessmedia": [
+    "175842a42598cfd74e365c2ec8532e11066fc295ae68e1b97bca868a86ca9d75"
   ],
   "sprite": [
     "afd02f4db6854c2feb1a494f9747e52f34da847df35bacac3440c31e16898faa"
@@ -1432,6 +1981,9 @@
   ],
   "srilankanairlines": [
     "a8e207022fb457babc151391c2ffcccf7820053dde4c69e0e360054dd72b1112"
+  ],
+  "stadlerrail": [
+    "0b9b52346d458e8abf49db0ac7a28060f1f337d2189d4e25c2a5dcbe28ce8c9c"
   ],
   "standardchartered": [
     "770ca40ec75718e5d005a889a06750894a4beaab416cef1b21bf2b2f95245928"
@@ -1448,6 +2000,9 @@
   "statebankofindia": [
     "9f2389af436d7be66a1c7ee19eed648888258b908adbef81b89871b66b028fcc"
   ],
+  "statensmuseumforkunst": [
+    "4e97ec7b9aa1e9ee99530bc72e0d315eda21724f247b48a130de388dbec97b0f"
+  ],
   "stateuniversityoffeiradesantana": [
     "9abb550f526d83a343a7413169526ffc67424059991808a7d80a28a9a9a3efee"
   ],
@@ -1460,11 +2015,23 @@
   "sterreichischerrundfunk": [
     "527953101fce68f0718c6722abef7c59c4540e1ea36cc62676814a5d874a763b"
   ],
+  "stihl": [
+    "8832c589e2c1f6a0902240453987546750c11f76caf6a8ed73fb8fef1e23ddb1"
+  ],
   "stockholmuniversity": [
     "ec48d6064bd277019fcc92910a98f71098d51d680f53e708173fb25fb9bcfe58"
   ],
+  "stonewallinn": [
+    "bbaa9a6fe99a626caac6cc17b4eccfd9ba841533d3afc5042680e484b5b9f3fe"
+  ],
   "studioghibli": [
     "366f3335a256f64938357d20b1db27358c8031d8fb8ad45e77e3b0e65b6798ef"
+  ],
+  "summitentertainment": [
+    "4ec4b2f66eee8a3d792b61804443f6fc337521f85263e8981c11d14da304a877"
+  ],
+  "sunexpress": [
+    "aefa478d5252b5df5d0049d8497400fb0e53e583b39a39d6f526245cea1783c6"
   ],
   "supercell": [
     "01d921f6bfe0170d7f0e2ae3acb124feebe91ecb0afe86d0ec1b9055c7ec8521"
@@ -1475,8 +2042,11 @@
   "sverigesriksbank": [
     "9b43e85e42f959c628c6aa73f824eb391e32edb65628825df41ae582524d4127"
   ],
+  "swedisharmedforces": [
+    "37751e1fd4555aa015e297b65dce5c81568e2acb7731b699faa5057ec7c32a78"
+  ],
   "swedishhockeyleague": [
-    "f2423f425180cdc4a4c19ea0ba8e3c2fcf88d580a70c88dd8f0f2306ee95c32c"
+    "11942bb13a37aabb8381790cb87436c0382287165678bdfc29579164ec469c67"
   ],
   "swissfederalinstituteoftechnologyinlausanne": [
     "b79102b19b1e75013b3fec1b12c744e453c86f3621684d2561b1c094c80970b7"
@@ -1486,6 +2056,9 @@
   ],
   "swissnationalbank": [
     "f175f4b3e2ab363acead69206e0c6e99b6ad52a08a434f4e2e3cc570d2351ab0"
+  ],
+  "tabascosauce": [
+    "47f6c78781a2de25b994912359a0d5aefe2ec65f17832bbc81064622e4939854"
   ],
   "tamagotchi": [
     "a4062e0a5ba6a0b33f8e375146c1774a22b3c2d64acf18ee7c10faf0dc8de1e8"
@@ -1505,11 +2078,20 @@
   "tatamotorsltd": [
     "6bdb369337ac2496761c6f063bffea0aa6a91d4662279c399071a468251f51f0"
   ],
+  "tatasteel": [
+    "f95b482befaa8e24fde04c54ab8b2040fd2621e8b0bbd81e8f0e97fa2588fdaa"
+  ],
+  "tate": [
+    "427feef2e835a1ae16b23a2d23a128aa45ddc048f25fab0d696b64bf8443d7d2"
+  ],
   "tatra": [
     "f82c9d7180441ec51127bed9594351b15beb7340f1f03b5108f7b283bbd160df"
   ],
+  "tbsholdingsinc": [
+    "4cff23f55ba333b9429ab9548a9cd5c239ea25a29a83452a08f9ce8b0d2613b8"
+  ],
   "technionisraelinstituteoftechnology": [
-    "d0445598a8d9446595ac819e62a284a57be65599cf2a05b912582cb408fdf56d"
+    "726549174762c5f5f4f0beb64be687f9604b15ec847308d44109a829e6615a17"
   ],
   "ted": [
     "7a2ded0f0d33d925c0f615c6fbbac4b2bf49dea19bca3d10e74f2dba5f25a36e"
@@ -1526,11 +2108,17 @@
   "telenor": [
     "c623c031414701b557586daa2eff52f47889ad279e81a9fed24080a565b45e6c"
   ],
+  "teleperformance": [
+    "bc2c02e4617bdf61351c9ee22f1805b93bd5bf2cd36f1e71200a92431ff1a0d4"
+  ],
   "televisinnacionaldechile": [
     "9f18aa24f730f723a00419dd09f7e3aee81d3be3bd61159c5135ae3006a25a3c"
   ],
   "telewizjapolska": [
     "ddc2097a23ee376e9c294a0fc0e12515f8e857ba97588e73493aa1b7a486ea40"
+  ],
+  "teliacompany": [
+    "2d159f13e18b13d3bf0c3647470eaf81b6d34d728af2618b76edbf0fd5f3729b"
   ],
   "temu": [
     "9e50f7118d02f2fc45af374163bf05bb6467869ff0333751d2e0d9a0401e8b5e"
@@ -1539,7 +2127,9 @@
     "905f08bd5e32ed9cabc222fb912696192697cca6082c37b19f212f9a5e0b3285"
   ],
   "theatlantic": [
-    "699681aed805d84f83f0f00c7717140c146412a28f1ec4099f1c89c7246bf27f"
+    "699681aed805d84f83f0f00c7717140c146412a28f1ec4099f1c89c7246bf27f",
+    "6da5620880159634213e197fafca1dde0272153be3e4590818533fab8d040770",
+    "dbb3ec2e8d1e8234888752dce5cd10ee2bf14dc6fe23dd514420f511e21cbae4"
   ],
   "thecocacolacompany": [
     "db5daf49db0a5881ee3068c19eb571c45a03480183644f159147035093b922cf"
@@ -1553,11 +2143,18 @@
   "themetropolitanopera": [
     "855b5c1c42ffb38a675700d8565656a4cde3d77fbaa8e8611c91c5b9d4bef3d9"
   ],
+  "thenewschool": [
+    "c3ef9935f6b51e4e68b36d53baa89a7c2f392dd20d3cd210b1ca82ba28d4fa07"
+  ],
   "thenewyorker": [
-    "cabf9773bdb540a3bee337875aaaf3ae5ef67c5f147bbd2876095e9231e427fc"
+    "cabf9773bdb540a3bee337875aaaf3ae5ef67c5f147bbd2876095e9231e427fc",
+    "e4aa30cb21b89b2c49b294d513a27486a656462eae92db567ebac0ff583e9d9c"
+  ],
+  "theopenuniversity": [
+    "fc7ad2d74f02d0f48605dc0539cb167af872c791f5ed9ca5e73871a22dc45638"
   ],
   "thetrumporganization": [
-    "d910a7e2ac6af77369649f2495eac286c31c0326014610b2bda634126377a829"
+    "3a31330ec1c804d3eb0914ff529ca97a2c9910b57ca678c2c933e3f5d3c53367"
   ],
   "thevanguardgroup": [
     "5cffa84be6843f729fc633bfea97fc0e55b0fcefd4d04187524768e3c3dccd4b"
@@ -1565,8 +2162,14 @@
   "thewaltdisneycompany": [
     "baea683a468a9f567d4556971280c6a7252c60bf7a5351d4e36702227e14035e"
   ],
+  "timhortons": [
+    "b957dd736b355b00bc0169cb613a3b9e94354a9653d47f2fc0daf832ed36d078"
+  ],
   "tinder": [
     "6c75417535e143483fafce8ffe878fa40a320ee14c67b5d213be98461efb5e1c"
+  ],
+  "tissot": [
+    "3a4f40eea948c37846615beccea37db148258664084c77d9810403d9d948e7c3"
   ],
   "tivoligardens": [
     "9c5916d592ca9dbcd0dfd97d272c5f2c492ec9148560bf84e03b2e4920adae32"
@@ -1592,14 +2195,26 @@
   "tokyoinstituteoftechnology": [
     "cba5face5950f8e0eae689266b860de78e93d833d3db7207d75cdd310a7d31e2"
   ],
+  "tokyometro": [
+    "7ccc9145b7dcdee63656ad1b53853bc8cd5a915f39e6b856bd8c4f0cc2924e2d"
+  ],
   "toyota": [
     "054f4d0bece2729f422a32d6507a503715289a6170ef392baafd8162c1a0c10b"
+  ],
+  "tplink": [
+    "716e6ae4ae652e71ff183a178922e72ea737003d31c693d8aeb3a36b42397b88"
+  ],
+  "transavia": [
+    "0cca11a1fdbe4e70a65182d0f9cd61a461c8f53a3af1c5a70e67b75aa0e48d8e"
   ],
   "transformers": [
     "3463776f4c2d91e35230de7756e5fc26f8e75670e1fee108fcc1d58028bf2e42"
   ],
   "treyarch": [
     "fa282d59b45da673de5ede61e3297ed828d6f93396c1472c469e75df64c7bfe8"
+  ],
+  "tripadvisor": [
+    "3baa02490bb2a848f596b757dd8ef70cc81b529051bf8d4a0efa4adfbae2e457"
   ],
   "tristarpictures": [
     "1937342dd2d899ece96d3941a34f4dd87b5af0eacc2a2e8a16bf1a4d4e9bf568"
@@ -1610,14 +2225,29 @@
   "tsmc": [
     "52eaea48d663cf5e7ae1c8fd587ba0b30cffc6cd318f9b6f075c7b35ba187dac"
   ],
+  "tunisair": [
+    "41e05874670aaab32e45854c4e947adc17d8452c9ec93800d41a8286d56cf897"
+  ],
   "tupolev": [
-    "af0fe40f8cf8e7e2f3dd22e0b90691ae17298c94b673dbe176f75af811b32866"
+    "fead95ad24b3754ff59c593feb69e331b1b98a80ebee45e52116b39af0b1ab5f"
+  ],
+  "turkcell": [
+    "a5e602b85dcca3719bd8ebef0081963b6e8f839f80144e11e058bbe48d1ea0da"
+  ],
+  "tvasahi": [
+    "dfb3ad9435a700d00aa5e13d8093cdba8fdf5ab12b3f700856b678263d6a062a"
   ],
   "tvazteca": [
     "5d04eec38447b9fb23cfe82cb155c374c443f913553a87b17e2b89505198bf98"
   ],
   "tvtokyo": [
-    "75e8e4761b510e262a12013ae040cc30dc192d2158d5aa9c3b0c9e7de44bd62f"
+    "c00dcb71b33fbcc73b8ea7327c06bcb44a462188283f7340a5bbf5503d2982f5"
+  ],
+  "twix": [
+    "649b5eba36a9a84f73fb746b9282da16148d5143c57515cd0d21f16cd1168a20"
+  ],
+  "uaz": [
+    "4dbb77a404fb88aba9af24f3dde98fb4beb03c9e84dc0b43b8ca3c10737c1bec"
   ],
   "uber": [
     "7cb6d23120c81b92824829b8a760b982664b646f915d8ac4d2635e8c34becf96"
@@ -1625,8 +2255,14 @@
   "ubisoft": [
     "3068771b8da545750c18ba631ffff40085b2227c96ae28be839968fa4f20864f"
   ],
+  "ubisoftmontreal": [
+    "441c746871914dd185b643d79f1396c59e5872057d110c9209648c923eed4ebc"
+  ],
   "ubs": [
     "92674fcd053d02b751951f0df667515422525d188d4e063edb29edf807f0a1fa"
+  ],
+  "ukrainianrailways": [
+    "524cd45257b8951d9948436648941c9d96819387777d4aebed3b581b0e7e15ce"
   ],
   "ultimatefightingchampionship": [
     "4322c93bc724162e29ea516ec06c74c46523f0ac760b55faa84a2b716a8a5e97"
@@ -1643,6 +2279,12 @@
   "unionpacificrailroad": [
     "df7ee60f82e10f8734581116b9fbb5446947daa83d1f17c8324b76cea5289b52"
   ],
+  "unitedaircraftcorporation": [
+    "8cddfd178cf93af46f512db6eec1b69f1662923872cb47832b27b9200d6ac2e8"
+  ],
+  "unitedhealthgroup": [
+    "a461dbd0344193d09f1ed4452605c56c4cfe384bd39f304fc897dbd7cbc129ea"
+  ],
   "unitedpressinternational": [
     "f43a6aa82c7d2490fb05c5e3b7b36eb5273d2065979512ce0f778f14f98f3c43"
   ],
@@ -1656,10 +2298,14 @@
     "379048b138b15c83c438d43bb9c6564c0e1522ca197814044c7f623d5695defa"
   ],
   "universalmusicgroup": [
-    "87206a944b947ce7805db456b01f3dcd7fb58f13ba19f460a18648d96cdb11e8"
+    "87206a944b947ce7805db456b01f3dcd7fb58f13ba19f460a18648d96cdb11e8",
+    "de6acbfe68b07756664848b22add2aed06e04ec52029dbf510aa27ead670e267"
   ],
   "universitimalaya": [
     "b34ae9d5022e1119a96f12ddd432bfacf3b1a66822712c2ac2aa1d5b7ce92b31"
+  ],
+  "universityatbuffalo": [
+    "b2aba3c84d3037b536c0c36bc988838e563cfb79e544f74ab9e695583052e51d"
   ],
   "universityofarizona": [
     "9de91a0685a2dda6e0331f3a8ab3fad75f05acb8ca65c1b5df901a1b957eaf6d"
@@ -1688,8 +2334,8 @@
   "universityofbritishcolumbia": [
     "1eeabc3edb9f42d2790b0461ec845bf1a065540604cd24760b9145bec0912dc5"
   ],
-  "universityofbucharest": [
-    "1f167e76caebb73f92c4478cc72ff1724644ba0a2f8e0729d8a4982d86d48783"
+  "universityofcalgary": [
+    "84dbec1035ee2d477ef5f37810422087448785d3f3b29be52240b511adec34c5"
   ],
   "universityofcoimbra": [
     "1471b378c42931118dd2722a08738958bb4d4036d70f72f8945ac45329892799"
@@ -1721,6 +2367,12 @@
   "universityofhawaiisystem": [
     "47e72ab8df8d57c3e54d7fa4178feb9e4fc310fe2d3247dbd9ce78d41f358540"
   ],
+  "universityoficeland": [
+    "a2e0251f4c85d663bc1591152c5f7fb683ad986cd47cfdbf617052840d86bb61"
+  ],
+  "universityoflancaster": [
+    "7ac01a711fe591ad3ebd441cd88324cf572cb59248f1080616d4e9cdf040147f"
+  ],
   "universityoflatvia": [
     "58251b3747bea6bdcd4b39e4578da81f5705438d4872c762eaf5287a8aff2dea"
   ],
@@ -1735,9 +2387,6 @@
   ],
   "universityofmanchester": [
     "7a8c4b2097e341dc02010981d7627cb9aa6fda7096c11d615cd769f0206e02e2"
-  ],
-  "universityofmelbourne": [
-    "19152762033e101cd3237afe65446e518d95adbc97a0af788e8f807b5b0c5264"
   ],
   "universityofminnesota": [
     "539cccf70fd25fb48c348d62856797ed949adf1937c69af62c58c85c634e28fa"
@@ -1757,11 +2406,19 @@
   "universityofpisa": [
     "189ac3382fd132e6ab9030541722aff0974612f7021dd89dae3af1071bac3321"
   ],
+  "universityofpoitiers": [
+    "aa7ce4336b53c05e555388a38e4faabed1b0e69138755a4e4608523eb459ff0c"
+  ],
   "universityofsopaulo": [
-    "f789be85d0c29a8273b97e2b3fceb03be1f59fea806ff8285d15d25b307e4a94"
+    "79e40cfd4ef6376498e6c992fd9337afb3f5eb373d382c92841902e33a427cab",
+    "335ee21aa9c1bbb4ca0b82ab4570f13e93305277e1af2a47680a8a86d49e0733"
   ],
   "universityofsoutherncalifornia": [
-    "ed410e2d00f2551a1cce95e1492819e760729abc606445f33d93fc979dab3314"
+    "ed410e2d00f2551a1cce95e1492819e760729abc606445f33d93fc979dab3314",
+    "187bb408a46c0bfb716530ef21154ac41495f9f6f376ed4fa520e39ece078eff"
+  ],
+  "universityofsouthflorida": [
+    "48d88b4c72f47342ed4a2ebcbad1e255a273a0083009592e6d01fa09d9991411"
   ],
   "universityofstandrews": [
     "5c8ce0227eeda3c756d6d347388937fc00994b732e730b1dc0a6344ff8d214ec"
@@ -1769,14 +2426,29 @@
   "universityofstuttgart": [
     "9d760aec869394512658e36edae0af0b91cc510f6a1a83ba22961cf3e3786279"
   ],
+  "universityofsurrey": [
+    "7b19bbd075670804df2797e5cccb6d68e7c2fb0f80d864e051c7c9dc8c85d340"
+  ],
   "universityofthebobo": [
     "be6a293ead95580bc7ead415b73bf3f8a8e950310421b4caabd55afcf2f02f0f"
+  ],
+  "universityofthephilippines": [
+    "9deb629637088856fe61dc868bf40a7d21ed942e4117659f3d6c3408f59b906b"
   ],
   "universityofwarwick": [
     "394a96c218919acfd28aa3c9c0096487a1fdf37f51f9243260b6026a76fdeb5e"
   ],
+  "universityofwaterloo": [
+    "7237b5a25c51c86ec6afbfb70eb0cd8773a3500e620b83d8df003fdaa6bfe40d"
+  ],
+  "uralairlines": [
+    "3875647a21a3c26e1ab00bf1312e741d60e0b07344063c551a51213958cd10da"
+  ],
   "uruguayanprimeradivisin": [
     "929b6eefc3d9d2e433a4778142c64f05ab256f852a28ac58f4a05f20feb44b7f"
+  ],
+  "vale": [
+    "53b79639df1c0cd395440030a854562e84f890187df7f8e686ba580bc31a568d"
   ],
   "valvecorporation": [
     "e728e69d0adff0592a2fa609b19716cd0dda0313ab2b75a51e0dee916783e077"
@@ -1784,11 +2456,15 @@
   "vanderbiltuniversity": [
     "305f4ed42af46f42ddb6752d6dec238c8b7c22eefd95c7d921783011debdeb3f"
   ],
+  "veolia": [
+    "bd5be90e805890af25052ef9ad1afd140ae3615251a01a9d7b875c955ce094df"
+  ],
   "verisign": [
     "cbebcb08267d7c569b9616cc09b7b0377e233d16a01d1d17464595b03c6bda79"
   ],
   "verizon": [
-    "78328f11dc8ba89b315d91a57b2901e1b5f0e11408054cd50e9106c6e4acc01e"
+    "78328f11dc8ba89b315d91a57b2901e1b5f0e11408054cd50e9106c6e4acc01e",
+    "376460b02ccba44d7f5a350a9f7f4b94267c4dbd6f9279a2c3f554251d5654aa"
   ],
   "vgtrk": [
     "b1ae4dc07af9f85f59cdd42e4029aefb3ae514b4e603daec2ddd615cd79bdb8f"
@@ -1799,8 +2475,11 @@
   "victoriassecret": [
     "b3205bac40c1ba0899aa8dee0d9ff0f46c582e6b826c69fd3f4998ea040e6e16"
   ],
+  "victorinox": [
+    "3f36697624730e1fa8cb9c20c747b5e5c29cb9eab29b06bb190a13aaae33d5d9"
+  ],
   "vietjetair": [
-    "56c4da1fdf8dca77df95db7dd900c245f68eef23d19edc79ceffdd76a348b22e"
+    "b2f60d5c7ce1ac7854de10f7c9e38aac3cb35acf1cb0ef9fbd1f76a8f1d2c545"
   ],
   "vilniusuniversity": [
     "71e1db93f9b3330e0dcb4ff949fa7553568575f646105bc1886de00fd931adbe"
@@ -1809,7 +2488,7 @@
     "3ffa2884919306bbd7c3c11da9003d384704df7714a40923a4d39c0e0213ec36"
   ],
   "vinci": [
-    "97c053cd674f85520dc44fb9c447cd3b6275eacc0b0ad824da68bc7759738797"
+    "1f23aeceb9ee7c2e24f531996377720fb4cbfc01c21e1e9003bf478721ddf2a8"
   ],
   "virginatlantic": [
     "7c0a2809c56874181e8a27681aa9a85a29edc48f3054308c89103eab050d68a9"
@@ -1830,7 +2509,9 @@
     "9deb629637088856fe61dc868bf40a7d21ed942e4117659f3d6c3408f59b906b"
   ],
   "vogue": [
-    "dbb3ec2e8d1e8234888752dce5cd10ee2bf14dc6fe23dd514420f511e21cbae4"
+    "dbb3ec2e8d1e8234888752dce5cd10ee2bf14dc6fe23dd514420f511e21cbae4",
+    "4d32330bf1a153a480128865602b3c66e1756dfa435e2ac67cafc22cfb214793",
+    "35e412b39a77122feb6c2b2fd76e6b6fa012354030a869a07f05e779019c2a63"
   ],
   "volkswagen": [
     "4253ac9996c71a118cb495cdc41888966b081cac518ba895e949045d84b77bdd"
@@ -1841,6 +2522,9 @@
   "vueling": [
     "3755ed10fae26af17e06f7ff740b9138c0f6b47b524d6bbbaae98f999433e1ea"
   ],
+  "waldorfastoriahotel": [
+    "74210aa1d8999def4b7cb3d3491e259c4f6a39adf443aebdcebab7f80115659e"
+  ],
   "waltdisneypictures": [
     "547d72856bae2804c1c24ba8dea68b421bfc7b9242a2d7b653f4952ec2e2bf79"
   ],
@@ -1849,6 +2533,12 @@
   ],
   "wellsfargo": [
     "2420e2dd77fbe0494070da2c201f6fcdd613c7652c06d086137e8c41d129f254"
+  ],
+  "westjapanrailwaycompany": [
+    "aecd5e2d7cd70c9fc9b524ee788ddbf372fbc414297cc523ec482144fa4bea59"
+  ],
+  "westjet": [
+    "42817e21669e0fc975d246d919a0bb198b3c4bbae8f71083166f800bea59fdcd"
   ],
   "wienerschnitzel": [
     "59453cc7ce58d6637ec6586b5794cdc8c151afadb9e599a7a494cef99eb6ff4e"
@@ -1887,10 +2577,12 @@
     "e5da446fafefb8cf9b7c6a39be0860c671b98c762e282caf951d1cfbffe4204a"
   ],
   "yandex": [
-    "b37d6c2bbaa03436d2ac0e03b29ae8c7c80d0b9521de02833640f18ea194ab40"
+    "b37d6c2bbaa03436d2ac0e03b29ae8c7c80d0b9521de02833640f18ea194ab40",
+    "9a8c4ab2a3a2451c6f1b31af29eeeced47745013711f641eafa80828a2b251de"
   ],
   "yle": [
-    "3047dd35a9a2ee54c0c1be6402a90f3caf8aa472ed20c1d424572803c77a43e9"
+    "3047dd35a9a2ee54c0c1be6402a90f3caf8aa472ed20c1d424572803c77a43e9",
+    "dce6d20773c73c95723b6e148ef421be2b00994df5cb986ff08d8ff25d0c8936"
   ],
   "yonseiuniversity": [
     "ed8383ab60a97c2c3b81b085d1c5949d018f5d56a8e24c5bc0d6609570299b26"
@@ -1906,8 +2598,5 @@
   ],
   "zte": [
     "57df483688d9b8e65923574da21c83e1caa3175e5143433bb57c61250589afd8"
-  ],
-  "zumba": [
-    "d5077753266762dffd30d76e28caa44b24a4d17746765f14cf20797baf0478ed"
   ]
 }

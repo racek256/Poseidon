@@ -6,7 +6,7 @@ use duckdb::{Connection, OptionalExt, params};
 use sha2::{Digest, Sha256};
 
 use crate::modules::threat_intel::normalize_domain;
-use crate::modules::url_analysis::brand::BrandImpersonation;
+use crate::modules::url_analysis::brand::{BrandImpersonation, RuntimeBrand};
 use crate::modules::url_analysis::brand_detector::{BrandCandidate, DomainRelationship};
 use crate::modules::url_analysis::domain::parse_url_parts;
 
@@ -196,6 +196,14 @@ impl UrlDb {
                 first_seen BIGINT NOT NULL,
                 last_seen BIGINT NOT NULL,
                 updated_at BIGINT NOT NULL
+            );
+
+            CREATE TABLE IF NOT EXISTS domain_reputation_users (
+                domain_hash TEXT NOT NULL,
+                user_hash TEXT NOT NULL,
+                first_seen BIGINT NOT NULL,
+                updated_at BIGINT NOT NULL,
+                UNIQUE(domain_hash, user_hash)
             );",
         )
     }
@@ -402,16 +410,56 @@ impl UrlDb {
         Ok(())
     }
 
+    pub fn url_evidence_overview(
+        &self,
+        identity: &UrlIdentity,
+    ) -> duckdb::Result<Vec<(String, String, Option<String>)>> {
+        let mut stmt = self.conn.prepare(
+            "SELECT kind, key, value_text FROM url_evidence WHERE url_hash = ?1 AND kind IN ('whois', 'dns', 'cert', 'hosting') ORDER BY created_at DESC"
+        )?;
+        let rows = stmt.query_map(params![identity.url_hash], |row| {
+            Ok((
+                row.get::<_, String>(0)?,
+                row.get::<_, String>(1)?,
+                row.get::<_, Option<String>>(2)?,
+            ))
+        })?;
+        let mut result = Vec::new();
+        for row in rows {
+            result.push(row?);
+        }
+        Ok(result)
+    }
+
     pub fn observe_domain_reputation(
         &self,
         identity: &UrlIdentity,
+        user_id: Option<&str>,
         safe: bool,
     ) -> duckdb::Result<DomainReputation> {
         let now = unix_now();
         let domain = reputation_domain(&identity.domain);
         let domain_hash = hash_value(&domain);
-        let safe_increment = u64::from(safe);
+        let safe_increment = if safe {
+            match user_id.map(str::trim).filter(|value| !value.is_empty()) {
+                Some(user_id) => {
+                    let changed = self.conn.execute(
+                        "INSERT INTO domain_reputation_users (domain_hash, user_hash, first_seen, updated_at)
+                         VALUES (?1, ?2, ?3, ?3)
+                         ON CONFLICT(domain_hash, user_hash) DO NOTHING",
+                        params![domain_hash, hash_value(user_id), now],
+                    )?;
+                    changed as u64
+                }
+                None => 0,
+            }
+        } else {
+            0
+        };
         let bad_increment = u64::from(!safe);
+        if safe_increment == 0 && bad_increment == 0 {
+            return self.domain_reputation(&domain);
+        }
         self.conn.execute(
             "INSERT INTO domain_reputation (
                 domain_hash, domain, safe_observations, bad_observations, first_seen, last_seen, updated_at
@@ -593,6 +641,31 @@ impl UrlDb {
             ],
         )?;
         Ok(())
+    }
+
+    pub fn learned_runtime_brands(&self) -> duckdb::Result<Vec<RuntimeBrand>> {
+        let mut stmt = self.conn.prepare(
+            "SELECT bc.display_name, bd.domain
+             FROM brand_domains bd
+             JOIN brand_candidates bc ON bc.brand_key = bd.brand_key
+             WHERE bd.relation_type = 'primary_domain'
+               AND bc.confidence >= 55
+               AND bc.status IN ('candidate', 'verified', 'trusted')
+             ORDER BY bc.confidence DESC, bc.updated_at DESC
+             LIMIT 500",
+        )?;
+        let rows = stmt.query_map([], |row| {
+            Ok(RuntimeBrand {
+                name: row.get(0)?,
+                official_domains: vec![row.get(1)?],
+            })
+        })?;
+
+        let mut brands = Vec::new();
+        for row in rows {
+            brands.push(row?);
+        }
+        Ok(brands)
     }
 
     pub fn print_brand_learning_summary(&self) -> duckdb::Result<()> {

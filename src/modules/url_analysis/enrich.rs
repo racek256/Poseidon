@@ -22,7 +22,8 @@ pub fn process_pending(url_db: &UrlDb, limit: usize) -> duckdb::Result<usize> {
 
 fn process_one(url_db: &UrlDb, item: &QueuedUrl) -> duckdb::Result<()> {
     let identity = url_db.identity(&item.raw_url);
-    let online = online::analyse_online(&item.raw_url);
+    let learned_brands = url_db.learned_runtime_brands()?;
+    let online = online::analyse_online_with_runtime_brands(&item.raw_url, &learned_brands);
     let brand = online.deterministic;
     let risk_score = brand.score.max(online.score);
     let confidence = brand.confidence.max(online.confidence);
@@ -51,6 +52,50 @@ fn process_one(url_db: &UrlDb, item: &QueuedUrl) -> duckdb::Result<()> {
         None,
         SOURCE,
     )?;
+
+    url_db.add_evidence(
+        &identity,
+        "dns",
+        "resolved",
+        Some(&online.evidence.dns_resolved.to_string()),
+        None,
+        SOURCE,
+    )?;
+    if let Some(provider) = &online.evidence.ip_provider {
+        url_db.add_evidence(
+            &identity,
+            "dns",
+            "ip_provider",
+            Some(provider),
+            None,
+            SOURCE,
+        )?;
+    }
+    if let Some(error) = &online.evidence.dns_error {
+        url_db.add_evidence(&identity, "dns", "error", Some(error), None, SOURCE)?;
+    }
+
+    if let Some(age) = online.evidence.whois_age_days {
+        url_db.add_evidence(
+            &identity,
+            "whois",
+            "age_days",
+            Some(&age.to_string()),
+            None,
+            SOURCE,
+        )?;
+    }
+    url_db.add_evidence(
+        &identity,
+        "whois",
+        "privacy",
+        Some(&online.evidence.whois_privacy.to_string()),
+        None,
+        SOURCE,
+    )?;
+    if let Some(error) = &online.evidence.whois_error {
+        url_db.add_evidence(&identity, "whois", "error", Some(error), None, SOURCE)?;
+    }
 
     if risk_score < 45 && !brand.official {
         learn_brand_identity(url_db, &item.raw_url)?;

@@ -11,7 +11,7 @@ use serde_json::{Value, json};
 use sha2::{Digest, Sha256};
 use whois_rust::{WhoIs, WhoIsLookupOptions};
 
-use crate::modules::url_analysis::brand::{self, BrandImpersonation};
+use crate::modules::url_analysis::brand::{self, BrandImpersonation, RuntimeBrand};
 use crate::modules::url_analysis::domain::parse_url_parts;
 
 const HTTP_BODY_LIMIT: usize = 512 * 1024;
@@ -108,9 +108,16 @@ impl OnlineBrandAnalysis {
 }
 
 pub fn analyse_online(url: &str) -> OnlineBrandAnalysis {
+    analyse_online_with_runtime_brands(url, &[])
+}
+
+pub fn analyse_online_with_runtime_brands(
+    url: &str,
+    runtime_brands: &[RuntimeBrand],
+) -> OnlineBrandAnalysis {
     let total_start = Instant::now();
     let deterministic_start = Instant::now();
-    let deterministic = brand::analyse(url);
+    let deterministic = brand::analyse_with_runtime_brands(url, runtime_brands);
     let deterministic_elapsed = deterministic_start.elapsed();
     let parts = parse_url_parts(url);
 

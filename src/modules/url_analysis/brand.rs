@@ -20,6 +20,12 @@ pub struct BrandImpersonation {
     pub safe_evidence: Vec<String>,
 }
 
+#[derive(Debug, Clone)]
+pub struct RuntimeBrand {
+    pub name: String,
+    pub official_domains: Vec<String>,
+}
+
 #[derive(Debug)]
 struct Brand {
     name: String,
@@ -29,6 +35,21 @@ struct Brand {
 }
 
 pub fn analyse(url: &str) -> BrandImpersonation {
+    analyse_with_runtime_brands(url, &[])
+}
+
+pub fn analyse_with_runtime_brands(
+    url: &str,
+    runtime_brands: &[RuntimeBrand],
+) -> BrandImpersonation {
+    let extra_brands = runtime_brands
+        .iter()
+        .filter_map(|brand| brand_from_domains(&brand.name, brand.official_domains.clone()))
+        .collect::<Vec<_>>();
+    analyse_with_brands(url, &extra_brands)
+}
+
+fn analyse_with_brands(url: &str, extra_brands: &[Brand]) -> BrandImpersonation {
     let parts = parse_url_parts(url);
     let hosting_provider = hosting_provider_domain(&parts.registrable_domain).map(str::to_string);
     let haystack = format!(
@@ -50,7 +71,19 @@ pub fn analyse(url: &str) -> BrandImpersonation {
         safe_evidence: Vec::new(),
     };
 
-    for brand in brands() {
+    if best.hosting_provider.is_some() && !phishing_keywords.is_empty() {
+        best.score = 55;
+        best.confidence = 70;
+        best.risk_level = "medium".to_string();
+        best.reasons
+            .push("registrable domain is a known hosting provider".to_string());
+        best.reasons.push(format!(
+            "phishing intent keywords present: {}",
+            phishing_keywords.join(", ")
+        ));
+    }
+
+    for brand in brands().iter().chain(extra_brands.iter()) {
         if brand.official_domains.iter().any(|domain| {
             parts.registrable_domain == *domain || parts.host.ends_with(&format!(".{domain}"))
         }) {

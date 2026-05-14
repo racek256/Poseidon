@@ -1,2 +1,5 @@
 /target
 
+# DuckDB runtime databases
+*.duckdb
+*.duckdb.wal

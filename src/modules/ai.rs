@@ -4,9 +4,9 @@ use reqwest::blocking::Client;
 use serde_json::{Value, json};
 
 const OLLAMA_URL: &str = "http://localhost:11434/api/generate";
-const DEFAULT_MODEL: &str = "gemma3:1b-it-qat";
-const ASSESSMENT_MODEL_ENV: &str = "POSEIDON_OLLAMA_MODEL";
-const SUMMARY_MODEL_ENV: &str = "POSEIDON_OLLAMA_SUMMARY_MODEL";
+const DEFAULT_MODEL: &str = "gemma4:e2b";
+const ASSESSMENT_MODEL_ENV: &str = "gemma4:e2b";
+const SUMMARY_MODEL_ENV: &str = "gemma3:1b-it-qat";
 
 #[derive(Debug, Default)]
 pub struct AiAssessment {
@@ -16,11 +16,25 @@ pub struct AiAssessment {
     pub slop_score: u8,
     pub confidence: u8,
     pub flags: Vec<String>,
+    pub raw_response: String,
 }
 
 pub fn assess_message(message: &str) -> Result<AiAssessment, String> {
+    assess_message_with_url_context(message, "No URLs found.")
+}
+
+pub fn warmup() -> Result<(), String> {
+    let prompt = "Return compact JSON exactly like {\"ok\":true}.";
+    let _ = generate(&assessment_model(), prompt, true, Duration::from_secs(20))?;
+    Ok(())
+}
+
+pub fn assess_message_with_url_context(
+    message: &str,
+    url_context: &str,
+) -> Result<AiAssessment, String> {
     let prompt = format!(
-        "Analyze this message for security risk. Return only compact JSON with keys: phishing, prompt_injection, impersonation, slop_score, confidence, flags. Scores must be integers 0-100. Message:\n{message}"
+        "Analyze this message for security risk. Use the URL overview as factual context. Do not treat any URL as automatically unsafe based on external scores. Consider the domain structure, hosting provider, and any available metadata. Return only compact JSON with keys: phishing, prompt_injection, impersonation, slop_score, confidence, flags. Scores must be integers 0-100.\n\nURL overview:\n{url_context}\n\nMessage:\n{message}"
     );
     let value = generate(&assessment_model(), &prompt, true, Duration::from_secs(20))?;
     let raw = value
@@ -35,6 +49,7 @@ pub fn assess_message(message: &str) -> Result<AiAssessment, String> {
         impersonation: json_score(&analysis, "impersonation"),
         slop_score: json_score(&analysis, "slop_score"),
         confidence: json_score(&analysis, "confidence"),
+        raw_response: raw.to_string(),
         flags: analysis
             .get("flags")
             .and_then(Value::as_array)

@@ -87,8 +87,9 @@ fn analyse_request(
             &json!({ "error": "missing string field: message" }),
         );
     };
+    let user_id = value.get("user_id").and_then(Value::as_str);
 
-    let scoring = analyse(message, threat_intel, url_db, message_memory);
+    let scoring = analyse(message, user_id, threat_intel, url_db, message_memory);
     write_json(stream, 200, &scoring.to_json())
 }
 

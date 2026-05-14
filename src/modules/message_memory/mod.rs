@@ -39,6 +39,7 @@ pub struct UnsafeMessageMatch {
 #[derive(Debug)]
 pub struct UnsafeMessageRecord<'a> {
     pub message: &'a str,
+    pub user_id: Option<&'a str>,
     pub decision: &'a str,
     pub risk_score: u8,
     pub confidence: u8,
@@ -89,6 +90,7 @@ impl MessageMemory {
                 decision TEXT NOT NULL,
                 risk_score UTINYINT NOT NULL,
                 confidence UTINYINT NOT NULL,
+                user_id TEXT,
                 summary TEXT,
                 first_seen BIGINT NOT NULL,
                 last_seen BIGINT NOT NULL,
@@ -96,6 +98,7 @@ impl MessageMemory {
                 source TEXT NOT NULL,
                 updated_at BIGINT NOT NULL
             );
+            ALTER TABLE unsafe_messages ADD COLUMN IF NOT EXISTS user_id TEXT;
             CREATE INDEX IF NOT EXISTS idx_unsafe_messages_updated_at ON unsafe_messages(updated_at);
 
             CREATE TABLE IF NOT EXISTS unsafe_message_tags (
@@ -170,9 +173,9 @@ impl MessageMemory {
         self.conn.execute(
             "INSERT INTO unsafe_messages (
                 message_hash, simhash, raw_message, redacted_message, normalized_message,
-                decision, risk_score, confidence, summary, first_seen, last_seen,
+                decision, risk_score, confidence, user_id, summary, first_seen, last_seen,
                 seen_count, source, updated_at
-            ) VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?10, 1, 'scoring', ?10)
+            ) VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?11, 1, 'scoring', ?11)
             ON CONFLICT(message_hash) DO UPDATE SET
                 raw_message = COALESCE(excluded.raw_message, unsafe_messages.raw_message),
                 redacted_message = excluded.redacted_message,
@@ -180,6 +183,7 @@ impl MessageMemory {
                 decision = excluded.decision,
                 risk_score = excluded.risk_score,
                 confidence = excluded.confidence,
+                user_id = COALESCE(excluded.user_id, unsafe_messages.user_id),
                 summary = excluded.summary,
                 last_seen = excluded.last_seen,
                 seen_count = unsafe_messages.seen_count + 1,
@@ -194,6 +198,7 @@ impl MessageMemory {
                 record.decision,
                 record.risk_score,
                 record.confidence,
+                record.user_id,
                 record.summary,
                 now,
             ],
@@ -313,6 +318,7 @@ pub fn run_benchmark() -> duckdb::Result<()> {
         &seed_lookup,
         UnsafeMessageRecord {
             message: seed,
+            user_id: Some("benchmark"),
             decision: "warn_both",
             risk_score: 85,
             confidence: 90,
@@ -348,15 +354,11 @@ fn match_json(item: &UnsafeMessageMatch) -> Value {
 
 fn normalize_message(message: &str) -> String {
     let lower = message.to_ascii_lowercase();
-    let urls =
-        Regex::new(r#"https?://[^\s<>"]+|[a-zA-Z0-9][a-zA-Z0-9\-]*\.[a-zA-Z]{2,}(?:/[^\s<>"]*)?"#)
-            .unwrap();
     let emails = Regex::new(r"[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}").unwrap();
     let numbers = Regex::new(r"\b\d{4,}\b").unwrap();
     let whitespace = Regex::new(r"\s+").unwrap();
 
-    let text = urls.replace_all(&lower, " <url> ");
-    let text = emails.replace_all(&text, " <email> ");
+    let text = emails.replace_all(&lower, " <email> ");
     let text = numbers.replace_all(&text, " <num> ");
     whitespace.replace_all(&text, " ").trim().to_string()
 }

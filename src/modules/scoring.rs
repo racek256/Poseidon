@@ -1,4 +1,3 @@
-use std::thread;
 use std::time::Instant;
 
 use regex::Regex;
@@ -7,6 +6,8 @@ use serde_json::{Value, json};
 use crate::modules::ai::{self, AiAssessment};
 use crate::modules::message_memory::{MemoryLookup, MessageMemory, UnsafeMessageRecord};
 use crate::modules::threat_intel::ThreatIntel;
+use crate::modules::url_analysis::brand;
+use crate::modules::url_analysis::domain::parse_url_parts;
 use crate::modules::url_db::{UrlDb, UrlLookup};
 use crate::modules::web::extract_urls;
 
@@ -59,6 +60,7 @@ pub struct Scoring {
     pub overall_risk: u8,
     pub scores: Scores,
     pub flags: Vec<String>,
+    pub ai_raw_response: Option<String>,
     pub urls: Vec<UrlScore>,
     pub summary: Option<String>,
     pub message_memory: MessageMemoryResult,
@@ -96,6 +98,7 @@ impl Scoring {
                 "slop_score": self.scores.slop_score
             },
             "flags": self.flags,
+            "ai_raw_response": self.ai_raw_response,
             "urls": self.urls.iter().map(|url| json!({
                 "url": url.url,
                 "risk": url.risk,
@@ -123,9 +126,38 @@ impl Scoring {
 
 pub fn analyse(
     message: &str,
+    user_id: Option<&str>,
     threat_intel: &ThreatIntel,
     url_db: &UrlDb,
     message_memory: &MessageMemory,
+) -> Scoring {
+    analyse_inner(message, user_id, threat_intel, url_db, message_memory, true)
+}
+
+pub fn analyse_without_ai(
+    message: &str,
+    user_id: Option<&str>,
+    threat_intel: &ThreatIntel,
+    url_db: &UrlDb,
+    message_memory: &MessageMemory,
+) -> Scoring {
+    analyse_inner(
+        message,
+        user_id,
+        threat_intel,
+        url_db,
+        message_memory,
+        false,
+    )
+}
+
+fn analyse_inner(
+    message: &str,
+    user_id: Option<&str>,
+    threat_intel: &ThreatIntel,
+    url_db: &UrlDb,
+    message_memory: &MessageMemory,
+    ai_enabled: bool,
 ) -> Scoring {
     let start = Instant::now();
     let mut flags = Vec::new();
@@ -147,29 +179,33 @@ pub fn analyse(
         }
     };
 
-    let (url_scores, ai_result) = thread::scope(|scope| {
-        let ai_handle = scope.spawn(|| ai::assess_message(message));
-        let url_scores = scan_known_urls(message, threat_intel, url_db, &mut flags);
-        let ai_result = ai_handle
-            .join()
-            .unwrap_or_else(|_| Err("ai worker panicked".to_string()));
-        (url_scores, ai_result)
-    });
+    let url_scores = scan_known_urls(message, threat_intel, url_db, &mut flags);
+    let url_context = ai_url_context(&url_scores, url_db);
+    let ai_result = if ai_enabled {
+        ai::assess_message_with_url_context(message, &url_context)
+    } else {
+        Err("ai disabled for benchmark".to_string())
+    };
 
     let prompt_injection = score_prompt_injection(message, &mut flags);
     let secret = score_secrets(message, &mut flags);
     let url_reputation = url_scores.iter().map(|url| url.risk).max();
     let urgency = score_urgency(message, &mut flags);
 
-    let (ai, ai_confidence) = match ai_result {
+    let (ai, ai_confidence, ai_raw_response) = match ai_result {
         Ok(ai) => {
             let confidence = ai.confidence;
+            let raw_response = if ai.raw_response.is_empty() {
+                None
+            } else {
+                Some(ai.raw_response.clone())
+            };
             flags.extend(ai.flags.clone());
-            (ai, confidence)
+            (ai, confidence, raw_response)
         }
         Err(err) => {
             flags.push(format!("ai unavailable: {err}"));
-            (AiAssessment::default(), 0)
+            (AiAssessment::default(), 0, None)
         }
     };
 
@@ -194,8 +230,12 @@ pub fn analyse(
     let overall_risk = overall_risk(&scores);
     let decision = decide(overall_risk, &scores);
     let urls = url_scores;
-    let summary = summary_for(message, overall_risk, ai_confidence, &flags);
-    observe_url_reputation(&urls, &decision, overall_risk, url_db, &mut flags);
+    let summary = if ai_enabled {
+        summary_for(message, overall_risk, ai_confidence, &flags)
+    } else {
+        None
+    };
+    observe_url_reputation(&urls, user_id, &decision, overall_risk, url_db, &mut flags);
     let stored = if should_store_unsafe(&decision, overall_risk, &scores) {
         if let Some(memory_lookup) = &memory_lookup {
             let tags = unsafe_tags(&scores, &urls, &flags);
@@ -207,6 +247,7 @@ pub fn analyse(
                 memory_lookup,
                 UnsafeMessageRecord {
                     message,
+                    user_id,
                     decision: decision.as_str(),
                     risk_score: overall_risk,
                     confidence: ai_confidence.max(70),
@@ -235,6 +276,7 @@ pub fn analyse(
         overall_risk,
         scores,
         flags,
+        ai_raw_response,
         urls,
         summary,
         message_memory: MessageMemoryResult {
@@ -252,8 +294,53 @@ fn should_store_unsafe(decision: &Decision, overall_risk: u8, scores: &Scores) -
         || scores.url_reputation.is_some_and(|risk| risk >= 75)
 }
 
+fn ai_url_context(urls: &[UrlScore], url_db: &UrlDb) -> String {
+    if urls.is_empty() {
+        return "No URLs found.".to_string();
+    }
+
+    let mut lines = Vec::new();
+    lines.push("URL Overview:".to_string());
+    for url in urls {
+        let parts = parse_url_parts(&url.url);
+        lines.push(format!("- {}", url.url));
+        lines.push(format!("  Domain: {}", parts.registrable_domain));
+        if let Some(sub) = &parts.subdomain {
+            lines.push(format!("  Subdomain: {}", sub));
+        }
+        if let Some(ref brand) = url.brand_impersonation {
+            if let Some(ref provider) = brand.hosting_provider {
+                lines.push(format!("  Hosting provider: {}", provider));
+            }
+        }
+        lines.push(format!(
+            "  Known in DB: {}",
+            if url.known_url_db { "yes" } else { "no" }
+        ));
+        lines.push(format!(
+            "  Queued for analysis: {}",
+            if url.queued_for_analysis { "yes" } else { "no" }
+        ));
+
+        let identity = url_db.identity(&url.url);
+        match url_db.url_evidence_overview(&identity) {
+            Ok(evidence) if !evidence.is_empty() => {
+                lines.push("  Evidence:".to_string());
+                for (kind, key, value_text) in evidence {
+                    if let Some(value) = value_text {
+                        lines.push(format!("    - {} {}: {}", kind, key, value));
+                    }
+                }
+            }
+            _ => {}
+        }
+    }
+    lines.join("\n")
+}
+
 fn observe_url_reputation(
     urls: &[UrlScore],
+    user_id: Option<&str>,
     decision: &Decision,
     overall_risk: u8,
     url_db: &UrlDb,
@@ -271,7 +358,7 @@ fn observe_url_reputation(
 
     for url in urls {
         let identity = url_db.identity(&url.url);
-        let reputation = match url_db.observe_domain_reputation(&identity, safe_message) {
+        let reputation = match url_db.observe_domain_reputation(&identity, user_id, safe_message) {
             Ok(reputation) => reputation,
             Err(err) => {
                 flags.push(format!(
@@ -377,6 +464,8 @@ fn scan_known_url(
     }
 
     let identity = url_db.identity(&url);
+    let learned_brands = url_db.learned_runtime_brands().unwrap_or_default();
+    let deterministic_brand = brand::analyse_with_runtime_brands(&url, &learned_brands);
     match url_db.lookup(&identity) {
         Ok(Some(lookup)) => url_score_from_lookup(url, lookup),
         Ok(None) => {
@@ -388,13 +477,14 @@ fn scan_known_url(
                 });
             UrlScore {
                 url,
-                risk: 0,
+                risk: deterministic_brand.score,
                 age_days: None,
                 known_url_db: false,
                 queued_for_analysis: queued,
                 stored_verdict: None,
-                tags: Vec::new(),
-                brand_impersonation: None,
+                tags: tags_for_deterministic_brand(&deterministic_brand),
+                brand_impersonation: (deterministic_brand.score > 0)
+                    .then(|| brand_score_from_deterministic(deterministic_brand)),
             }
         }
         Err(err) => {
@@ -410,6 +500,39 @@ fn scan_known_url(
                 brand_impersonation: None,
             }
         }
+    }
+}
+
+fn tags_for_deterministic_brand(brand: &brand::BrandImpersonation) -> Vec<String> {
+    let mut tags = Vec::new();
+    if brand.official {
+        tags.push("official_brand_domain".to_string());
+    }
+    if brand.score >= 45 {
+        tags.push("brand_impersonation".to_string());
+    }
+    if let Some(provider) = &brand.hosting_provider {
+        tags.push("known_hosting_provider".to_string());
+        tags.push(format!("hosting_provider:{}", provider.replace('.', "_")));
+    }
+    if let Some(matched_brand) = &brand.matched_brand {
+        tags.push("brand_seen".to_string());
+        tags.push(format!("brand:{}", matched_brand.to_ascii_lowercase()));
+    }
+    tags
+}
+
+fn brand_score_from_deterministic(brand: brand::BrandImpersonation) -> BrandImpersonationScore {
+    BrandImpersonationScore {
+        matched_brand: brand.matched_brand,
+        official: brand.official,
+        hosting_provider: brand.hosting_provider,
+        score: brand.score,
+        confidence: brand.confidence,
+        risk_level: brand.risk_level,
+        reasons_json: serde_json::to_string(&brand.reasons).unwrap_or_else(|_| "[]".to_string()),
+        safe_evidence_json: serde_json::to_string(&brand.safe_evidence)
+            .unwrap_or_else(|_| "[]".to_string()),
     }
 }
 
