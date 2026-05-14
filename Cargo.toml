@@ -1,0 +1,19 @@
+[package]
+name = "Poseidon"
+version = "0.1.0"
+edition = "2024"
+default-run = "Poseidon"
+
+[dependencies]
+chrono = "0.4.44"
+csv = "1.4.0"
+duckdb = { version = "1.4.2", features = ["bundled"] }
+flate2 = "1.1.5"
+indicatif = "0.18.3"
+regex = "1.12.3"
+reqwest = { version = "0.12.24", default-features = false, features = ["blocking", "rustls-tls"] }
+serde_json = "1.0.145"
+sha2 = "0.10.9"
+tar = "0.4.44"
+whois-rust = "1.6.0"
+zip = "6.0.0"
