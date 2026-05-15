@@ -3,6 +3,8 @@ use std::path::{Path, PathBuf};
 use std::process::{Command, Stdio};
 use std::time::{Duration, Instant};
 
+use crate::modules::tui::bridge;
+
 const DEFAULT_HOST: &str = "127.0.0.1";
 const DEFAULT_PORT: &str = "8081";
 
@@ -20,7 +22,7 @@ pub fn ensure() {
     }
 
     if let Err(err) = ensure_local_server(&endpoint) {
-        eprintln!("llama.cpp server unavailable: {err}");
+        bridge::elog(&format!("llama.cpp server unavailable: {err}"));
     }
 }
 
@@ -95,7 +97,7 @@ fn run_setup_script(script: &Path, description: &str) -> Result<(), String> {
         return Err(format!("missing {}", script.display()));
     }
 
-    eprintln!("llama.cpp setup: {description}");
+    bridge::elog(&format!("llama.cpp setup: {description}"));
     let status = Command::new("bash")
         .arg(script)
         .stdout(Stdio::inherit())

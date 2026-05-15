@@ -4,7 +4,7 @@
 
 Poseidon is a **phishing detection / message security scoring system** built in Rust for the AT&T Hackathon. It analyzes text messages for security threats — phishing URLs, brand impersonation, secrets leakage, and prompt injection — using multiple detection layers: **local threat intelligence feeds**, **URL enrichment (DNS/WHOIS/HTTP page analysis)**, **offline brand matching (typo detection + brand catalog)**, **online brand identity discovery (page metadata/JSON-LD)**, **domain reputation tracking**, **unsafe message memory (simhash similarity)**, and a **local LLM** for AI assessment.
 
-**Total: 27 Rust source files, ~7,986 lines of code across one library crate, one binary entrypoint, and two standalone CLI binaries.**
+**Total: 33 Rust source files, ~9,123 lines of code across one library crate, one binary entrypoint, and two standalone CLI binaries.**
 
 ---
 
@@ -27,6 +27,13 @@ Poseidon/
 │       ├── scoring.rs                # Core scoring engine
 │       ├── ai.rs                     # LLM integration (Ollama + OpenAI-compatible)
 │       ├── llm_server.rs             # llama.cpp server lifecycle management
+│       ├── tui/                      # Terminal User Interface (ratatui + crossterm)
+│       │   ├── mod.rs                # Module root, exports app, bridge, colors, state, trackers
+│       │   ├── app.rs                # Main TUI event loop, rendering, server thread management
+│       │   ├── bridge.rs             # Global OnceLock bridge for server→TUI communication
+│       │   ├── colors.rs             # Theme: bg=#0f0f0f, highlight=#3365e6, success/error/warning
+│       │   ├── state.rs              # Thread-safe TuiState (Arc<Mutex<TuiState>>)
+│       │   └── trackers.rs           # PerformanceTrackers with atomic counters
 │       ├── web.rs                    # URL extraction + WHOIS
 │       ├── phishing_benchmark.rs     # Full benchmark pipeline (local + HuggingFace datasets)
 │       ├── message_memory/
@@ -153,6 +160,211 @@ The `scoring::analyse_inner()` function has four public entry points configured 
 | `analyse_with_online_url_enrichment()` | ✅ Yes | ✅ Yes | Full analysis (slower) |
 | `analyse_without_ai()` | ❌ No | ❌ No | Benchmark (no LLM dependency) |
 | `analyse_without_ai_with_online_url_enrichment()` | ❌ No | ✅ Yes | Benchmark with online signals |
+
+---
+
+## TUI (Terminal User Interface)
+
+The TUI provides an **interactive terminal-based interface** for testing and monitoring the phishing detection system in real-time. It runs the API server in a background thread while displaying live statistics, logs, and analysis results.
+
+### Launch
+
+```bash
+cargo run -- --interactive
+```
+
+The `--interactive` flag routes execution to `modules::tui::run_tui()` instead of `api::serve()`.
+
+### Layout
+
+```
+┌──────────────────────────────────────────────────────────────────────────────┐
+│  Poseidon - Interactive Phishing Detection                                   │
+├──────────────────────────────────────┬───────────────────────────────────────┤
+│  ┌─────────────────────────────────┐  │  ┌─────────────────────────────────┐  │
+│  │ Input                           │  │  │ Statistics                      │  │
+│  │ > verify account at example.com │  │  │ Requests: 42                    │  │
+│  └─────────────────────────────────┘  │  │ Avg Delay: 234.56ms             │  │
+│  ┌─────────────────────────────────┐  │  │ Msgs/sec: 0.85                  │  │
+│  │ Statistics                      │  │  │ Uptime: 00:05:23                │  │
+│  │ Generation Speed: 12.5 tokens/s │  │  └─────────────────────────────────┘  │
+│  │ Progress: 65.0%                 │  │  ┌─────────────────────────────────┐  │
+│  └─────────────────────────────────┘  │  │ Server Logs                     │  │
+│  ┌─────────────────────────────────┐  │  │ [14:32:01] TUI started          │  │
+│  │ Currently Working On            │  │  │ [14:32:05] User input: verify…  │  │
+│  │ AI Assessment (30%)             │  │  │ [14:32:06] POST /analyse        │  │
+│  └─────────────────────────────────┘  │  │ [14:32:07] Analysis complete    │  │
+│  ┌─────────────────────────────────┐  │  └─────────────────────────────────┘  │
+│  │ Output                          │  │                                       │
+│  │ > verify account at example.com │  │                                       │
+│  │ ⏳ Analyzing...                 │  │                                       │
+│  │ Decision: Warn Receiver         │  │                                       │
+│  │ Risk Score: 52                  │  │                                       │
+│  │ Flags: URL not in threat feed   │  │                                       │
+│  └─────────────────────────────────┘  │                                       │
+├──────────────────────────────────────┴───────────────────────────────────────┤
+│  70% Width                              │  30% Width                          │
+└──────────────────────────────────────────────────────────────────────────────┘
+```
+
+### Left Panel (70% Width)
+
+| Section | Purpose |
+|---|---|
+| **Input** | Text input for messages to analyze. Shows "⏳ Analyzing..." when request is pending |
+| **Statistics** | Generation speed (tokens/sec), progress percentage for current analysis |
+| **Currently Working On** | Current processing step from scoring engine (e.g., "URL Scanning (15%)") |
+| **Output** | Analysis results, user input history, decision output. Scrollable with ↑/↓ |
+
+### Right Panel (30% Width)
+
+| Section | Purpose |
+|---|---|
+| **Statistics** | Request count, average delay, messages/second, uptime (HH:MM:SS) |
+| **Server Logs** | Timestamped log entries from server initialization, threat feed updates, errors |
+
+### Input Processing Flow
+
+```
+User types message → presses Enter
+         │
+         ├─ Clear input buffer
+         ├─ Display "> {message}" in output
+         ├─ Set request_pending = true
+         │
+         ├─ Spawn thread:
+         │   ├─ POST http://{addr}/analyse
+         │   │   Body: {"message": "...", "user_id": "tui"}
+         │   │
+         │   ├─ Server processes via scoring::analyse()
+         │   │   ├─ bridge::post_step() → updates "Currently Working On"
+         │   │   ├─ bridge::post_progress() → updates progress bar
+         │   │   ├─ bridge::post_output() → appends analysis results
+         │   │   └─ bridge::track_request_start/end() → updates stats
+         │   │
+         │   └─ On response:
+         │       ├─ Set request_pending = false
+         │       └─ Display success/error in output
+         │
+         └─ TUI re-renders with updated state
+```
+
+### Analysis Steps (Posted via Bridge)
+
+The scoring engine posts 6 steps with progress percentages:
+
+| Step | Progress | Description |
+|---|---|---|
+| 1. Message Memory Lookup | 5% | Simhash similarity search for previously seen unsafe messages |
+| 2. URL Scanning | 15% | Threat feed lookup, URL DB observation, brand impersonation |
+| 3. AI Assessment | 30% | LLM analysis for phishing/impersonation/risk scoring |
+| 4. Security Scoring | 60% | Prompt injection, secrets, urgency pattern detection |
+| 5. Decision | 90% | Combine scores → Block/Warn/Allow decision |
+| 6. Complete | 100% | Analysis finished, output results |
+
+### Color Scheme
+
+| Color | Hex | Usage |
+|---|---|---|
+| Background | `#0f0f0f` | Main background |
+| Highlight | `#3365e6` | Input border, stats, selections |
+| Text | `Gray` | Default text |
+| Success | `Green` | Output panel border |
+| Warning | `Yellow` | Pending state, step indicator |
+| Error | `Red` | Logs panel border, error messages |
+| Dim Text | `DarkGray` | Secondary text, borders |
+
+### Bridge Architecture
+
+The TUI bridge enables **cross-thread communication** between the server/scoring engine and the TUI rendering loop:
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│  TUI Thread (ratatui event loop)                                │
+│  - Renders UI every 50ms                                        │
+│  - Handles keyboard input                                       │
+│  - Holds Arc<Mutex<TuiState>>                                   │
+└─────────────────────────────────────────────────────────────────┘
+                          ▲
+                          │ bridge::set_tui_state()
+                          │
+┌─────────────────────────┴───────────────────────────────────────┐
+│  Global OnceLock<Arc<Mutex<TuiState>>>                          │
+│  - bridge.rs                                                    │
+│  - is_interactive() check                                       │
+│  - post_step(), post_progress(), post_log(), post_output()      │
+└─────────────────────────┬───────────────────────────────────────┘
+                          │
+        ┌─────────────────┼─────────────────┐
+        │                 │                 │
+        ▼                 ▼                 ▼
+┌──────────────┐  ┌──────────────┐  ┌──────────────┐
+│ API Thread   │  │ Scoring      │  │ Server       │
+│ (POST /ana…  │  │ Engine       │  │ Init         │
+│              │  │              │  │              │
+│ post_output()│  │ post_step()  │  │ bridge::log()│
+│ track_*()    │  │ post_prog()  │  │ bridge::elog()│
+└──────────────┘  └──────────────┘  └──────────────┘
+```
+
+**Key Design:**
+
+- **OnceLock**: Lazy initialization, set once when TUI starts
+- **Arc<Mutex<T>>**: Thread-safe shared ownership
+- **NO-OP when inactive**: All `post_*()` functions check `is_interactive()` — if TUI is not running, they do nothing
+- **Dual-mode logging**: `bridge::log()` posts to TUI if active, otherwise `println!`; `bridge::elog()` posts to TUI or `eprintln!`
+
+### Performance Trackers
+
+`PerformanceTrackers` uses **atomic counters** for lock-free metrics:
+
+| Metric | Type | Calculation |
+|---|---|---|
+| `request_count` | `AtomicU64` | Total requests processed |
+| `total_request_time_ms` | `AtomicU64` | Cumulative request duration |
+| `avg_delay_ms` | `f64` | `total_request_time_ms / request_count` |
+| `msgs_per_second` | `f64` | `request_count / elapsed_seconds` |
+| `uptime` | `Duration` | Time since tracking started |
+
+Trackers are initialized via `bridge::init_trackers()` when TUI starts. Stats are updated on every `track_request_end()` call.
+
+### State Management
+
+`TuiState` holds all UI state:
+
+```rust
+pub struct TuiState {
+    pub current_step: String,           // "AI Assessment (30%)"
+    pub progress_percent: f64,          // 0.0 - 100.0
+    pub logs: Vec<String>,              // Last 100 timestamped logs
+    pub output: Vec<String>,            // Last 200 output lines
+    pub input_buffer: String,           // Current user input
+    pub generation_speed: f64,          // Tokens/sec or msgs/sec
+    pub is_running: bool,               // Event loop active
+    pub placeholder_stats: HashMap<…>,  // Right sidebar stats
+    pub request_pending: bool,          // Waiting for API response
+}
+```
+
+**Thread Safety:** All access is via `Arc<Mutex<TuiState>>`. The TUI event loop locks state for reading during render, and server threads lock for writing during analysis.
+
+### Output Redirection
+
+All modules use `bridge::log()` / `bridge::elog()` instead of direct `println!` / `eprintln!`:
+
+```rust
+// Before:
+println!("Threat feed updated: {} records", count);
+
+// After:
+bridge::log(&format!("Threat feed updated: {} records", count));
+```
+
+**Behavior:**
+- **TUI active**: Message appears in right-panel logs
+- **TUI inactive**: Message prints to stdout/stderr as before
+
+This enables **seamless switching** between interactive and headless modes without code changes.
 
 ---
 
@@ -494,6 +706,8 @@ The `message_memory` module detects repeated or similar phishing messages:
 7. **SHA256 identity hashing** — all URLs, domains, users are stored as SHA256 hashes (privacy by design)
 8. **Incremental brand learning** — discovers brand identities from page metadata at runtime, stores them as runtime brands for future matching without updates to the static catalog
 9. **Appender-based bulk inserts** — DuckDB `appender` API for efficient bulk threat feed ingestion in a single transaction
+10. **TUI bridge pattern** — `OnceLock<Arc<Mutex<T>>>` for global, thread-safe state sharing between server and TUI; all `post_*()` functions are NO-OPs when TUI is inactive
+11. **Output redirection** — all modules use `bridge::log()` / `bridge::elog()` for dual-mode output: posts to TUI log window when interactive, falls back to stdout/stderr when headless
 
 ---
 
@@ -502,6 +716,7 @@ The `message_memory` module detects repeated or similar phishing messages:
 | Command | Function | Purpose |
 |---|---|---|
 | _(no args)_ | `api::serve()` | Start HTTP API server |
+| _(no args) + `--interactive`_ | `modules::tui::run_tui()` | Start TUI with server in background thread |
 | `worker` | `enrich::process_pending()` | Process URL enrichment queue |
 | `benchmark-brand` | `benchmark::run_brand_benchmark()` | Offline brand detection accuracy |
 | `benchmark-online-brand` | `online_benchmark::run_online_brand_benchmark()` | Online enrichment accuracy |

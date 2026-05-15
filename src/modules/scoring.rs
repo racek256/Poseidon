@@ -6,6 +6,7 @@ use serde_json::{Value, json};
 use crate::modules::ai::{self, AiAssessment};
 use crate::modules::message_memory::{MemoryLookup, MessageMemory, UnsafeMessageRecord};
 use crate::modules::threat_intel::ThreatIntel;
+use crate::modules::tui::bridge;
 use crate::modules::url_analysis::brand;
 use crate::modules::url_analysis::domain::parse_url_parts;
 use crate::modules::url_analysis::online;
@@ -208,6 +209,9 @@ fn analyse_inner(
 ) -> Scoring {
     let start = Instant::now();
     let mut flags = Vec::new();
+
+    bridge::post_step("Message Memory Lookup");
+    bridge::post_progress(5.0);
     let memory_lookup = match message_memory.lookup(message) {
         Ok(lookup) => {
             if lookup.exact_match.is_some() {
@@ -226,6 +230,8 @@ fn analyse_inner(
         }
     };
 
+    bridge::post_step("URL Scanning");
+    bridge::post_progress(15.0);
     let url_scores = scan_known_urls(
         message,
         threat_intel,
@@ -234,12 +240,17 @@ fn analyse_inner(
         online_url_enrichment,
     );
     let url_context = ai_url_context(&url_scores, url_db);
+
+    bridge::post_step("AI Assessment");
+    bridge::post_progress(30.0);
     let ai_result = if ai_enabled {
         ai::assess_message_with_url_context(message, &url_context)
     } else {
         Err("ai disabled for benchmark".to_string())
     };
 
+    bridge::post_step("Security Scoring");
+    bridge::post_progress(60.0);
     let prompt_injection = score_prompt_injection(message, &mut flags);
     let secret = score_secrets(message, &mut flags);
     let url_reputation = url_scores.iter().map(|url| url.risk).max();
@@ -299,6 +310,9 @@ fn analyse_inner(
     } else {
         overall_risk(&scores)
     };
+
+    bridge::post_step("Decision");
+    bridge::post_progress(90.0);
     let decision = decide(overall_risk, &scores);
     let urls = url_scores;
     let summary = if ai_enabled {
@@ -340,7 +354,9 @@ fn analyse_inner(
         false
     };
 
-    eprintln!("analyse took {:?}", start.elapsed());
+    bridge::post_step("Complete");
+    bridge::post_progress(100.0);
+    bridge::post_log(&format!("Analysis took {:?}", start.elapsed()));
 
     Scoring {
         decision,

@@ -5,6 +5,7 @@ pub mod message_memory;
 pub mod phishing_benchmark;
 pub mod scoring;
 pub mod threat_intel;
+pub mod tui;
 pub mod url_analysis;
 pub mod url_db;
 pub mod web;

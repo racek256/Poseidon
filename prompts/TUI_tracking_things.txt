@@ -1,0 +1,78 @@
+Core Score Vector (returned in every response)
+These 6 scores are the primary numerical statistics, each is a u8 (0–100):
+Statistic	Source
+phishing	LLM assessment × weighted, min-capped with urgency score
+secret	Regex (api_key|token|secret|password) + 16+ char value
+prompt_injection	Keyword hit count × 35 (6 keywords: "ignore previous instructions", "system prompt", "jailbreak", "act as", etc.)
+url_reputation	max(risk_score) across all URLs found in the message (from threat feeds, DB lookup, brand analysis, or online enrichment)
+impersonation	LLM assessment × weighted
+risk	LLM assessment × weighted
+LLM-Generated Statistics (from AiAssessment)
+When the LLM is available, it returns its own vector:
+phishing: u8        // 0-100
+prompt_injection: u8
+impersonation: u8
+risk: u8
+confidence: u8      // LLM's self-reported confidence
+flags: Vec<String>  // free-text flags from LLM
+These get weighted — if prompt injection ≥ 80, LLM scores are only 30% effective (weight = 30). Otherwise 100%.
+Per-URL Statistics (UrlScore — one per URL in the message)
+Statistic	Details
+url	The extracted URL string
+risk	u8 (0–100). Either from threat feed hit (= 100), DB stored score, deterministic brand analysis score, or inline enrichment score
+age_days	Option<u32> — domain age in days (from WHOIS, if enriched)
+known_url_db	bool — whether this URL identity was already in the database
+queued_for_analysis	bool — whether it was newly enqueued for background enrichment
+stored_verdict	Option<String> — "good" / "bad" / "suspicious" / "unknown"
+tags	Vec<String> — e.g. ["threat_intel", "brand_impersonation", "official_brand_domain", "hosting_provider:cloudflare", "brand:paypal", "known_hosting_provider"]
+Per-URL Brand Impersonation Statistics
+If brand analysis found something:
+Statistic	Details
+matched_brand	Option<String> — e.g. "PayPal", "Apple"
+official	bool — whether the domain is an official domain for that brand
+hosting_provider	Option<String> — e.g. "Cloudflare", "Vercel"
+score	u8 — 0–100, deterministic brand impersonation score
+confidence	u8 — 0–100, how certain the detection is
+risk_level	String — category label
+reasons	Array of reason strings — e.g. ["typo_in_domain: paypaI vs paypal", "phishing_keyword_in_path: login", "levenshtein_distance: 1"]
+safe_evidence	Array — evidence that the domain is legitimate
+Online Enrichment Statistics (when enriched via DNS/WHOIS/HTTP)
+Produced by the background worker or inline enrichment:
+Category	Statistics generated
+DNS	dns_resolved (bool), ip_provider (e.g. "Cloudflare", "Vercel", "Fastly")
+WHOIS	age_days (u32 — days since domain creation), privacy (bool — WHOIS privacy protection enabled)
+HTTP Page	From page_metadata.rs: favicon SHA256 hash match, title text, form fields detected (password/OTP/card), external form actions, redirect chain, final domain, brand text content matches
+Online Score	Combined: credential fields + brand match → 90+, favicon match → 85+, brand in URL + recent WHOIS → bump, weak evidence → cap at 35 or 40
+Heuristic Classification Statistics
+Statistic	Calculation
+urgency score	6 keywords ("urgent", "immediately", "suspended", "verify", "account", "credit") × 15 each, capped at 80
+secret score	Binary 0 or 85 based on regex match
+prompt_injection score	6 prompt attack keywords × 35 each, capped at 100
+Message Memory Statistics (Simhash)
+Statistic	Details
+message_hash	SHA256 of normalized message
+simhash	64-bit weighted fuzzy hash (hex string)
+exact_match	Whether an identical unsafe message was seen before
+similar_matches	Array of {message_hash, distance, risk_score, decision, summary} for messages within Hamming distance ≤ 12
+nearest_distance	Hamming distance of the closest match
+risk_adjustment	u8 — boost to phishing score: distance ≤ 3 → +35, ≤ 8 → +20, ≤ 12 → +10
+Derived Aggregate Statistics
+Statistic	How it's calculated
+overall_risk	max(phishing, secret, prompt_injection, impersonation, risk, url_reputation_capped) — URL risk capped at 40 unless URL risk ≥ 75 or non-URL risk ≥ 40
+decision	Block (≥90 or secret≥85) → WarnB (≥75) → WarnS (prompt_inj≥60) → WarnR (≥45) → Allow
+flags	Vec<String> — accumulated during analysis: "known threat url: source=...", "exact unsafe message memory match", "possible secret in message", "prompt injection language detected", "ai-only medium risk capped", etc.
+summary	LLM-generated short danger explanation (only when overall_risk ≥ 75)
+message_memory.stored	bool — whether this message was persisted as an unsafe record for future matching
+Database-Persisted Statistics (Domain Reputation)
+These build up over time per domain:
+Statistic	Meaning
+safe_observations	Count of times domain appeared in allowed messages
+bad_observations	Count of times domain appeared in blocked/warned messages
+boost	Reputation boost level: 0 / +5 / +10 / +15 based on thresholds (25/75/250 safe observations)
+unique_users	Number of distinct users who reported this domain (prevents inflation)
+Decision Thresholds (how the statistics are used)
+overall_risk ≥ 90  OR  secret ≥ 85    →  BLOCK   (hard block)
+overall_risk ≥ 75                      →  WARN_BOTH
+prompt_injection ≥ 60                  →  WARN_SENDER
+overall_risk ≥ 45                      →  WARN_RECEIVER
+everything else                        →  ALLOW

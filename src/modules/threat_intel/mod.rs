@@ -9,6 +9,8 @@ use std::time::Duration;
 
 use duckdb::Connection;
 
+use crate::modules::tui::bridge;
+
 pub use db::{ThreatMatch, normalize_domain};
 use feeds::fetch_source;
 use sources::feed_sources;
@@ -30,11 +32,11 @@ impl ThreatIntel {
 
         let conn = match env::var("POSEIDON_THREAT_DB_PATH") {
             Ok(path) if !path.trim().is_empty() => {
-                eprintln!("threat intel db: using persistent DuckDB at {path}");
+                bridge::elog(&format!("threat intel db: using persistent DuckDB at {path}"));
                 Connection::open(Path::new(&path))?
             }
             _ => {
-                eprintln!(
+                bridge::elog(
                     "threat intel db: using in-memory DuckDB; feeds are downloaded and ingested every startup"
                 );
                 Connection::open_in_memory()?
@@ -82,10 +84,10 @@ impl ThreatIntel {
                 }
                 Ok(_) => {}
                 Err(err) => {
-                    eprintln!(
+                    bridge::elog(&format!(
                         "threat intel metadata check failed for {}: {err}",
                         source.name
-                    );
+                    ));
                     completed_sources += 1;
                     progress.render(
                         completed_sources,
@@ -121,7 +123,7 @@ impl ThreatIntel {
                             }
                         })
                     {
-                        eprintln!("threat intel ingest failed for {}: {err}", source.name);
+                        bridge::elog(&format!("threat intel ingest failed for {}: {err}", source.name));
                         completed_sources += 1;
                         progress.render(
                             completed_sources,
@@ -131,13 +133,13 @@ impl ThreatIntel {
                         continue;
                     }
                     if let Err(err) = db::mark_source_updated(&self.conn, source.name, count) {
-                        eprintln!(
+                        bridge::elog(&format!(
                             "threat intel state update failed for {}: {err}",
                             source.name
-                        );
+                        ));
                     }
                 }
-                Err(err) => eprintln!("threat intel fetch failed for {}: {err}", source.name),
+                Err(err) => bridge::elog(&format!("threat intel fetch failed for {}: {err}", source.name)),
             }
             completed_sources += 1;
             progress.render(
@@ -158,6 +160,10 @@ impl ProgressLine {
     }
 
     fn render(&self, pos: usize, len: usize, message: &str) {
+        if bridge::is_interactive() {
+            bridge::log(&format!("threat db {pos}/{len} {message}"));
+            return;
+        }
         let len = len.max(1);
         let width = 40;
         let filled = ((pos.min(len) * width) / len).min(width);
@@ -167,6 +173,10 @@ impl ProgressLine {
     }
 
     fn finish(&self, len: usize, message: &str) {
+        if bridge::is_interactive() {
+            bridge::log(&format!("threat db {len}/{len} {message}"));
+            return;
+        }
         self.render(len, len, message);
         println!();
     }
