@@ -208,6 +208,7 @@ pub struct App {
     logs_scroll: usize,
     api_addr: String,
     http_client: Client,
+    prev_output_len: usize,
 }
 
 impl App {
@@ -223,6 +224,7 @@ impl App {
             logs_scroll: 0,
             api_addr,
             http_client,
+            prev_output_len: 0,
         }
     }
 
@@ -242,6 +244,19 @@ impl App {
         loop {
             if self.should_quit {
                 break;
+            }
+
+            {
+                let state = self.state.lock().unwrap();
+                let total_lines: usize = state.output.iter().map(|s| format_response(s).len()).sum();
+                if total_lines > self.prev_output_len {
+                    let was_at_bottom = self.prev_output_len == 0
+                        || self.output_scroll >= self.prev_output_len.saturating_sub(1);
+                    if was_at_bottom {
+                        self.output_scroll = total_lines.saturating_sub(1);
+                    }
+                }
+                self.prev_output_len = total_lines;
             }
 
             terminal.draw(|f| self.render(f))?;

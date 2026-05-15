@@ -1,3 +1,6 @@
 [submodule "external/llama.cpp"]
 	path = external/llama.cpp
 	url = https://github.com/ggerganov/llama.cpp
+[submodule "external/unsloth"]
+	path = external/unsloth
+	url = https://github.com/unslothai/unsloth.git

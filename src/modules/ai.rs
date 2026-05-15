@@ -179,6 +179,7 @@ fn generate_openai(
             {"role": "user", "content": prompt}
         ],
         "temperature": 0.1,
+        "max_tokens": if json_format { 256 } else { 64 },
         "stream": false
     });
     if json_format {

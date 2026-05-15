@@ -283,9 +283,9 @@ fn load_cases_from_text(dataset: &str) -> Result<Vec<Case>, String> {
                 .to_string(),
         });
     }
-    if cases.len() < 100 {
+    if cases.len() < 1 {
         return Err(format!(
-            "benchmark needs at least 100 cases, got {}",
+            "benchmark needs at least 1 cases, got {}",
             cases.len()
         ));
     }

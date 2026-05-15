@@ -14,3 +14,8 @@ llama-server.log
 
 # Generated finetuning corpora and labels
 data/finetune/
+venv_rocm
+venv
+.venv
+.venv_rocm
+unsloth_compiled_cache/

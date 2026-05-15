@@ -6,6 +6,7 @@
 
 ### In Progress
 
+- [ ] **Benchmark open-source 1B models** — Evaluate ~1B parameter models (Qwen2.5, SmolLM2, Granite, etc.) on phishing/security benchmarks to select the best base for finetuning
 - [ ] **Custom finetuned AI model** — Replace generic LLM with a distilled 1B-parameter model finetuned on DeepSeek-labeled phishing data
 - [ ] **Supply chain attack detection** — Detect malicious packages, typosquatted dependencies, compromised registries in messages
 - [ ] **Self-learning detection system** — Continuously improve algorithmic phishing using brand learning, domain reputation feedback, and benchmark iteration
