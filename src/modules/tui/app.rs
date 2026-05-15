@@ -28,6 +28,178 @@ use super::colors::{
     TEXT, TEXT_BRIGHT, TEXT_DIM, WARNING,
 };
 use super::state::TuiState;
+use ratatui::style::Color;
+
+fn format_response(text: &str) -> Vec<Line<'static>> {
+    let value: serde_json::Value = match serde_json::from_str(text) {
+        Ok(v) => v,
+        Err(_) => return vec![Line::from(text.to_string())],
+    };
+
+    let obj = match value.as_object() {
+        Some(o) => o,
+        None => return vec![Line::from(text.to_string())],
+    };
+
+    let mut lines: Vec<Line<'static>> = Vec::new();
+
+    let decision = obj.get("decision")
+        .and_then(|v| v.as_str())
+        .unwrap_or("unknown").to_string();
+    let decision_color = match decision.as_str() {
+        "block" => WARNING,
+        "allow" => SUCCESS,
+        _ => HIGHLIGHT,
+    };
+    lines.push(Line::from(vec![
+        Span::styled("Decision: ", Style::default().fg(TEXT_DIM)),
+        Span::styled(decision, Style::default().fg(decision_color)),
+    ]));
+
+    let overall_risk = obj.get("overall_risk")
+        .and_then(|v| v.as_i64())
+        .unwrap_or(0) as u32;
+    let overall_risk_color = if overall_risk >= 90 {
+        Color::Rgb(255, 87, 87)
+    } else if overall_risk >= 75 {
+        WARNING
+    } else {
+        TEXT
+    };
+    lines.push(Line::from(vec![
+        Span::styled("Overall Risk: ", Style::default().fg(TEXT_DIM)),
+        Span::styled(format!("{}/100", overall_risk), Style::default().fg(overall_risk_color)),
+    ]));
+
+    if let Some(scores) = obj.get("scores").and_then(|v| v.as_object()) {
+        lines.push(Line::from(""));
+        lines.push(Line::from(vec![
+            Span::styled("Scores:", Style::default().fg(HIGHLIGHT)),
+        ]));
+
+        let score_entries = [
+            ("Phishing:", "phishing"),
+            ("Impersonation:", "impersonation"),
+            ("Prompt Injection:", "prompt_injection"),
+            ("Secret:", "secret"),
+            ("URL Reputation:", "url_reputation"),
+            ("Risk:", "risk"),
+        ];
+
+        for (label, key) in score_entries {
+            let value_str = if key == "url_reputation" {
+                scores.get(key).map(|v| {
+                    if v.is_null() {
+                        "N/A".to_string()
+                    } else {
+                        v.to_string()
+                    }
+                }).unwrap_or_else(|| "N/A".to_string())
+            } else {
+                scores.get(key).map(|v| v.to_string()).unwrap_or_else(|| "0".to_string())
+            };
+
+            let value_color = if let Ok(num) = value_str.parse::<u32>() {
+                if num >= 90 {
+                    Color::Rgb(255, 87, 87)
+                } else if num >= 75 {
+                    WARNING
+                } else {
+                    TEXT
+                }
+            } else {
+                TEXT
+            };
+
+            lines.push(Line::from(vec![
+                Span::styled(format!("  {:.<20}", label), Style::default().fg(TEXT_DIM)),
+                Span::styled(value_str, Style::default().fg(value_color)),
+            ]));
+        }
+    }
+
+    if let Some(flags) = obj.get("flags").and_then(|v| v.as_array()) {
+        if !flags.is_empty() {
+            lines.push(Line::from(""));
+            lines.push(Line::from(vec![
+                Span::styled("Flags:", Style::default().fg(HIGHLIGHT)),
+            ]));
+            for flag in flags {
+                if let Some(flag_str) = flag.as_str() {
+                    lines.push(Line::from(vec![
+                        Span::styled("  • ", Style::default().fg(TEXT_DIM)),
+                        Span::styled(flag_str.to_string(), Style::default().fg(TEXT)),
+                    ]));
+                }
+            }
+        }
+    }
+
+    if let Some(urls) = obj.get("urls").and_then(|v| v.as_array()) {
+        if !urls.is_empty() {
+            lines.push(Line::from(""));
+            lines.push(Line::from(vec![
+                Span::styled(format!("URLs: {} found", urls.len()), Style::default().fg(HIGHLIGHT)),
+            ]));
+            for url_entry in urls {
+                if let Some(url_obj) = url_entry.as_object() {
+                    let url_str = url_obj.get("url")
+                        .and_then(|v| v.as_str())
+                        .unwrap_or("unknown").to_string();
+                    let url_risk = url_obj.get("risk")
+                        .and_then(|v| v.as_i64())
+                        .unwrap_or(0) as u32;
+                    let risk_color = if url_risk >= 90 {
+                        Color::Rgb(255, 87, 87)
+                    } else if url_risk >= 75 {
+                        WARNING
+                    } else {
+                        TEXT
+                    };
+                    lines.push(Line::from(vec![
+                        Span::styled("  ", Style::default().fg(TEXT_DIM)),
+                        Span::styled(url_str, Style::default().fg(TEXT)),
+                        Span::styled(format!(" (risk: {})", url_risk), Style::default().fg(risk_color)),
+                    ]));
+                }
+            }
+        }
+    }
+
+    if let Some(mem) = obj.get("message_memory").and_then(|v| v.as_object()) {
+        lines.push(Line::from(""));
+        let stored = mem.get("stored")
+            .and_then(|v| v.as_bool())
+            .unwrap_or(false);
+        let stored_str = if stored { "yes" } else { "no" };
+        lines.push(Line::from(vec![
+            Span::styled("Message Memory: ", Style::default().fg(TEXT_DIM)),
+            Span::styled(format!("stored: {}", stored_str), Style::default().fg(TEXT)),
+        ]));
+
+        if mem.get("lookup").is_some() {
+            lines.push(Line::from(vec![
+                Span::styled("  ", Style::default().fg(TEXT_DIM)),
+                Span::styled("lookup present", Style::default().fg(TEXT_DIM)),
+            ]));
+        }
+    }
+
+    if let Some(summary) = obj.get("summary").and_then(|v| v.as_str()) {
+        if !summary.is_empty() {
+            lines.push(Line::from(""));
+            lines.push(Line::from(vec![
+                Span::styled(summary.to_string(), Style::default().fg(TEXT_DIM).add_modifier(Modifier::ITALIC)),
+            ]));
+        }
+    }
+
+    if lines.is_empty() {
+        lines.push(Line::from(text.to_string()));
+    }
+
+    lines
+}
 
 pub struct App {
     state: Arc<Mutex<TuiState>>,
@@ -158,14 +330,13 @@ impl App {
                 }
             }
             KeyCode::Up => {
-                let output_len = state.output.len();
-                if self.output_scroll > 0 && output_len > 0 {
-                    self.output_scroll = self.output_scroll.saturating_sub(1);
+                if self.output_scroll > 0 {
+                    self.output_scroll -= 1;
                 }
             }
             KeyCode::Down => {
-                let output_len = state.output.len();
-                if self.output_scroll < output_len.saturating_sub(1) {
+                let total_lines: usize = state.output.iter().map(|s| format_response(s).len()).sum();
+                if self.output_scroll < total_lines.saturating_sub(1) {
                     self.output_scroll += 1;
                 }
             }
@@ -297,17 +468,11 @@ impl App {
             .style(Style::default().bg(BG))
             .padding(ratatui::widgets::Padding::new(1, 1, 0, 0));
 
-        let visible_lines = left_chunks[0].height.saturating_sub(2) as usize;
-        let start = self
-            .output_scroll
-            .min(state.output.len().saturating_sub(visible_lines));
-        let output_lines: Vec<Line> = state
-            .output
-            .iter()
-            .skip(start)
-            .take(visible_lines)
-            .map(|s| Line::from(s.as_str()))
-            .collect();
+let visible_lines = left_chunks[0].height.saturating_sub(2) as usize;
+
+        let all_lines: Vec<Line> = state.output.iter().flat_map(|s| format_response(s)).collect();
+        let start = self.output_scroll.min(all_lines.len().saturating_sub(visible_lines));
+        let output_lines: Vec<Line> = all_lines.into_iter().skip(start).take(visible_lines).collect();
 
         let output_paragraph = Paragraph::new(output_lines)
             .style(Style::default().fg(TEXT))
