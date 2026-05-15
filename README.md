@@ -1,7 +1,5 @@
 # Poseidon
 
-> Local-first message security engine — phishing detection, brand impersonation, prompt injection, secret leakage, URL reputation, and unsafe-message memory.
-
 ---
 
 ## TODO
@@ -34,6 +32,7 @@
 ```sh
 cargo run
 ```
+- For an interactive TUI use `cargo run -- --interactive`
 
 - API on `127.0.0.1:8080`
 - llama.cpp on `127.0.0.1:8081` (auto-built, model auto-downloaded)
