@@ -4,7 +4,7 @@
 
 Poseidon is a **phishing detection / message security scoring system** built in Rust for the AT&T Hackathon. It analyzes text messages for security threats — phishing URLs, brand impersonation, secrets leakage, and prompt injection — using multiple detection layers: **local threat intelligence feeds**, **URL enrichment (DNS/WHOIS/HTTP page analysis)**, **offline brand matching (typo detection + brand catalog)**, **online brand identity discovery (page metadata/JSON-LD)**, **domain reputation tracking**, **unsafe message memory (simhash similarity)**, and a **local LLM** for AI assessment.
 
-**Total: 33 Rust source files, ~9,123 lines of code across one library crate, one binary entrypoint, and two standalone CLI binaries.**
+**Total: 34 Rust source files, ~9,790 lines of code across one library crate, one binary entrypoint, and three standalone CLI binaries.**
 
 ---
 
@@ -15,12 +15,14 @@ Poseidon/
 ├── Cargo.toml                        # Rust project config (edition 2024)
 ├── architecture.md                   # This file
 ├── README.md                         # Project README
+├── nazario_top2500.json              # Phishing messages dataset (finetuning input)
 ├── src/
 │   ├── lib.rs                        # Library root (exports modules)
 │   ├── main.rs                       # Binary entrypoint (CLI router + server)
 │   ├── bin/
 │   │   ├── brand_scraper.rs          # Standalone: Wikidata brand catalog builder
-│   │   └── tranco_importer.rs        # Standalone: Tranco top-1M domain rank importer
+│   │   ├── tranco_importer.rs        # Standalone: Tranco top-1M domain rank importer
+│   │   └── finetune_dataset.rs       # Standalone: DeepSeek-labeled finetuning dataset generator
 │   └── modules/
 │       ├── mod.rs                    # Module declarations
 │       ├── api.rs                    # HTTP API server (raw TCP)
@@ -31,7 +33,7 @@ Poseidon/
 │       │   ├── mod.rs                # Module root, exports app, bridge, colors, state, trackers
 │       │   ├── app.rs                # Main TUI event loop, rendering, server thread management
 │       │   ├── bridge.rs             # Global OnceLock bridge for server→TUI communication
-│       │   ├── colors.rs             # Theme: bg=#0f0f0f, highlight=#3365e6, success/error/warning
+│   │   ├── colors.rs             # Theme: near-black bg, surface shades, muted blue accent
 │       │   ├── state.rs              # Thread-safe TuiState (Arc<Mutex<TuiState>>)
 │       │   └── trackers.rs           # PerformanceTrackers with atomic counters
 │       ├── web.rs                    # URL extraction + WHOIS
@@ -59,7 +61,11 @@ Poseidon/
 ├── scripts/
 │   ├── build-llama-server.sh         # Builds llama.cpp from source
 │   ├── download-model.sh             # Downloads GGUF models (small/medium/large)
-│   └── run-llama-server.sh           # Starts llama.cpp server
+│   ├── run-llama-server.sh           # Starts llama.cpp server
+│   └── finetune/                     # Unsloth QLoRA finetuning pipeline
+│       ├── install.sh                # ROCm-aware Unsloth + dependencies install
+│       ├── requirements.txt          # Python packages (unsloth, transformers, trl, peft)
+│       └── train.py                  # QLoRA training script → GGUF export
 ├── data/
 │   ├── benchmarks/                   # Benchmark datasets (JSONL)
 │   │   ├── phishing_messages.jsonl   # Built-in phishing benchmark (bundled)
@@ -67,9 +73,13 @@ Poseidon/
 │   │   └── phishing_hf_200k.jsonl    # Full HuggingFace dataset (200K rows)
 │   ├── brand_catalog.json            # Wikidata-sourced brand catalog
 │   ├── brand_info.json               # Brand metadata from scraper
-│   └── favicon_hashes.json           # Known brand favicon SHA256 hashes
+│   ├── favicon_hashes.json           # Known brand favicon SHA256 hashes
+│   └── finetune/                     # Finetuning output directory (created on-demand)
+│       └── deepseek_phishing_training.jsonl  # DeepSeek-labeled training data (generated at runtime)
+├── models/                           # GGUF model files (gitignored)
 └── external/
-    └── llama.cpp/                    # Git submodule for local inference
+    ├── llama.cpp/                    # Git submodule for local inference
+    └── unsloth/                      # Git submodule for QLoRA finetuning (uninitialized, git submodule update --init to populate)
 ```
 
 ---
@@ -161,11 +171,20 @@ The `scoring::analyse_inner()` function has four public entry points configured 
 | `analyse_without_ai()` | ❌ No | ❌ No | Benchmark (no LLM dependency) |
 | `analyse_without_ai_with_online_url_enrichment()` | ❌ No | ✅ Yes | Benchmark with online signals |
 
+The AI URL context builder (`scoring::ai_url_context()`) is public and produces a concise textual overview of each URL's threat intel status, hosting provider, and evidence summary. It does **not** include "Known in DB" or "Queued for analysis" flags in the LLM prompt — those fields remain in the JSON response output but were removed from the context to keep the LLM focused on factual evidence rather than internal DB state.
+
 ---
 
 ## TUI (Terminal User Interface)
 
 The TUI provides an **interactive terminal-based interface** for testing and monitoring the phishing detection system in real-time. It runs the API server in a background thread while displaying live statistics, logs, and analysis results.
+
+Design is dark, minimal, futuristic — inspired by opencode's CLI:
+- Near-black background with subtle surface shades for panel separation
+- Squared corners, no rounded borders
+- Gray borders and separators, color reserved for status/data
+- Header bar + footer status bar framing the content
+- Grid-like layout with generous internal padding
 
 ### Launch
 
@@ -179,49 +198,78 @@ The `--interactive` flag routes execution to `modules::tui::run_tui()` instead o
 
 ```
 ┌──────────────────────────────────────────────────────────────────────────────┐
-│  Poseidon - Interactive Phishing Detection                                   │
+│ POSEIDON  ● ready  step: AI Assessment (30%)                     (header)   │
 ├──────────────────────────────────────┬───────────────────────────────────────┤
-│  ┌─────────────────────────────────┐  │  ┌─────────────────────────────────┐  │
-│  │ Input                           │  │  │ Statistics                      │  │
-│  │ > verify account at example.com │  │  │ Requests: 42                    │  │
-│  └─────────────────────────────────┘  │  │ Avg Delay: 234.56ms             │  │
-│  ┌─────────────────────────────────┐  │  │ Msgs/sec: 0.85                  │  │
-│  │ Statistics                      │  │  │ Uptime: 00:05:23                │  │
-│  │ Generation Speed: 12.5 tokens/s │  │  └─────────────────────────────────┘  │
-│  │ Progress: 65.0%                 │  │  ┌─────────────────────────────────┐  │
-│  └─────────────────────────────────┘  │  │ Server Logs                     │  │
-│  ┌─────────────────────────────────┐  │  │ [14:32:01] TUI started          │  │
-│  │ Currently Working On            │  │  │ [14:32:05] User input: verify…  │  │
-│  │ AI Assessment (30%)             │  │  │ [14:32:06] POST /analyse        │  │
-│  └─────────────────────────────────┘  │  │ [14:32:07] Analysis complete    │  │
-│  ┌─────────────────────────────────┐  │  └─────────────────────────────────┘  │
-│  │ Output                          │  │                                       │
-│  │ > verify account at example.com │  │                                       │
-│  │ ⏳ Analyzing...                 │  │                                       │
-│  │ Decision: Warn Receiver         │  │                                       │
-│  │ Risk Score: 52                  │  │                                       │
-│  │ Flags: URL not in threat feed   │  │                                       │
-│  └─────────────────────────────────┘  │                                       │
+│                                      │  Metrics                              │
+│  Output                              │  Requests  42                         │
+│  Decision: block                     │  Avg Delay 234.56ms                   │
+│  Overall Risk: 92/100                │  Msgs/sec  0.85                       │
+│                                      │  Uptime    00:05:23                   │
+│  Scores:                             │  Speed     12.50 t/s                  │
+│  Phishing............. 85            │                                       │
+│  Impersonation....... 30            ├───────────────────────────────────────┤
+│  Prompt Injection.... 0             │  Logs                                  │
+│  Secret.............. 0             │  [14:32:01] TUI started                │
+│  URL Reputation...... N/A           │  [14:32:05] User input                 │
+│  Risk................ 75            │  [14:32:06] POST /analyse              │
+│                                      │  [14:32:07] Analysis complete          │
+│  Flags:                              │                                       │
+│    • suspected_brand_impersonation   │                                       │
+│    • suspicious_url                  │                                       │
+│                                      │                                       │
+│  URLs: 1 found                       │                                       │
+│    example.com/login (risk: 85)      │                                       │
+│                                      │                                       │
+│ ─────────────────────────────────── │                                       │
+│  ⏳ AI Assessment (30%)             │                                       │
+│ ─── Input ──────────────────────── │                                       │
+│ › verify account at example.com     │                                       │
 ├──────────────────────────────────────┴───────────────────────────────────────┤
-│  70% Width                              │  30% Width                          │
+│ q:quit  enter:send  ↑↓:scroll  esc:quit                        (footer)    │
 └──────────────────────────────────────────────────────────────────────────────┘
 ```
 
-### Left Panel (70% Width)
+### Header Bar
+
+The top bar shows the app name **POSEIDON** with a status indicator (● green=ready, ● yellow=pending), current processing step, and progress percentage. Styled on a `SURFACE` (#1a1a1a) background.
+
+### Left Column (70% Width)
 
 | Section | Purpose |
 |---|---|
-| **Input** | Text input for messages to analyze. Shows "⏳ Analyzing..." when request is pending |
-| **Statistics** | Generation speed (tokens/sec), progress percentage for current analysis |
-| **Currently Working On** | Current processing step from scoring engine (e.g., "URL Scanning (15%)") |
-| **Output** | Analysis results, user input history, decision output. Scrollable with ↑/↓ |
+| **Output** | Formatted JSON analysis results — decision, overall risk, per-category scores, flags, URLs, message memory, summary. Uses `format_response()` to render structured color-coded output. Scrollable with ↑/↓. Auto-scrolls to bottom on new results |
+| **Step Indicator** | Single-line status showing current processing step (e.g., "⏳ AI Assessment (30%)") |
+| **Input** | Text input for messages. Shows `›` prompt when idle, `⏳` when request is pending. Bordered with a separator line above |
 
-### Right Panel (30% Width)
+### Right Column (30% Width)
 
 | Section | Purpose |
 |---|---|
-| **Statistics** | Request count, average delay, messages/second, uptime (HH:MM:SS) |
-| **Server Logs** | Timestamped log entries from server initialization, threat feed updates, errors |
+| **Metrics** | Request count, average delay, messages/second, uptime (HH:MM:SS), generation speed (tokens/sec). Styled on `SURFACE_HIGH` (#252525) background |
+| **Logs** | Reversed-chronological timestamped log entries from server initialization, threat feed updates, errors. Styled on `BG` (#0f0f0f) background |
+
+### Footer Bar
+
+Bottom status bar showing keyboard shortcuts:
+- `q` / `esc`: quit
+- `enter`: send message for analysis
+- `↑` / `↓`: scroll output
+
+### JSON Response Formatting
+
+Analysis responses are parsed and rendered as structured, color-coded output:
+
+| Element | Color Source |
+|---|---|
+| Decision label | `TEXT_DIM` (#808080) |
+| Decision value (block) | `WARNING` (#ffa726) |
+| Decision value (allow) | `SUCCESS` (#4caf50) |
+| Overall Risk (≥90) | RGB(255, 87, 87) — bright red |
+| Overall Risk (≥75) | `WARNING` (#ffa726) |
+| Section headers | `HIGHLIGHT` (#5c8aff) |
+| Score values ≥90 | Bright red |
+| Score values ≥75 | Warning color |
+| Summary text | `TEXT_DIM` italic |
 
 ### Input Processing Flow
 
@@ -229,7 +277,6 @@ The `--interactive` flag routes execution to `modules::tui::run_tui()` instead o
 User types message → presses Enter
          │
          ├─ Clear input buffer
-         ├─ Display "> {message}" in output
          ├─ Set request_pending = true
          │
          ├─ Spawn thread:
@@ -237,21 +284,24 @@ User types message → presses Enter
          │   │   Body: {"message": "...", "user_id": "tui"}
          │   │
          │   ├─ Server processes via scoring::analyse()
-         │   │   ├─ bridge::post_step() → updates "Currently Working On"
-         │   │   ├─ bridge::post_progress() → updates progress bar
+         │   │   ├─ bridge::post_step() → updates step indicator
+         │   │   ├─ bridge::post_progress() → updates progress percent
          │   │   ├─ bridge::post_output() → appends analysis results
-         │   │   └─ bridge::track_request_start/end() → updates stats
+         │   │   └─ bridge::track_request_start/end() → updates metrics
          │   │
          │   └─ On response:
          │       ├─ Set request_pending = false
-         │       └─ Display success/error in output
+         │       ├─ If HTTP 200 → parse JSON via format_response(), append to output
+         │       └─ If HTTP error → show "⚠ Request failed: HTTP {status}"
          │
          └─ TUI re-renders with updated state
+             ├─ Output auto-scrolls to bottom on new content
+             └─ format_response() converts JSON → color-coded structured display
 ```
 
 ### Analysis Steps (Posted via Bridge)
 
-The scoring engine posts 6 steps with progress percentages:
+The scoring engine posts 6 steps with progress percentages, displayed inline in the header bar and step indicator:
 
 | Step | Progress | Description |
 |---|---|---|
@@ -262,17 +312,25 @@ The scoring engine posts 6 steps with progress percentages:
 | 5. Decision | 90% | Combine scores → Block/Warn/Allow decision |
 | 6. Complete | 100% | Analysis finished, output results |
 
+The header bar displays the current step (e.g., "step: AI Assessment (30%)") with a status dot (● green=ready, ● yellow=pending). The step indicator line below the output shows the same in a condensed form.
+
 ### Color Scheme
 
 | Color | Hex | Usage |
 |---|---|---|
-| Background | `#0f0f0f` | Main background |
-| Highlight | `#3365e6` | Input border, stats, selections |
-| Text | `Gray` | Default text |
-| Success | `Green` | Output panel border |
-| Warning | `Yellow` | Pending state, step indicator |
-| Error | `Red` | Logs panel border, error messages |
-| Dim Text | `DarkGray` | Secondary text, borders |
+| Background (`BG`) | `#0f0f0f` | Main background, log panel |
+| Surface (`SURFACE`) | `#1a1a1a` | Input area, header/footer background |
+| Surface High (`SURFACE_HIGH`) | `#252525` | Metrics panel background |
+| Border (`BORDER`) | `#484848` | Panel borders, separator lines |
+| Border Dim (`BORDER_DIM`) | `#3c3c3c` | Column separator |
+| Highlight (`HIGHLIGHT`) | `#5c8aff` | Section headers, key data, keyboard shortcuts |
+| Highlight Dim (`HIGHLIGHT_DIM`) | `#3a5a9e` | Progress percentage, secondary highlights |
+| Text (`TEXT`) | `#d4d4d4` | Primary text content |
+| Text Bright (`TEXT_BRIGHT`) | `#eeeeee` | App name, input buffer text |
+| Text Dim (`TEXT_DIM`) | `#808080` | Labels, descriptions, less important info |
+| Success (`SUCCESS`) | `#4caf50` | Allow decisions, ready status |
+| Warning (`WARNING`) | `#ffa726` | Block/warn decisions, pending status |
+| Error (`ERROR`) | `#ef5350` | Error status indicators |
 
 ### Bridge Architecture
 
@@ -513,6 +571,13 @@ If NO supporting evidence from URL scans, urgency, secrets, or prompt injection:
 - Set `POSEIDON_LLM_ENDPOINT=http://host:port/v1` → uses `/chat/completions` API
 - Supports any OpenAI-compatible backend (e.g., llama.cpp, vLLM, OpenAI itself)
 - Uses `response_format: {"type": "json_object"}` when available
+- Sets `max_tokens`: 256 when JSON format requested, 64 otherwise
+
+### Public Prompt Building
+
+The assessment prompt is exposed as a public function `assessment_prompt(message, url_context)` in `ai.rs`, reused by:
+- The main `assess_message_with_url_context()` function (runtime API path)
+- The `finetune_dataset` binary (to build exact training prompts matching runtime behavior)
 
 ### Auto-Setup (`llm_server.rs`)
 If no `POSEIDON_LLM_ENDPOINT` is set, `llm_server::ensure()`:
@@ -689,6 +754,7 @@ The `message_memory` module detects repeated or similar phishing messages:
 - `download-phishing-benchmark`: Standalone downloader for the HF dataset
 - **DB isolation**: Creates temp DuckDB files at `/tmp/poseidon_bench_*` unless `POSEIDON_BENCHMARK_PERSIST_DB` is set
 - **Configurable**: `POSEIDON_BENCHMARK_LIMIT`, `POSEIDON_BENCHMARK_OFFSET`, `POSEIDON_BENCHMARK_AI`, `POSEIDON_BENCHMARK_DATASET`
+- **Minimum cases**: Requires at least 1 case (lowered from 100) — allows small test runs for rapid iteration
 
 ### Message Memory Benchmark
 - `benchmark-message-memory`: Seeds a "PayPal verification" message, then tests similarity lookup
@@ -708,6 +774,8 @@ The `message_memory` module detects repeated or similar phishing messages:
 9. **Appender-based bulk inserts** — DuckDB `appender` API for efficient bulk threat feed ingestion in a single transaction
 10. **TUI bridge pattern** — `OnceLock<Arc<Mutex<T>>>` for global, thread-safe state sharing between server and TUI; all `post_*()` functions are NO-OPs when TUI is inactive
 11. **Output redirection** — all modules use `bridge::log()` / `bridge::elog()` for dual-mode output: posts to TUI log window when interactive, falls back to stdout/stderr when headless
+12. **Finetuning dataset pipeline** — `finetune_dataset` binary runs Poseidon detection on each message, builds the exact runtime prompt, labels via DeepSeek, and appends to JSONL with stable SHA256 row IDs for resume-safe processing
+13. **Unsloth QLoRA finetuning** — `scripts/finetune/train.py` uses Unsloth for 4-bit QLoRA training on the generated dataset, exports to GGUF for inference via llama.cpp
 
 ---
 
@@ -804,7 +872,51 @@ The `message_memory` module detects repeated or similar phishing messages:
 
 ---
 
+### Finetuning Dataset Generator
+| Variable | Default | Purpose |
+|---|---|---|
+| `DEEPSEEK_API_KEY` | _(required)_ | DeepSeek API key for labelling |
+| `DEEPSEEK_API_URL` | `https://api.deepseek.com/chat/completions` | DeepSeek API endpoint |
+| `DEEPSEEK_MODEL` | `deepseek-chat` | DeepSeek model name |
+| `POSEIDON_FINETUNE_INPUT` | _(unset → nazario_top2500.json)_ | Input JSON array of phishing messages |
+| `POSEIDON_FINETUNE_OUTPUT` | `data/finetune/deepseek_phishing_training.jsonl` | Output JSONL path |
+| `POSEIDON_FINETUNE_LIMIT` | _(all)_ | Max rows to process |
+| `POSEIDON_FINETUNE_OFFSET` | `0` | Skip N entries from start |
+| `POSEIDON_FINETUNE_ONLINE` | `false` | Enable online URL enrichment before prompt |
+| `POSEIDON_FINETUNE_DRY_RUN` | `false` | Skip DeepSeek API call, use fake response |
+
+### Unsloth Finetuning (Python scripts/finetune/train.py)
+| Variable | Default | Purpose |
+|---|---|---|
+| `POSEIDON_FINETUNE_DATASET` | `data/finetune/deepseek_phishing_training.jsonl` | JSONL training dataset |
+| `POSEIDON_FINETUNE_OUTPUT_DIR` | `models/finetuned` | Output directory for adapter + GGUF |
+| `POSEIDON_FINETUNE_MODEL` | `unsloth/gemma-3-1b-it-bnb-4bit` | Base model name |
+| `POSEIDON_FINETUNE_EPOCHS` | `3` | Number of training epochs |
+| `POSEIDON_FINETUNE_LR` | `2e-4` | Learning rate |
+| `POSEIDON_FINETUNE_BATCH_SIZE` | `2` | Per-device batch size |
+| `POSEIDON_FINETUNE_GRAD_ACCUM` | `4` | Gradient accumulation steps |
+| `POSEIDON_FINETUNE_MAX_LEN` | `2048` | Max sequence length |
+| `POSEIDON_FINETUNE_R` | `16` | LoRA rank |
+| `POSEIDON_FINETUNE_ALPHA` | `16` | LoRA alpha |
+| `POSEIDON_FINETUNE_DROPOUT` | `0.0` | LoRA dropout |
+| `POSEIDON_FINETUNE_QUANT` | `4bit` | Quantization (4bit/8bit/None) |
+| `POSEIDON_SKIP_GGUF` | `false` | Skip GGUF export after training |
+
+---
+
 ## Standalone CLI Tools
+
+### `finetune_dataset.rs` (`cargo run --bin finetune_dataset`)
+- Reads phishing messages from a JSON array file (`nazario_top2500.json` by default)
+- Runs Poseidon detection on each message to gather detection context + URL overview
+- Constructs the exact `assessment_prompt()` used at runtime
+- Calls DeepSeek API with the prompt to get an AI assessment
+- Appends each result immediately to a JSONL file (`data/finetune/deepseek_phishing_training.jsonl`)
+- **Resume-safe**: Tracks completed rows by stable SHA256-based row ID — skips already-processed rows on restart
+- **Dry-run mode** (`POSEIDON_FINETUNE_DRY_RUN=true`): uses fake AI response, no API call
+- Progress bar with success/error/skip counts using indicatif
+- Configurable limit, offset, and online enrichment toggle
+- Exponential backoff retry (2 attempts) for DeepSeek API failures
 
 ### `brand_scraper.rs` (`cargo run --bin brand_scraper`)
 - Queries **Wikidata SPARQL** for brands/businesses with websites
