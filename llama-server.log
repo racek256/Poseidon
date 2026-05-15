@@ -59,3 +59,63 @@ prompt eval time =      26.59 ms /    19 tokens (    1.40 ms per token,   714.47
 0.01.001.154 I slot      release: id  3 | task 0 | stop processing: n_tokens = 30, truncated = 0
 0.01.001.157 I srv  update_slots: all slots are idle
 1.35.354.917 I srv    operator(): operator(): cleaning up before exit...
+=== Starting llama.cpp server ===
+Model:      /home/racek/Projects/Poseidon/models/gemma-3-1b-it-Q4_0.gguf
+Endpoint:   http://127.0.0.1:8081
+Context:    8192
+Threads:    12
+GPU layers: 99
+
+0.00.016.196 I log_info: verbosity = 3 (adjust with the `-lv N` CLI arg)
+0.00.016.197 I device_info:
+0.00.016.213 I   - ROCm0   : AMD Radeon RX 7700 XT (12272 MiB, 11976 MiB free)
+0.00.016.215 I   - CPU     : AMD Ryzen 5 5600 6-Core Processor (32010 MiB, 32010 MiB free)
+0.00.016.248 I system_info: n_threads = 12 (n_threads_batch = 12) / 12 | ROCm : NO_VMM = 1 | PEER_MAX_BATCH_SIZE = 128 | CPU : SSE3 = 1 | SSSE3 = 1 | AVX = 1 | AVX2 = 1 | F16C = 1 | FMA = 1 | BMI2 = 1 | LLAMAFILE = 1 | OPENMP = 1 | REPACK = 1 | 
+0.00.016.251 I srv          main: n_parallel is set to auto, using n_parallel = 4 and kv_unified = true
+0.00.016.262 I srv          init: running without SSL
+0.00.016.285 I srv          init: using 11 threads for HTTP server
+0.00.016.346 I srv         start: binding port with default address family
+0.00.017.490 I srv          main: loading model
+0.00.017.492 I srv    load_model: loading model '/home/racek/Projects/Poseidon/models/gemma-3-1b-it-Q4_0.gguf'
+0.00.017.538 I common_init_result: fitting params to device memory ...
+0.00.017.539 I common_init_result: (for bugs during this step try to reproduce them with -fit off, or provide --verbose logs if the bug only occurs with -fit on)
+0.00.405.313 W load: control-looking token:    212 '</s>' was not control-type; this is probably a bug in the model. its type will be overridden
+0.00.528.306 W llama_context: n_ctx_seq (8192) < n_ctx_train (32768) -- the full capacity of the model will not be utilized
+0.00.538.831 W common_init_from_params: warming up the model with an empty run - please wait ... (--no-warmup to disable)
+0.00.593.806 I srv    load_model: initializing slots, n_slots = 4
+0.00.603.793 W common_speculative_init: no implementations specified for speculative decoding
+0.00.603.795 I slot   load_model: id  0 | task -1 | new slot, n_ctx = 8192
+0.00.603.800 I slot   load_model: id  1 | task -1 | new slot, n_ctx = 8192
+0.00.603.800 I slot   load_model: id  2 | task -1 | new slot, n_ctx = 8192
+0.00.603.801 I slot   load_model: id  3 | task -1 | new slot, n_ctx = 8192
+0.00.603.845 I srv    load_model: prompt cache is enabled, size limit: 8192 MiB
+0.00.603.846 I srv    load_model: use `--cache-ram 0` to disable the prompt cache
+0.00.603.846 I srv    load_model: for more info see https://github.com/ggml-org/llama.cpp/pull/16391
+0.00.603.862 I srv          init: idle slots will be saved to prompt cache and cleared upon starting a new task
+0.00.606.253 I init: chat template, example_format: '<start_of_turn>user
+You are a helpful assistant
+
+Hello<end_of_turn>
+<start_of_turn>model
+Hi there<end_of_turn>
+<start_of_turn>user
+How are you?<end_of_turn>
+<start_of_turn>model
+'
+0.00.607.159 I srv          init: init: chat template, thinking = 0
+0.00.607.178 I srv          main: model loaded
+0.00.607.181 I srv          main: server is listening on http://127.0.0.1:8081
+0.00.607.185 I srv  update_slots: all slots are idle
+0.00.728.365 I srv  params_from_: Chat format: peg-native
+0.00.728.409 I slot get_availabl: id  3 | task -1 | selected slot by LRU, t_last = -1
+0.00.728.411 I srv  get_availabl: updating prompt cache
+0.00.728.414 I srv          load:  - looking for better prompt, base f_keep = -1.000, sim = 0.000
+0.00.728.424 I srv        update:  - cache state: 0 prompts, 0.000 MiB (limits: 8192.000 MiB, 8192 tokens, 8589934592 est)
+0.00.728.428 I srv  get_availabl: prompt cache update took 0.01 ms
+0.00.728.499 I slot launch_slot_: id  3 | task 0 | processing task, is_child = 0
+0.00.820.462 I slot print_timing: id  3 | task 0 | 
+prompt eval time =      24.36 ms /    19 tokens (    1.28 ms per token,   779.84 tokens per second)
+       eval time =      67.58 ms /    12 tokens (    5.63 ms per token,   177.56 tokens per second)
+      total time =      91.95 ms /    31 tokens
+0.00.820.508 I slot      release: id  3 | task 0 | stop processing: n_tokens = 30, truncated = 0
+0.00.820.512 I srv  update_slots: all slots are idle
