@@ -9,3 +9,5 @@ external/llama.cpp/build/
 
 # Downloaded GGUF models
 models/
+
+llama-server.log
