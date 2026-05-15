@@ -1,7 +1,11 @@
 //! Main TUI application loop using ratatui and crossterm.
-//! Provides an interactive terminal user interface with:
-//! - Left panel: Input prompt, statistics, current step, output window
-//! - Right panel: Statistics sidebar, server logs
+//!
+//! Dark, minimal, futuristic design inspired by opencode's CLI:
+//! - Near-black background with subtle surface shades for panel separation
+//! - Squared corners, no rounded borders
+//! - Gray borders and separators, color reserved for status/data
+//! - Header bar + footer status bar framing the content
+//! - Grid-like layout with generous internal padding
 
 use std::io::{self, stdout};
 use std::sync::{Arc, Mutex};
@@ -13,33 +17,28 @@ use crossterm::terminal::{
     disable_raw_mode, enable_raw_mode, EnterAlternateScreen, LeaveAlternateScreen,
 };
 use ratatui::layout::{Constraint, Direction, Layout, Rect};
-use ratatui::style::{Style, Stylize};
+use ratatui::style::{Modifier, Style};
 use ratatui::text::{Line, Span};
-use ratatui::widgets::{Block, BorderType, Borders, Paragraph};
+use ratatui::widgets::{Block, Borders, Paragraph, Wrap};
 use ratatui::{backend::CrosstermBackend, Frame, Terminal};
 use reqwest::blocking::Client;
 
-use super::colors::{BG, ERROR, HIGHLIGHT, SUCCESS, TEXT, TEXT_DIM, WARNING};
+use super::colors::{
+    BG, BORDER, BORDER_DIM, HIGHLIGHT, HIGHLIGHT_DIM, SUCCESS, SURFACE, SURFACE_HIGH,
+    TEXT, TEXT_BRIGHT, TEXT_DIM, WARNING,
+};
 use super::state::TuiState;
 
-/// TUI application that manages the main event loop and rendering.
 pub struct App {
-    /// Shared state with the rest of the application
     state: Arc<Mutex<TuiState>>,
-    /// Whether the application should exit
     should_quit: bool,
-    /// Scroll position for output window
     output_scroll: usize,
-    /// Scroll position for logs window
     logs_scroll: usize,
-    /// API server address
     api_addr: String,
-    /// HTTP client for API requests
     http_client: Client,
 }
 
 impl App {
-    /// Creates a new App instance with shared state.
     pub fn new(state: Arc<Mutex<TuiState>>, api_addr: String) -> Self {
         let http_client = Client::builder()
             .timeout(std::time::Duration::from_secs(120))
@@ -55,33 +54,26 @@ impl App {
         }
     }
 
-    /// Main event loop - handles input and renders UI.
     pub fn run(&mut self) -> Result<(), Box<dyn std::error::Error>> {
-        // Setup terminal
         enable_raw_mode()?;
         let mut stdout = stdout();
         crossterm::execute!(stdout, EnterAlternateScreen)?;
-        
-        // Mark TUI as running
+
         {
             let mut state = self.state.lock().unwrap();
             state.start();
         }
 
-        // Create terminal backend
         let backend = CrosstermBackend::new(stdout);
         let mut terminal = Terminal::new(backend)?;
 
-        // Main event loop
         loop {
             if self.should_quit {
                 break;
             }
 
-            // Render UI
             terminal.draw(|f| self.render(f))?;
 
-            // Handle events with timeout
             if event::poll(Duration::from_millis(50))? {
                 if let Event::Key(key) = event::read()? {
                     self.handle_key_event(key);
@@ -89,11 +81,9 @@ impl App {
             }
         }
 
-        // Cleanup
         disable_raw_mode()?;
         crossterm::execute!(io::stdout(), LeaveAlternateScreen)?;
-        
-        // Mark TUI as stopped
+
         {
             let mut state = self.state.lock().unwrap();
             state.stop();
@@ -102,9 +92,7 @@ impl App {
         Ok(())
     }
 
-    /// Handles key press events.
     fn handle_key_event(&mut self, key: event::KeyEvent) {
-        // Only handle Press events, ignore Release and Hold
         if key.kind != KeyEventKind::Press {
             return;
         }
@@ -137,7 +125,8 @@ impl App {
                         let client = self.http_client.clone();
                         let state_clone = Arc::clone(&self.state);
                         thread::spawn(move || {
-                            let payload = serde_json::json!({"message": input, "user_id": "tui"}).to_string();
+                            let payload =
+                                serde_json::json!({"message": input, "user_id": "tui"}).to_string();
                             let result = client
                                 .post(format!("http://{}/analyse", api_addr))
                                 .header("Content-Type", "application/json")
@@ -147,7 +136,10 @@ impl App {
                             s.set_request_pending(false);
                             match result {
                                 Ok(resp) => {
-                                    if !resp.status().is_success() {
+                                    if resp.status().is_success() {
+                                        let body = resp.text().unwrap_or_else(|e| format!("<read error: {e}>"));
+                                        s.append_output(body);
+                                    } else {
                                         s.append_output(format!(
                                             "⚠ Request failed: HTTP {}",
                                             resp.status()
@@ -166,21 +158,13 @@ impl App {
                 }
             }
             KeyCode::Up => {
-                // Scroll output up
-                let output_len = {
-                    let state = self.state.lock().unwrap();
-                    state.output.len()
-                };
+                let output_len = state.output.len();
                 if self.output_scroll > 0 && output_len > 0 {
                     self.output_scroll = self.output_scroll.saturating_sub(1);
                 }
             }
             KeyCode::Down => {
-                // Scroll output down
-                let output_len = {
-                    let state = self.state.lock().unwrap();
-                    state.output.len()
-                };
+                let output_len = state.output.len();
                 if self.output_scroll < output_len.saturating_sub(1) {
                     self.output_scroll += 1;
                 }
@@ -189,106 +173,131 @@ impl App {
         }
     }
 
-    /// Renders the main TUI layout.
     fn render(&self, f: &mut Frame) {
-        // Clear the entire frame with background color
         let bg_clear = Block::default().style(Style::default().bg(BG));
         f.render_widget(bg_clear, f.area());
 
-        // Get terminal size
         let size = f.area();
-        
-        // Create main horizontal split (70% left, 30% right)
-        let chunks = Layout::default()
+
+        // ── Top-level layout: header | main | footer ──
+        let outer = Layout::default()
+            .direction(Direction::Vertical)
+            .constraints([
+                Constraint::Length(1), // header bar
+                Constraint::Min(0),    // main content
+                Constraint::Length(1), // footer bar
+            ])
+            .split(size);
+
+        self.render_header(f, outer[0]);
+        self.render_main(f, outer[1]);
+        self.render_footer(f, outer[2]);
+    }
+
+    fn render_header(&self, f: &mut Frame, area: Rect) {
+        let state = self.state.lock().unwrap();
+
+        let db_status = if state.request_pending {
+            Span::styled(" ● ", Style::default().fg(WARNING))
+        } else {
+            Span::styled(" ● ", Style::default().fg(SUCCESS))
+        };
+
+        let header_line = Line::from(vec![
+            Span::styled(" POSEIDON ", Style::default().fg(TEXT_BRIGHT).add_modifier(Modifier::BOLD)),
+            Span::styled("  ", Style::default()),
+            db_status,
+            Span::styled("ready", Style::default().fg(TEXT_DIM)),
+            Span::styled("  ", Style::default()),
+            Span::styled(
+                format!("  step: {} ", state.current_step),
+                Style::default().fg(TEXT_DIM),
+            ),
+            if state.progress_percent > 0.0 {
+                Span::styled(
+                    format!("({:.0}%) ", state.progress_percent),
+                    Style::default().fg(HIGHLIGHT_DIM),
+                )
+            } else {
+                Span::raw("")
+            },
+        ]);
+
+        let header = Paragraph::new(header_line)
+            .style(Style::default().bg(SURFACE).fg(TEXT));
+        f.render_widget(header, area);
+    }
+
+    fn render_main(&self, f: &mut Frame, area: Rect) {
+        // ── Main horizontal split: left 70% | right 30% ──
+        let columns = Layout::default()
             .direction(Direction::Horizontal)
             .constraints([
                 Constraint::Percentage(70),
                 Constraint::Percentage(30),
             ])
-            .split(size);
+            .split(area);
 
-        // Render left panel
-        self.render_left_panel(f, chunks[0]);
-        
-        // Render right panel
-        self.render_right_panel(f, chunks[1]);
+        self.render_left_column(f, columns[0]);
+        self.render_right_column(f, columns[1]);
     }
 
-    /// Renders the left panel (70% width).
-    fn render_left_panel(&self, f: &mut Frame, area: Rect) {
+    fn render_left_column(&self, f: &mut Frame, area: Rect) {
         let state = self.state.lock().unwrap();
 
-        // Vertical split for left panel
         let left_chunks = Layout::default()
             .direction(Direction::Vertical)
             .constraints([
-                Constraint::Length(8),  // Input section
-                Constraint::Length(6),  // Stats section
-                Constraint::Length(4),  // Current step
-                Constraint::Min(0),     // Output window (takes remaining)
+                Constraint::Min(0),    // output (top)
+                Constraint::Length(1), // step indicator (middle)
+                Constraint::Length(3),  // input (bottom)
             ])
             .split(area);
 
-        // Input section with border
-        let (input_title, input_border_color) = if state.request_pending {
-            (" ⏳ Analyzing... ", WARNING)
+        // ── Input area ──
+        let input_style = if state.request_pending {
+            Style::default().fg(WARNING)
         } else {
-            (" Input ", HIGHLIGHT)
+            Style::default().fg(HIGHLIGHT)
         };
 
         let input_block = Block::default()
-            .title(input_title)
-            .borders(Borders::ALL)
-            .border_type(BorderType::Rounded)
-            .border_style(Style::default().fg(input_border_color));
-        
-        let input_paragraph = Paragraph::new(state.input_buffer.as_str())
-            .style(Style::default().fg(TEXT))
-            .block(input_block.clone());
-        f.render_widget(input_paragraph, left_chunks[0]);
+            .borders(Borders::TOP)
+            .border_style(Style::default().fg(BORDER))
+            .title(Line::from(vec![
+                Span::styled(" Input ", Style::default().fg(TEXT_DIM)),
+            ]))
+            .title_position(ratatui::widgets::block::Position::Top)
+            .style(Style::default().bg(SURFACE))
+            .padding(ratatui::widgets::Padding::new(1, 1, 0, 0));
 
-        // Stats section
-        let stats_block = Block::default()
-            .title(" Statistics ")
-            .borders(Borders::ALL)
-            .border_type(BorderType::Rounded)
-            .border_style(Style::default().fg(TEXT_DIM));
-        
-        let stats_text = vec![
-            Line::from(vec![
-                Span::raw("Generation Speed: "),
-                Span::raw(format!("{:.2} tokens/sec", state.generation_speed)).fg(HIGHLIGHT),
-            ]),
-            Line::from(vec![
-                Span::raw("Progress: "),
-                Span::raw(format!("{:.1}%", state.progress_percent)).fg(HIGHLIGHT),
-            ]),
-        ];
-        let stats_paragraph = Paragraph::new(stats_text)
-            .style(Style::default().fg(TEXT))
-            .block(stats_block);
-        f.render_widget(stats_paragraph, left_chunks[1]);
+        let prompt = if state.request_pending {
+            "⏳ "
+        } else {
+            "› "
+        };
+        let input_text = Line::from(vec![
+            Span::styled(prompt, input_style.add_modifier(Modifier::BOLD)),
+            Span::styled(state.input_buffer.as_str(), Style::default().fg(TEXT_BRIGHT)),
+        ]);
 
-        // Current step section
-        let step_block = Block::default()
-            .title(" Currently Working On ")
-            .borders(Borders::ALL)
-            .border_type(BorderType::Rounded)
-            .border_style(Style::default().fg(TEXT_DIM));
-        
-        let step_paragraph = Paragraph::new(state.current_step.as_str())
-            .style(Style::default().fg(WARNING))
-            .block(step_block);
-        f.render_widget(step_paragraph, left_chunks[2]);
+        let input_paragraph = Paragraph::new(input_text)
+            .style(Style::default().bg(SURFACE))
+            .block(input_block);
+        f.render_widget(input_paragraph, left_chunks[2]);
 
-        // Output window with scroll
+        // ── Output area ──
         let output_block = Block::default()
-            .title(" Output ")
-            .borders(Borders::ALL)
-            .border_type(BorderType::Rounded)
-            .border_style(Style::default().fg(SUCCESS));
+            .borders(Borders::TOP)
+            .border_style(Style::default().fg(BORDER))
+            .title(Line::from(vec![
+                Span::styled(" Output ", Style::default().fg(TEXT_DIM)),
+            ]))
+            .title_position(ratatui::widgets::block::Position::Top)
+            .style(Style::default().bg(BG))
+            .padding(ratatui::widgets::Padding::new(1, 1, 0, 0));
 
-        let visible_lines = left_chunks[3].height as usize;
+        let visible_lines = left_chunks[0].height.saturating_sub(2) as usize;
         let start = self
             .output_scroll
             .min(state.output.len().saturating_sub(visible_lines));
@@ -302,78 +311,135 @@ impl App {
 
         let output_paragraph = Paragraph::new(output_lines)
             .style(Style::default().fg(TEXT))
+            .wrap(Wrap { trim: true })
             .block(output_block);
+        f.render_widget(output_paragraph, left_chunks[0]);
 
-        f.render_widget(output_paragraph, left_chunks[3]);
+        // ── Step indicator (single line, no border) ──
+        let step_text = if state.request_pending {
+            format!("  ⏳ {}", state.current_step)
+        } else {
+            format!("  {}", state.current_step)
+        };
+        let step_style = if state.request_pending {
+            Style::default().fg(WARNING)
+        } else {
+            Style::default().fg(TEXT_DIM)
+        };
+        let step_line = Paragraph::new(step_text).style(step_style);
+        f.render_widget(step_line, left_chunks[1]);
     }
 
-    /// Renders the right panel (30% width).
-    fn render_right_panel(&self, f: &mut Frame, area: Rect) {
+    fn render_right_column(&self, f: &mut Frame, area: Rect) {
         let state = self.state.lock().unwrap();
 
-        // Vertical split for right panel
+        // Vertical separator line between columns
+        let separator = Block::default()
+            .borders(Borders::LEFT)
+            .border_style(Style::default().fg(BORDER_DIM));
+        f.render_widget(separator, area);
+
         let right_chunks = Layout::default()
             .direction(Direction::Vertical)
             .constraints([
-                Constraint::Min(0),  // Stats sidebar (takes remaining)
-                Constraint::Length(10),  // Logs window
+                Constraint::Length(8), // metrics
+                Constraint::Min(0),    // logs
             ])
             .split(area);
 
-        // Statistics sidebar
-        let stats_block = Block::default()
-            .title(" Statistics ")
-            .borders(Borders::ALL)
-            .border_type(BorderType::Rounded)
-            .border_style(Style::default().fg(TEXT_DIM))
-            .padding(ratatui::widgets::Padding::uniform(1));
-        
-        let mut stats_lines = vec![
-            Line::from(vec![Span::raw("Placeholder Statistics").fg(TEXT_DIM)]),
-            Line::from(vec![Span::raw("").fg(TEXT_DIM)]),
-        ];
+        // ── Metrics panel ──
+        let metrics_block = Block::default()
+            .borders(Borders::TOP)
+            .border_style(Style::default().fg(BORDER))
+            .title(Line::from(vec![
+                Span::styled(" Metrics ", Style::default().fg(TEXT_DIM)),
+            ]))
+            .title_position(ratatui::widgets::block::Position::Top)
+            .style(Style::default().bg(SURFACE_HIGH))
+            .padding(ratatui::widgets::Padding::new(1, 1, 0, 0));
 
-        // Add placeholder stats
-        for (key, value) in &state.placeholder_stats {
-            stats_lines.push(Line::from(vec![
-                Span::raw(format!("{}: ", key)).fg(TEXT),
-                Span::raw(value.as_str()).fg(HIGHLIGHT),
-            ]));
-        }
+        let mut metrics_lines: Vec<Line> = vec![];
 
-        // Add default placeholders if no custom stats
         if state.placeholder_stats.is_empty() {
-            stats_lines.extend(vec![
-                Line::from(vec![Span::raw("Requests: 0").fg(TEXT)]),
-                Line::from(vec![Span::raw("Avg Delay: 0ms").fg(TEXT)]),
-                Line::from(vec![Span::raw("Uptime: 00:00:00").fg(TEXT)]),
-                Line::from(vec![Span::raw("Msgs/sec: 0.00").fg(TEXT)]),
-            ]);
+            metrics_lines.push(Line::from(vec![
+                Span::styled("Requests ", Style::default().fg(TEXT_DIM)),
+                Span::styled("0", Style::default().fg(TEXT)),
+            ]));
+            metrics_lines.push(Line::from(vec![
+                Span::styled("Avg Delay ", Style::default().fg(TEXT_DIM)),
+                Span::styled("0ms", Style::default().fg(TEXT)),
+            ]));
+            metrics_lines.push(Line::from(vec![
+                Span::styled("Msgs/sec  ", Style::default().fg(TEXT_DIM)),
+                Span::styled("0.00", Style::default().fg(TEXT)),
+            ]));
+            metrics_lines.push(Line::from(vec![
+                Span::styled("Uptime    ", Style::default().fg(TEXT_DIM)),
+                Span::styled("00:00:00", Style::default().fg(TEXT)),
+            ]));
+            metrics_lines.push(Line::from(vec![
+                Span::styled("Speed     ", Style::default().fg(TEXT_DIM)),
+                Span::styled(format!("{:.2} t/s", state.generation_speed), Style::default().fg(TEXT)),
+            ]));
+        } else {
+            for (key, value) in &state.placeholder_stats {
+                let padded_key = format!("{:<10}", key);
+                metrics_lines.push(Line::from(vec![
+                    Span::styled(padded_key, Style::default().fg(TEXT_DIM)),
+                    Span::styled(value.as_str(), Style::default().fg(HIGHLIGHT)),
+                ]));
+            }
         }
 
-        let sidebar_paragraph = Paragraph::new(stats_lines)
-            .style(Style::default().fg(TEXT))
-            .block(stats_block);
-        f.render_widget(sidebar_paragraph, right_chunks[0]);
+        let metrics_paragraph = Paragraph::new(metrics_lines)
+            .style(Style::default().bg(SURFACE_HIGH))
+            .block(metrics_block);
+        f.render_widget(metrics_paragraph, right_chunks[0]);
 
-        // Server logs window
+        // ── Logs panel ──
         let logs_block = Block::default()
-            .title(" Server Logs ")
-            .borders(Borders::ALL)
-            .border_type(BorderType::Rounded)
-            .border_style(Style::default().fg(ERROR));
-        
-        let log_lines: Vec<Line> = state.logs.iter()
-            .rev()  // Show newest first
+            .borders(Borders::TOP)
+            .border_style(Style::default().fg(BORDER))
+            .title(Line::from(vec![
+                Span::styled(" Logs ", Style::default().fg(TEXT_DIM)),
+            ]))
+            .title_position(ratatui::widgets::block::Position::Top)
+            .style(Style::default().bg(BG))
+            .padding(ratatui::widgets::Padding::new(1, 1, 0, 0));
+
+        let log_lines: Vec<Line> = state
+            .logs
+            .iter()
+            .rev()
             .skip(self.logs_scroll)
-            .take(10)
-            .map(|s| Line::from(s.as_str()))
+            .take(right_chunks[1].height.saturating_sub(2) as usize)
+            .map(|s| Line::from(Span::styled(s.as_str(), Style::default().fg(TEXT_DIM))))
             .collect();
-        
+
         let logs_paragraph = Paragraph::new(log_lines)
-            .style(Style::default().fg(TEXT_DIM))
+            .style(Style::default().bg(BG))
             .block(logs_block);
         f.render_widget(logs_paragraph, right_chunks[1]);
+    }
+
+    fn render_footer(&self, f: &mut Frame, area: Rect) {
+        let footer_line = Line::from(vec![
+            Span::styled(" q", Style::default().fg(HIGHLIGHT)),
+            Span::styled(":quit", Style::default().fg(TEXT_DIM)),
+            Span::styled("  ", Style::default()),
+            Span::styled(" enter", Style::default().fg(HIGHLIGHT)),
+            Span::styled(":send", Style::default().fg(TEXT_DIM)),
+            Span::styled("  ", Style::default()),
+            Span::styled(" ↑↓", Style::default().fg(HIGHLIGHT)),
+            Span::styled(":scroll", Style::default().fg(TEXT_DIM)),
+            Span::styled("  ", Style::default()),
+            Span::styled(" esc", Style::default().fg(HIGHLIGHT)),
+            Span::styled(":quit", Style::default().fg(TEXT_DIM)),
+        ]);
+
+        let footer = Paragraph::new(footer_line)
+            .style(Style::default().bg(SURFACE).fg(TEXT_DIM));
+        f.render_widget(footer, area);
     }
 }
 
@@ -399,7 +465,9 @@ pub fn start_tui_thread(addr: &str) -> Arc<Mutex<TuiState>> {
         if let Err(err) = crate::modules::ai::warmup() {
             crate::modules::tui::bridge::elog(&format!("llm warmup failed: {err}"));
         }
-        if let Err(err) = crate::modules::api::serve(&addr, &threat_intel, &url_db, &message_memory) {
+        if let Err(err) =
+            crate::modules::api::serve(&addr, &threat_intel, &url_db, &message_memory)
+        {
             crate::modules::tui::bridge::elog(&format!("api server failed: {err}"));
         }
     });
@@ -437,7 +505,9 @@ pub fn run_tui(addr: &str) {
         if let Err(err) = crate::modules::ai::warmup() {
             crate::modules::tui::bridge::elog(&format!("llm warmup failed: {err}"));
         }
-        if let Err(err) = crate::modules::api::serve(&addr, &threat_intel, &url_db, &message_memory) {
+        if let Err(err) =
+            crate::modules::api::serve(&addr, &threat_intel, &url_db, &message_memory)
+        {
             crate::modules::tui::bridge::elog(&format!("api server failed: {err}"));
         }
     });
