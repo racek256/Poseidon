@@ -11,3 +11,6 @@ external/llama.cpp/build/
 models/
 
 llama-server.log
+
+# Generated finetuning corpora and labels
+data/finetune/

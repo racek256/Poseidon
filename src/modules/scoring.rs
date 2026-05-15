@@ -365,7 +365,7 @@ fn should_store_unsafe(decision: &Decision, overall_risk: u8, scores: &Scores) -
         || scores.url_reputation.is_some_and(|risk| risk >= 75)
 }
 
-fn ai_url_context(urls: &[UrlScore], url_db: &UrlDb) -> String {
+pub fn ai_url_context(urls: &[UrlScore], url_db: &UrlDb) -> String {
     if urls.is_empty() {
         return "No URLs found.".to_string();
     }
@@ -384,15 +384,6 @@ fn ai_url_context(urls: &[UrlScore], url_db: &UrlDb) -> String {
                 lines.push(format!("  Hosting provider: {}", provider));
             }
         }
-        lines.push(format!(
-            "  Known in DB: {}",
-            if url.known_url_db { "yes" } else { "no" }
-        ));
-        lines.push(format!(
-            "  Queued for analysis: {}",
-            if url.queued_for_analysis { "yes" } else { "no" }
-        ));
-
         let identity = url_db.identity(&url.url);
         match url_db.url_evidence_overview(&identity) {
             Ok(evidence) if !evidence.is_empty() => {

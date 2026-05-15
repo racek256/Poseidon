@@ -1,13 +1,33 @@
 # Poseidon
 
-Poseidon is a local-first message security engine for phishing, impersonation, prompt-injection, secret leakage, URL reputation, and unsafe-message memory.
+> Local-first message security engine — phishing detection, brand impersonation, prompt injection, secret leakage, URL reputation, and unsafe-message memory.
 
-It is intentionally modular:
+---
 
-- Realtime API: fast scoring with local threat intel, URL DB lookups, deterministic heuristics, message memory, and AI assessment.
-- URL enrichment: slower DNS/WHOIS/HTTP/page analysis, either inline for benchmarks or queued for worker processing.
-- AI: defaults to local llama.cpp with a GGUF model, with optional external OpenAI-compatible endpoint.
-- Benchmarks: local and Hugging Face phishing benchmarks with isolated DuckDB databases by default.
+## TODO
+
+### In Progress
+
+- [ ] **Custom finetuned AI model** — Replace generic LLM with a distilled 1B-parameter model finetuned on DeepSeek-labeled phishing data
+- [ ] **Supply chain attack detection** — Detect malicious packages, typosquatted dependencies, compromised registries in messages
+- [ ] **Self-learning detection system** — Continuously improve algorithmic phishing using brand learning, domain reputation feedback, and benchmark iteration
+
+### Completed Milestones
+
+- [x] **Basic threat detection** — URL extraction, WHOIS lookups, 8 threat intel feeds (URLhaus, PhishTank, MetaMask, etc.), 17 feed format parsers
+- [x] **Brand impersonation detection** — 2000+ brand Wikidata catalog, Levenshtein typo detection, phishing keyword scoring, hosting provider checks, alias matching
+- [x] **Online enrichment system** — Parallel DNS/WHOIS/HTTP page analysis, favicon SHA256 matching, credential/card/OTP field detection, external form actions, redirect tracking
+- [x] **URL queue & worker** — Priority-based queuing, offline enrichment processing, evidence storage, configurable batch limits
+- [x] **Message memory** — Simhash64 fuzzy matching, exact hash lookup, Hamming distance similarity, risk adjustment, raw/redacted storage
+- [x] **LLM integration** — Ollama + OpenAI-compatible endpoints, llama.cpp auto-build/auto-download, two-model support (assessment + summary)
+- [x] **Scoring engine** — Weighted multi-layer scoring, decision thresholds (Block/WarnB/WarnS/WarnR/Allow), AI evidence gating, urgency/prompt-injection detection
+- [x] **Domain reputation** — Per-user safe/bad observation tracking, boost levels, auto-enqueue for brand learning
+- [x] **Brand learning** — Auto-discover brands from page metadata (JSON-LD, OG tags, analytics IDs), runtime brand merging, Tranco rank confidence
+- [x] **Benchmark suite** — Brand (offline/online), phishing (built-in + HF 200K), message memory, isolated DBs
+- [x] **Finetuning pipeline** — DeepSeek-labeled dataset generator, realtime JSONL checkpointing, resume support, progress bar, error recovery
+- [x] **Documentation** — architecture.md, README with flag tables, flow diagrams, command reference, benchmark results
+
+---
 
 ## Quickstart
 
@@ -15,285 +35,354 @@ It is intentionally modular:
 cargo run
 ```
 
-Default behavior:
-
-- API listens on `127.0.0.1:8080`.
-- llama.cpp listens on `127.0.0.1:8081`.
-- If no external LLM endpoint is configured, Poseidon builds `llama-server` if needed, downloads the default small GGUF if needed, starts llama.cpp, and points AI calls at it.
-- URL and message-memory DBs are persisted as `poseidon_urls.duckdb` and `poseidon_messages.duckdb`.
-- Threat intel defaults to in-memory DuckDB and refreshes every startup, with a minimum refresh interval of 30 minutes.
-
-Health check:
+- API on `127.0.0.1:8080`
+- llama.cpp on `127.0.0.1:8081` (auto-built, model auto-downloaded)
+- Threat intel feeds ingested at startup
+- DBs: `poseidon_urls.duckdb`, `poseidon_messages.duckdb`
 
 ```sh
 curl http://127.0.0.1:8080/health
-```
-
-Analyze a message:
-
-```sh
 curl -s http://127.0.0.1:8080/analyse \
   -H 'content-type: application/json' \
-  -d '{"user_id":"demo","message":"verify your account at http://example.com/login"}'
+  -d '{"message":"verify your account at http://example.com/login"}'
 ```
+
+---
+
+## Detection Pipeline
+
+```
+Message ─┬─ Threat Feed Check ───── URLhaus, PhishTank, MetaMask, 8 feeds
+          ├─ Brand Impersonation ─── 2000+ brand catalog, typo detection, hosting provider check
+          ├─ Online Enrichment ───── DNS, WHOIS, HTTP page, favicon matching, credential fields
+          ├─ Brand Learning ──────── JSON-LD, OG tags, auto-discover runtime brands
+          ├─ Domain Reputation ───── Per-user safe/bad observations → boost levels
+          ├─ Message Memory ──────── Simhash similarity against known unsafe messages
+          ├─ LLM Assessment ──────── llama.cpp/Ollama/OpenAI → phishing/risk/impersonation scores
+          └─ Scoring ─────────────── Weighted combination → Allow | Warn | Block
+```
+
+---
 
 ## API
 
-### `GET /health`
+### `POST /analyse`
 
-Returns:
+```json
+{"message": "text to score", "user_id": "optional"}
+```
+
+| Field | Type | Description |
+|---|---|---|
+| `decision` | string | `allow`, `warn_sender`, `warn_receiver`, `warn_both`, `block` |
+| `overall_risk` | int | 0–100 final risk score |
+| `scores` | object | `phishing`, `secret`, `prompt_injection`, `url_reputation`, `impersonation`, `risk` |
+| `flags` | string[] | Human-readable signals |
+| `urls` | object[] | Per-URL risk, DB state, tags, brand details |
+| `message_memory` | object | unsafe-message lookup result |
+| `summary` | string | Short danger summary (AI-enabled high-risk) |
+
+### `GET /health`
 
 ```json
 {"ok":true}
 ```
 
-### `POST /analyse` or `POST /analyze`
-
-Request body:
-
-```json
-{
-  "user_id": "optional-user-id",
-  "message": "message text to score"
-}
-```
-
-Response fields include:
-
-- `decision`: `allow`, `warn_sender`, `warn_receiver`, `warn_both`, or `block`.
-- `overall_risk`: final 0-100 risk score.
-- `scores`: phishing, secret, prompt-injection, URL reputation, impersonation, and AI risk components.
-- `flags`: human-readable signals.
-- `urls`: URL-level risk, DB state, tags, and brand impersonation details.
-- `message_memory`: unsafe-message memory lookup result when available.
-- `summary`: short danger summary for high-risk AI-enabled results.
+---
 
 ## Commands
 
-Run API:
+### Server & Worker
 
 ```sh
-cargo run
+cargo run                          # Start API server
+cargo run -- worker                # Process URL enrichment queue
+cargo run -- enqueue-url <url>     # Queue URL for analysis
 ```
 
-Run queued URL enrichment worker:
+### Detection Diagnostics
 
 ```sh
-cargo run -- worker
+cargo run -- detect-brand-url <url>           # Test brand detection
+cargo run -- detect-impersonation-url <url>   # Test impersonation + runtime brands
+cargo run -- inspect-brand-learning            # Show auto-learned brands
+cargo run -- observe-safe-url <url> [n] [usr]  # Record safe observations
+cargo run -- inspect-domain-reputation <dom>   # Show domain reputation
 ```
 
-Queue a URL manually:
+### Benchmarks
 
 ```sh
-cargo run -- enqueue-url 'https://example.com/login'
-```
-
-Inspect or test brand detection:
-
-```sh
-cargo run -- detect-brand-url 'https://example.com'
-cargo run -- detect-impersonation-url 'https://example.com'
-cargo run -- inspect-brand-learning
-cargo run -- benchmark-brand
-cargo run -- benchmark-online-brand
-cargo run -- benchmark-brand-learning
-```
-
-Inspect local domain reputation:
-
-```sh
-cargo run -- observe-safe-url 'https://example.com' 10 test-user
-cargo run -- inspect-domain-reputation example.com
-```
-
-Benchmarks:
-
-```sh
-cargo run -- benchmark-phishing
-cargo run -- benchmark-phishing-full
-cargo run -- benchmark-phishing-full-online
+cargo run -- benchmark-phishing                       # Built-in dataset (~500 rows)
+cargo run -- benchmark-phishing-full                  # HF dataset (200K rows, offline)
+cargo run -- benchmark-phishing-full-online            # HF dataset + online enrichment
 POSEIDON_BENCHMARK_AI=true cargo run -- benchmark-phishing-full-online
+cargo run -- benchmark-brand                           # Offline brand detection (27 cases)
+cargo run -- benchmark-online-brand                    # Online enrichment (29 URLs)
+cargo run -- benchmark-brand-learning                  # Brand identity discovery
+cargo run -- download-phishing-benchmark               # Download HF dataset
 ```
 
-Download the Hugging Face benchmark explicitly:
+### Finetuning Dataset Generation
 
 ```sh
-cargo run -- download-phishing-benchmark
+export DEEPSEEK_API_KEY='...'
+cargo run --bin finetune_dataset
+
+# Dry-run single row
+POSEIDON_FINETUNE_DRY_RUN=true POSEIDON_FINETUNE_LIMIT=1 cargo run --bin finetune_dataset
 ```
 
-Build/download/run llama.cpp manually:
+### llama.cpp Setup
 
 ```sh
-bash scripts/build-llama-server.sh
-bash scripts/download-model.sh small
-bash scripts/run-llama-server.sh
+bash scripts/build-llama-server.sh     # Build llama-server from source
+bash scripts/download-model.sh small   # Download default GGUF (Gemma 3 1B)
+bash scripts/run-llama-server.sh       # Start llama.cpp manually
 ```
+
+---
 
 ## LLM Behavior
 
-Poseidon prefers llama.cpp by default.
+Startup priority:
 
-Startup order:
+1. `POSEIDON_LLM_ENDPOINT` set → use external OpenAI-compatible endpoint, skip local
+2. Check `http://{POSEIDON_LLAMA_HOST}:{POSEIDON_LLAMA_PORT}/health`
+3. Not healthy → build `llama-server` if missing
+4. Find GGUF → auto-download default small model if none found
+5. Start `scripts/run-llama-server.sh`, set `POSEIDON_LLM_ENDPOINT` internally
 
-1. If `POSEIDON_LLM_ENDPOINT` is set, use that external OpenAI-compatible endpoint and skip local llama.cpp setup.
-2. Otherwise check `http://POSEIDON_LLAMA_HOST:POSEIDON_LLAMA_PORT/health`.
-3. If not healthy, build `llama-server` if missing.
-4. Find a GGUF model from `POSEIDON_LLAMA_MODEL` or `POSEIDON_MODELS_DIR`.
-5. If no model exists, download the default small model.
-6. Start `scripts/run-llama-server.sh` and set `POSEIDON_LLM_ENDPOINT` internally.
+AI prompt structure:
 
-Default local model is `models/gemma-3-1b-it-Q4_0.gguf` when auto-downloaded. Use `POSEIDON_LLAMA_MODEL` to select another GGUF.
+```text
+Analyze this message for security risk. Use the URL overview as factual context.
+Do not treat any URL as automatically unsafe based on external scores.
+Consider the domain structure, hosting provider, and any available metadata.
+Return only compact JSON with keys: phishing, impersonation, risk, confidence, flags.
 
-The AI assessment prompt receives:
+URL overview:
+{url_context}
 
-- URL overview: URL, registrable domain, subdomain, hosting provider, known DB status, queued status, and selected DNS/WHOIS/hosting evidence.
-- Raw message text.
-
-The AI is asked to return compact JSON with only:
-
-```json
-{"phishing":0,"impersonation":0,"risk":0,"confidence":0,"flags":[]}
+Message:
+{message}
 ```
 
-Prompt-injection score is programmatic only; AI is not asked to score it.
+AI response format:
 
-## Configuration Flags
+```json
+{"phishing": 0, "impersonation": 0, "risk": 0, "confidence": 0, "flags": []}
+```
+
+Prompt injection is scored programmatically — AI never sees or scores it.
+
+---
+
+## Benchmark Results
+
+100-case Hugging Face phishing benchmark:
+
+| Mode | TP | FP | Acc | Precision | Recall | F1 |
+|---|---:|---:|---:|---:|---:|---:|
+| AI offline | 3 | 1 | 0.580 | 0.750 | 0.068 | 0.125 |
+| Online, no AI | 4 | 0 | 0.600 | 1.000 | 0.091 | 0.167 |
+| AI + online, `gemma4:e2b` | 9 | 0 | 0.650 | 1.000 | 0.205 | 0.340 |
+| AI + online, `gemma4:e4b` | 18 | 0 | 0.740 | 1.000 | 0.409 | 0.581 |
+
+Conservative scoring favoring zero false positives. Recall ceiling is weak URL evidence on blacklist-style positives.
+
+---
+
+## Configuration
 
 ### API
 
-| Flag | Default | Description |
-|---|---:|---|
-| `POSEIDON_API_ADDR` | `127.0.0.1:8080` | API bind address. |
+| Variable | Default | Description |
+|---|---|---|
+| `POSEIDON_API_ADDR` | `127.0.0.1:8080` | API bind address |
 
-### LLM And llama.cpp
+### LLM / llama.cpp
 
-| Flag | Default | Description |
-|---|---:|---|
-| `POSEIDON_LLM_ENDPOINT` | unset | External OpenAI-compatible base URL. If set, local llama.cpp setup is skipped. Example: `http://127.0.0.1:8081/v1`. |
-| `POSEIDON_OLLAMA_MODEL` | `gemma4:e2b` or local GGUF stem | Model name sent to Ollama/OpenAI-compatible endpoints. Local llama.cpp startup sets this from the GGUF filename if unset. |
-| `POSEIDON_OLLAMA_SUMMARY_MODEL` | assessment model | Model used for high-risk summaries. |
-| `POSEIDON_LLAMA_AUTO_SETUP` | enabled | Set to `false` to prevent automatic llama.cpp build/model download. |
-| `POSEIDON_LLAMA_MODEL` | first `*.gguf` in models dir | Exact GGUF path for local llama.cpp. |
-| `POSEIDON_MODELS_DIR` | `models` | Directory searched for `*.gguf` models and used by download script. |
-| `POSEIDON_LLAMA_HOST` | `127.0.0.1` | llama.cpp server host. |
-| `POSEIDON_LLAMA_PORT` | `8081` | llama.cpp server port. |
-| `POSEIDON_LLAMA_CTX` | `8192` | llama.cpp context size. |
-| `POSEIDON_LLAMA_THREADS` | `nproc` or `4` | llama.cpp CPU thread count. |
-| `POSEIDON_LLAMA_GPU_LAYERS` | `99` | Number of layers to offload to GPU. Use `0` for CPU-only. |
-| `POSEIDON_LLAMA_BUILD_JOBS` | `nproc` or `4` | Parallelism for `scripts/build-llama-server.sh`. |
-| `POSEIDON_LLAMA_VULKAN` | `OFF` | Set `ON` to build llama.cpp with Vulkan support. |
-| `POSEIDON_LLAMA_VULKAN_SDK` | `/tmp/vulkan-sdk` | Vulkan SDK install/cache path used by the build script. |
-| `POSEIDON_GGUF_URL` | unset | Custom GGUF URL for `scripts/download-model.sh`. |
+| Variable | Default | Description |
+|---|---|---|
+| `POSEIDON_LLM_ENDPOINT` | unset | External OpenAI base URL. Skips local llama.cpp setup |
+| `POSEIDON_OLLAMA_MODEL` | `gemma4:e2b` / GGUF stem | Model name for Ollama/OpenAI endpoints |
+| `POSEIDON_OLLAMA_SUMMARY_MODEL` | assessment model | Model for high-risk summaries |
+| `POSEIDON_LLAMA_AUTO_SETUP` | enabled | `false` to skip auto build/download |
+| `POSEIDON_LLAMA_MODEL` | first `*.gguf` | Exact GGUF path |
+| `POSEIDON_MODELS_DIR` | `models/` | GGUF search directory |
+| `POSEIDON_LLAMA_HOST` | `127.0.0.1` | llama.cpp host |
+| `POSEIDON_LLAMA_PORT` | `8081` | llama.cpp port |
+| `POSEIDON_LLAMA_CTX` | `8192` | Context size |
+| `POSEIDON_LLAMA_THREADS` | `nproc` | CPU threads |
+| `POSEIDON_LLAMA_GPU_LAYERS` | `99` | GPU offload layers |
+| `POSEIDON_LLAMA_BUILD_JOBS` | `nproc` | Build parallelism |
+| `POSEIDON_LLAMA_VULKAN` | `OFF` | Vulkan GPU build |
+| `POSEIDON_LLAMA_VULKAN_SDK` | `/tmp/vulkan-sdk` | Vulkan SDK path |
+| `POSEIDON_GGUF_URL` | unset | Custom GGUF download URL |
 
 ### Databases
 
-| Flag | Default | Description |
-|---|---:|---|
-| `POSEIDON_URL_DB_PATH` | `poseidon_urls.duckdb` | Persistent URL observations, evidence, tags, queue, brand learning, and domain reputation DB. |
-| `POSEIDON_MESSAGE_DB_PATH` | `poseidon_messages.duckdb` | Unsafe-message memory DB. |
-| `POSEIDON_THREAT_DB_PATH` | in-memory | Threat-intel DuckDB path. Leave unset for in-memory startup ingestion. |
-| `POSEIDON_THREAT_UPDATE_MINUTES` | `30` | Threat feed refresh interval. Values below 30 are clamped to 30. |
+| Variable | Default | Description |
+|---|---|---|
+| `POSEIDON_URL_DB_PATH` | `poseidon_urls.duckdb` | URL observations, evidence, tags, queue, brand learning, reputation |
+| `POSEIDON_MESSAGE_DB_PATH` | `poseidon_messages.duckdb` | Unsafe message memory |
+| `POSEIDON_THREAT_DB_PATH` | in-memory | Threat intel DB path |
+| `POSEIDON_THREAT_UPDATE_MINUTES` | `30` | Feed refresh interval (min 30) |
 
 ### Message Memory
 
-| Flag | Default | Description |
-|---|---:|---|
-| `POSEIDON_STORE_RAW_UNSAFE` | `true` | Store raw message text for unsafe messages. Set `false`, `0`, or `no` to store only redacted/normalized forms. Safe/unknown messages are not stored raw. |
+| Variable | Default | Description |
+|---|---|---|
+| `POSEIDON_STORE_RAW_UNSAFE` | `true` | Store raw unsafe messages. `false`/`0`/`no` to redact |
 
-### URL And Brand Analysis
+### URL & Brand Analysis
 
-| Flag | Default | Description |
-|---|---:|---|
-| `POSEIDON_BRAND_CATALOG_PATH` | `data/brand_catalog.json` | Brand allowlist/catalog used for deterministic brand impersonation. |
-| `POSEIDON_FAVICON_HASHES_PATH` | `data/favicon_hashes.json` | Known favicon hashes for online brand/page analysis. |
-| `POSEIDON_WORKER_LIMIT` | `100` | Max queued URLs processed by `cargo run -- worker`. |
+| Variable | Default | Description |
+|---|---|---|
+| `POSEIDON_BRAND_CATALOG_PATH` | `data/brand_catalog.json` | Brand catalog for deterministic impersonation |
+| `POSEIDON_FAVICON_HASHES_PATH` | `data/favicon_hashes.json` | Known brand favicon SHA256 hashes |
+| `POSEIDON_WORKER_LIMIT` | `100` | Queued URLs per worker invocation |
 
-### Benchmark Controls
+### Benchmarks
 
-| Flag | Default | Description |
-|---|---:|---|
-| `POSEIDON_BENCHMARK_AI` | `false` | Enable AI during phishing benchmarks when `true`, `1`, or `yes`. |
-| `POSEIDON_BENCHMARK_LIMIT` | benchmark-dependent | Limit benchmark cases. For full HF benchmark, also controls download size if file is missing/incomplete. |
-| `POSEIDON_BENCHMARK_OFFSET` | `0` | Skip this many cases before benchmarking. |
-| `POSEIDON_BENCHMARK_DATASET` | built-in small dataset | JSONL dataset path for `benchmark-phishing`. Each line needs `id`, `expected_unsafe`, and `message`. |
-| `POSEIDON_BENCHMARK_PERSIST_DB` | `false` | Preserve normal DB paths during benchmarks. By default benchmark DBs are isolated under `/tmp`. |
+| Variable | Default | Description |
+|---|---|---|
+| `POSEIDON_BENCHMARK_AI` | `false` | Enable AI during benchmarks |
+| `POSEIDON_BENCHMARK_LIMIT` | all | Max cases to process |
+| `POSEIDON_BENCHMARK_OFFSET` | `0` | Skip N cases |
+| `POSEIDON_BENCHMARK_DATASET` | built-in | Custom JSONL dataset path |
+| `POSEIDON_BENCHMARK_PERSIST_DB` | `false` | Persist benchmark DBs |
 
-Benchmark DB isolation defaults:
+Isolated DB paths:
 
-- Realtime/full: `/tmp/poseidon_bench_realtime_urls.duckdb` and `/tmp/poseidon_bench_realtime_messages.duckdb`.
-- Online/full-online: `/tmp/poseidon_bench_online_urls.duckdb` and `/tmp/poseidon_bench_online_messages.duckdb`.
+- Offline: `/tmp/poseidon_bench_realtime_urls.duckdb` / `*_messages.duckdb`
+- Online: `/tmp/poseidon_bench_online_urls.duckdb` / `*_messages.duckdb`
 
-### Hugging Face Benchmark Download
+### Hugging Face Download
 
-| Flag | Default | Description |
-|---|---:|---|
-| `POSEIDON_DOWNLOAD_LIMIT` | unset | Max rows downloaded by `download-phishing-benchmark` when no CLI row limit is supplied. |
-| `POSEIDON_HF_DATASET` | `cybersectony/PhishingEmailDetectionv2.0` | Hugging Face dataset id. |
-| `POSEIDON_HF_CONFIG` | `default` | Hugging Face dataset config. |
-| `POSEIDON_HF_SPLITS` | `train,validation,test` | Comma-separated splits to download. |
-| `POSEIDON_HF_PAGE_DELAY_MS` | `750` | Delay between Hugging Face dataset page requests. |
-| `POSEIDON_HF_RETRIES` | `6` | Retry attempts for `429 Too Many Requests`. |
-| `POSEIDON_HF_RETRY_SECONDS` | `5` | Initial retry delay for rate limits. Backoff is exponential. |
+| Variable | Default | Description |
+|---|---|---|
+| `POSEIDON_DOWNLOAD_LIMIT` | unset | Max download rows |
+| `POSEIDON_HF_DATASET` | `cybersectony/PhishingEmailDetectionv2.0` | HF dataset ID |
+| `POSEIDON_HF_CONFIG` | `default` | HF config |
+| `POSEIDON_HF_SPLITS` | `train,validation,test` | Comma-separated splits |
+| `POSEIDON_HF_PAGE_DELAY_MS` | `750` | Delay between API pages |
+| `POSEIDON_HF_RETRIES` | `6` | 429 retry count |
+| `POSEIDON_HF_RETRY_SECONDS` | `5` | Initial retry delay (exponential) |
+
+### Finetuning Dataset Generator
+
+Used by `src/bin/finetune_dataset.rs`. Reads a JSON array of phishing messages, runs Poseidon detection, builds the exact AI prompt used at runtime, calls DeepSeek, and appends each result immediately to JSONL. Resume-safe via row ID tracking.
+
+| Variable | Default | Description |
+|---|---|---|
+| `DEEPSEEK_API_KEY` | **required** | DeepSeek API key (do not commit) |
+| `DEEPSEEK_API_URL` | `https://api.deepseek.com/chat/completions` | API endpoint |
+| `DEEPSEEK_MODEL` | `deepseek-chat` | Model name |
+| `POSEIDON_FINETUNE_INPUT` | `nazario_top2500.json` | Input JSON array path |
+| `POSEIDON_FINETUNE_OUTPUT` | `data/finetune/deepseek_phishing_training.jsonl` | Output JSONL path |
+| `POSEIDON_FINETUNE_LIMIT` | all | Max rows |
+| `POSEIDON_FINETUNE_OFFSET` | `0` | Skip N entries |
+| `POSEIDON_FINETUNE_ONLINE` | `false` | Enable online enrichment before prompt |
+| `POSEIDON_FINETUNE_DRY_RUN` | `false` | Fake AI response, no API call |
+
+Output row fields:
+
+```
+id              Stable hash-based row ID (resume-safe)
+source          Dataset, original source, label, expected_unsafe, has_url
+message         Cleaned message text (truncated to 8K chars)
+url_context     Exact Poseidon AI URL overview
+prompt          Full AI assessment prompt
+assistant_raw   DeepSeek raw JSON response string
+assistant_json  Parsed DeepSeek output (phishing, impersonation, risk, confidence, flags)
+poseidon_context Full Poseidon detection result
+```
 
 ### Tranco Importer
 
-Used by `src/bin/tranco_importer.rs`.
-
-| Flag | Default | Description |
-|---|---:|---|
-| `POSEIDON_TRANCO_LIMIT` | unset | Max Tranco rows to import. |
-| `POSEIDON_TRANCO_CSV_PATH` | unset | Local Tranco CSV path. If unset, importer downloads from `POSEIDON_TRANCO_URL`. |
-| `POSEIDON_TRANCO_URL` | built-in Tranco URL | Source URL for Tranco CSV download. |
+| Variable | Default | Description |
+|---|---|---|
+| `POSEIDON_TRANCO_LIMIT` | all | Max domains to import |
+| `POSEIDON_TRANCO_CSV_PATH` | unset | Local CSV path (downloads if unset) |
+| `POSEIDON_TRANCO_URL` | built-in | Tranco download URL |
 
 ### Brand Scraper
 
-Used by `src/bin/brand_scraper.rs`.
+| Variable | Default | Description |
+|---|---|---|
+| `POSEIDON_BRAND_CATALOG_OUT` | `data/brand_catalog.json` | Catalog output path |
+| `POSEIDON_FAVICON_HASHES_OUT` | `data/favicon_hashes.json` | Favicon hashes output |
+| `POSEIDON_BRAND_INFO_OUT` | `data/brand_info.json` | Brand metadata output |
+| `POSEIDON_WIKIDATA_MIN_SITELINKS` | `10` | Minimum Wikidata sitelinks |
+| `POSEIDON_BRAND_LIMIT` | `2000` | Max brands |
+| `POSEIDON_FAVICON_WORKERS` | `24` | Favicon fetch workers |
+| `POSEIDON_MAX_DOMAINS_PER_BRAND` | `4` | Max domains per brand |
 
-| Flag | Default | Description |
-|---|---:|---|
-| `POSEIDON_BRAND_CATALOG_OUT` | `data/brand_catalog.json` | Output brand catalog path. |
-| `POSEIDON_FAVICON_HASHES_OUT` | `data/favicon_hashes.json` | Output favicon hash path. |
-| `POSEIDON_BRAND_INFO_OUT` | `data/brand_info.json` | Output detailed brand metadata path. |
-| `POSEIDON_WIKIDATA_MIN_SITELINKS` | `10` | Minimum Wikidata sitelinks for brand candidates. |
-| `POSEIDON_BRAND_LIMIT` | `2000` | Maximum brands to scrape. |
-| `POSEIDON_FAVICON_WORKERS` | `24` | Favicon fetch worker count. |
-| `POSEIDON_MAX_DOMAINS_PER_BRAND` | `4` | Max domains retained per brand. |
+---
 
-## Benchmark Snapshot
+## Detection Layers
 
-Recent 100-case HF benchmark results with current conservative scoring:
+```
+Layer 0  Threat Feed Check        URLhaus, PhishTank, MetaMask, BlackBook, …
+Layer 1  Brand Impersonation      2000+ brand catalog, Levenshtein typo, phishing keywords
+Layer 2  Online Enrichment        DNS, WHOIS age, HTTP page, favicon, credential fields
+Layer 3  Brand Identity Learning  JSON-LD, OG tags, canonical URLs → auto-learn runtime brands
+Layer 4  Domain Reputation        Per-user safe/bad observations → +5/+10/+15 boost
+Layer 5  Message Memory           Simhash64 similarity against known unsafe messages
+Layer 6  LLM Assessment           llama.cpp / Ollama / OpenAI → phishing, impersonation, risk
+```
 
-| Mode | TP | FP | TN | FN | Accuracy | Precision | Recall | F1 |
-|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| AI offline | 3 | 1 | 55 | 41 | 0.580 | 0.750 | 0.068 | 0.125 |
-| Online, no AI | 4 | 0 | 56 | 40 | 0.600 | 1.000 | 0.091 | 0.167 |
-| AI + online, `gemma4:e2b` | 9 | 0 | 56 | 35 | 0.650 | 1.000 | 0.205 | 0.340 |
-| AI + online, `gemma4:e4b` | 18 | 0 | 56 | 26 | 0.740 | 1.000 | 0.409 | 0.581 |
+Decision thresholds:
 
-Interpretation: current scoring is conservative and favors zero false positives. Recall is mainly limited by weak/missing URL evidence on blacklist-style URL-only positives.
+| Condition | Action |
+|---|---|
+| `overall_risk ≥ 90` or `secret ≥ 85` | **Block** |
+| `overall_risk ≥ 75` | **Warn Both** |
+| `prompt_injection ≥ 60` | **Warn Sender** |
+| `overall_risk ≥ 45` | **Warn Receiver** |
+| else | **Allow** |
+
+AI scores weighted at 100% unless `prompt_injection ≥ 80` (→ weighted at 30%).  
+AI-only medium scores capped at 40 when no supporting URL, urgency, secret, or prompt-injection evidence.
+
+---
 
 ## Project Layout
 
-```text
-src/main.rs                         command routing and API startup
-src/modules/api.rs                  minimal HTTP API
-src/modules/scoring.rs              main scoring pipeline
-src/modules/ai.rs                   AI prompt, llama.cpp/OpenAI/Ollama client handling
-src/modules/llm_server.rs           local llama.cpp bootstrap
-src/modules/url_analysis/           URL, brand, online, and worker enrichment modules
-src/modules/url_db/                 DuckDB URL reputation/evidence/queue/brand learning
-src/modules/message_memory/         unsafe-message memory
-src/modules/threat_intel/           feed ingestion and local threat-intel lookup
-src/modules/phishing_benchmark.rs   phishing benchmark and HF downloader
-scripts/                            llama.cpp build/download/run helpers
-data/                               brand data, favicon hashes, benchmarks
-external/llama.cpp                  llama.cpp submodule/source
-models/                             downloaded GGUF models, ignored by git
 ```
+.
+├── Cargo.toml                     # Rust edition 2024
+├── src/
+│   ├── main.rs                    # CLI router + API server startup
+│   ├── lib.rs                     # Module exports
+│   ├── bin/
+│   │   ├── finetune_dataset.rs    # DeepSeek-labeled finetuning dataset generator
+│   │   ├── brand_scraper.rs       # Wikidata brand catalog builder
+│   │   └── tranco_importer.rs     # Tranco top-1M domain rank importer
+│   └── modules/
+│       ├── api.rs                 # Raw TCP HTTP API (no framework)
+│       ├── scoring.rs             # Core scoring engine
+│       ├── ai.rs                  # LLM integration (Ollama + OpenAI-compatible)
+│       ├── llm_server.rs          # llama.cpp lifecycle management
+│       ├── web.rs                 # URL extraction + WHOIS
+│       ├── phishing_benchmark.rs  # Benchmark pipeline
+│       ├── message_memory/        # Simhash unsafe-message memory
+│       ├── url_db/                # DuckDB URL reputation/evidence/queue/brand learning
+│       ├── threat_intel/          # Feed ingestion (8 sources, 17 formats)
+│       └── url_analysis/          # Brand, online, enrichment, domain, hosting, page metadata
+├── scripts/                       # llama.cpp build/download/run
+├── data/                          # Brand data, favicon hashes, benchmarks
+├── external/llama.cpp             # llama.cpp submodule
+└── models/                        # GGUF models (gitignored)
+```
+
+---
 
 ## Notes
 
-- Normal realtime API should stay fast: it uses cached/local data and queues unknown URLs instead of doing slow live network enrichment.
-- `benchmark-phishing-full-online` explicitly enables slow inline online URL enrichment for measurement.
-- Benchmarks isolate their DBs by default to avoid contaminated memory/reputation state.
-- Do not commit downloaded models, generated DuckDB files, or llama.cpp build output.
+- Realtime API stays fast: cached local data only. Unknown URLs are queued, not analyzed inline.
+- `benchmark-phishing-full-online` enables slow inline network enrichment for measurement.
+- Benchmarks isolate DBs to avoid contaminated memory/reputation state.
+- Do not commit downloaded models, DuckDB files, or llama.cpp build output.

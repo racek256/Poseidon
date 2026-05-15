@@ -36,9 +36,7 @@ pub fn assess_message_with_url_context(
     message: &str,
     url_context: &str,
 ) -> Result<AiAssessment, String> {
-    let prompt = format!(
-        "Analyze this message for security risk. Use the URL overview as factual context. Do not treat any URL as automatically unsafe based on external scores. Consider the domain structure, hosting provider, and any available metadata. Return only compact JSON with keys: phishing, impersonation, risk, confidence, flags. Scores must be integers 0-100.\n\nURL overview:\n{url_context}\n\nMessage:\n{message}"
-    );
+    let prompt = assessment_prompt(message, url_context);
     let value = generate(&assessment_model(), &prompt, true, Duration::from_secs(20))?;
     let raw = value
         .get("response")
@@ -65,6 +63,12 @@ pub fn assess_message_with_url_context(
             })
             .unwrap_or_default(),
     })
+}
+
+pub fn assessment_prompt(message: &str, url_context: &str) -> String {
+    format!(
+        "Analyze this message for security risk. Use the URL overview as factual context. Do not treat any URL as automatically unsafe based on external scores. Consider the domain structure, hosting provider, and any available metadata. Return only compact JSON with keys: phishing, impersonation, risk, confidence, flags. Scores must be integers 0-100.\n\nURL overview:\n{url_context}\n\nMessage:\n{message}"
+    )
 }
 
 pub fn summarize_danger(
