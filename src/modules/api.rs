@@ -6,6 +6,7 @@ use serde_json::{Value, json};
 use crate::modules::message_memory::MessageMemory;
 use crate::modules::scoring::analyse;
 use crate::modules::threat_intel::ThreatIntel;
+use crate::modules::tui::bridge;
 use crate::modules::url_db::UrlDb;
 
 const MAX_BODY_BYTES: usize = 1024 * 1024;
@@ -17,7 +18,7 @@ pub fn serve(
     message_memory: &MessageMemory,
 ) -> std::io::Result<()> {
     let listener = TcpListener::bind(addr)?;
-    println!("poseidon api listening on http://{addr}");
+    bridge::log(&format!("API server listening on http://{addr}"));
 
     for stream in listener.incoming() {
         match stream {
@@ -29,7 +30,7 @@ pub fn serve(
                     let _ = write_json(&mut stream, 500, &body);
                 }
             }
-            Err(err) => eprintln!("connection failed: {err}"),
+            Err(err) => bridge::elog(&format!("connection failed: {err}")),
         }
     }
 
@@ -57,6 +58,7 @@ fn handle_connection(
     match (parts[0], parts[1]) {
         ("GET", "/health") => write_json(stream, 200, &json!({ "ok": true })),
         ("POST", "/analyse") | ("POST", "/analyze") => {
+            bridge::post_log(&format!("Handling request: {}", parts[1]));
             analyse_request(stream, body, threat_intel, url_db, message_memory)
         }
         _ => write_json(stream, 404, &json!({ "error": "not found" })),
@@ -89,8 +91,29 @@ fn analyse_request(
     };
     let user_id = value.get("user_id").and_then(Value::as_str);
 
+    // Track request start
+    let track_start = bridge::track_request_start();
+    bridge::post_log("Received analyse request");
+
     let scoring = analyse(message, user_id, threat_intel, url_db, message_memory);
-    write_json(stream, 200, &scoring.to_json())
+
+    // Track request end
+    bridge::track_request_end(track_start);
+
+    // Post output to TUI
+    let result_json = scoring.to_json();
+    bridge::post_output(&format!(
+        "Decision: {} | Risk: {}",
+        scoring.decision.as_str(),
+        scoring.overall_risk
+    ));
+    bridge::post_log(&format!(
+        "Analysis complete: decision={}, risk={}",
+        scoring.decision.as_str(),
+        scoring.overall_risk
+    ));
+
+    write_json(stream, 200, &result_json)
 }
 
 fn read_request(stream: &mut TcpStream) -> std::io::Result<String> {

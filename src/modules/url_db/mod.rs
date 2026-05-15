@@ -6,6 +6,7 @@ use duckdb::{Connection, OptionalExt, params};
 use sha2::{Digest, Sha256};
 
 use crate::modules::threat_intel::normalize_domain;
+use crate::modules::tui::bridge;
 use crate::modules::url_analysis::brand::{BrandImpersonation, RuntimeBrand};
 use crate::modules::url_analysis::brand_detector::{BrandCandidate, DomainRelationship};
 use crate::modules::url_analysis::domain::parse_url_parts;
@@ -63,7 +64,7 @@ impl UrlDb {
     pub fn from_env() -> duckdb::Result<Self> {
         let path =
             env::var("POSEIDON_URL_DB_PATH").unwrap_or_else(|_| DEFAULT_URL_DB_PATH.to_string());
-        eprintln!("url db: using DuckDB at {path}");
+        bridge::elog(&format!("url db: using DuckDB at {path}"));
         let db = Self {
             conn: Connection::open(Path::new(&path))?,
         };

@@ -7,6 +7,8 @@ use regex::Regex;
 use serde_json::{Value, json};
 use sha2::{Digest, Sha256};
 
+use crate::modules::tui::bridge;
+
 const DEFAULT_MESSAGE_DB_PATH: &str = "poseidon_messages.duckdb";
 const SIMILARITY_DISTANCE_THRESHOLD: u32 = 12;
 const SIMILARITY_CANDIDATE_LIMIT: usize = 5_000;
@@ -69,7 +71,7 @@ impl MessageMemory {
         let store_raw_unsafe = env::var("POSEIDON_STORE_RAW_UNSAFE")
             .map(|value| !matches!(value.as_str(), "0" | "false" | "FALSE" | "no" | "NO"))
             .unwrap_or(true);
-        eprintln!("message memory db: using DuckDB at {path}");
+        bridge::elog(&format!("message memory db: using DuckDB at {path}"));
         let memory = Self {
             conn: Connection::open(Path::new(&path))?,
             store_raw_unsafe,

@@ -1,7 +1,27 @@
 use Poseidon::modules;
 
 fn main() {
-    if std::env::args().nth(1).as_deref() == Some("worker") {
+    // Check for --interactive flag early, before subcommand processing
+    let args: Vec<String> = std::env::args().collect();
+    let interactive_mode = args.iter().any(|arg| arg == "--interactive");
+
+    // Filter out --interactive from args for subcommand processing
+    let filtered_args: Vec<String> = if interactive_mode {
+        args.iter()
+            .filter(|&&ref arg| arg != "--interactive")
+            .cloned()
+            .collect()
+    } else {
+        args.clone()
+    };
+
+    // Create a new args iterator that uses the filtered args
+    let mut arg_iter = filtered_args.iter().map(|s| s.as_str());
+
+    // Check first argument (subcommand)
+    let first_arg = arg_iter.clone().nth(1);
+
+    if first_arg == Some("worker") {
         let url_db = modules::url_db::UrlDb::from_env().expect("failed to initialize url database");
         let limit = std::env::var("POSEIDON_WORKER_LIMIT")
             .ok()
@@ -13,51 +33,51 @@ fn main() {
         return;
     }
 
-    if std::env::args().nth(1).as_deref() == Some("benchmark-brand") {
+    if first_arg == Some("benchmark-brand") {
         modules::url_analysis::benchmark::run_brand_benchmark();
         return;
     }
 
-    if std::env::args().nth(1).as_deref() == Some("benchmark-online-brand") {
+    if first_arg == Some("benchmark-online-brand") {
         modules::url_analysis::online_benchmark::run_online_brand_benchmark();
         return;
     }
 
-    if std::env::args().nth(1).as_deref() == Some("benchmark-message-memory") {
+    if first_arg == Some("benchmark-message-memory") {
         modules::message_memory::run_benchmark().expect("message memory benchmark failed");
         return;
     }
 
-    if std::env::args().nth(1).as_deref() == Some("benchmark-phishing") {
+    if first_arg == Some("benchmark-phishing") {
         modules::phishing_benchmark::run().expect("phishing benchmark failed");
         return;
     }
 
-    if std::env::args().nth(1).as_deref() == Some("benchmark-phishing-full") {
+    if first_arg == Some("benchmark-phishing-full") {
         modules::phishing_benchmark::run_full().expect("full phishing benchmark failed");
         return;
     }
 
-    if std::env::args().nth(1).as_deref() == Some("benchmark-phishing-full-online") {
+    if first_arg == Some("benchmark-phishing-full-online") {
         modules::phishing_benchmark::run_full_online()
             .expect("full online phishing benchmark failed");
         return;
     }
 
-    if std::env::args().nth(1).as_deref() == Some("download-phishing-benchmark") {
+    if first_arg == Some("download-phishing-benchmark") {
         modules::phishing_benchmark::download_huggingface_dataset()
             .expect("phishing benchmark download failed");
         return;
     }
 
-    if std::env::args().nth(1).as_deref() == Some("benchmark-brand-learning") {
+    if first_arg == Some("benchmark-brand-learning") {
         let url_db = modules::url_db::UrlDb::from_env().expect("failed to initialize url database");
         modules::url_analysis::brand_detector::run_real_page_benchmark(&url_db)
             .expect("brand learning benchmark failed");
         return;
     }
 
-    if std::env::args().nth(1).as_deref() == Some("inspect-brand-learning") {
+    if first_arg == Some("inspect-brand-learning") {
         let url_db = modules::url_db::UrlDb::from_env().expect("failed to initialize url database");
         url_db
             .print_brand_learning_summary()
@@ -65,8 +85,9 @@ fn main() {
         return;
     }
 
-    if std::env::args().nth(1).as_deref() == Some("enqueue-url") {
-        let url = std::env::args()
+    if first_arg == Some("enqueue-url") {
+        // For args that need position 2, we need to account for --interactive
+        let url = arg_iter
             .nth(2)
             .expect("usage: cargo run -- enqueue-url <url>");
         let url_db = modules::url_db::UrlDb::from_env().expect("failed to initialize url database");
@@ -78,8 +99,8 @@ fn main() {
         return;
     }
 
-    if std::env::args().nth(1).as_deref() == Some("detect-brand-url") {
-        let url = std::env::args()
+    if first_arg == Some("detect-brand-url") {
+        let url = arg_iter
             .nth(2)
             .expect("usage: cargo run -- detect-brand-url <url>");
         let url_db = modules::url_db::UrlDb::from_env().expect("failed to initialize url database");
@@ -126,8 +147,8 @@ fn main() {
         return;
     }
 
-    if std::env::args().nth(1).as_deref() == Some("detect-impersonation-url") {
-        let url = std::env::args()
+    if first_arg == Some("detect-impersonation-url") {
+        let url = arg_iter
             .nth(2)
             .expect("usage: cargo run -- detect-impersonation-url <url>");
         let url_db = modules::url_db::UrlDb::from_env().expect("failed to initialize url database");
@@ -150,17 +171,17 @@ fn main() {
         return;
     }
 
-    if std::env::args().nth(1).as_deref() == Some("observe-safe-url") {
-        let url = std::env::args()
+    if first_arg == Some("observe-safe-url") {
+        let url = arg_iter
             .nth(2)
             .expect("usage: cargo run -- observe-safe-url <url> [count] [user_prefix]");
-        let count = std::env::args()
+        let count = arg_iter
             .nth(3)
             .and_then(|value| value.parse::<usize>().ok())
             .unwrap_or(1);
-        let user_prefix = std::env::args()
+        let user_prefix = arg_iter
             .nth(4)
-            .unwrap_or_else(|| "manual-user".to_string());
+            .unwrap_or("manual-user");
         let url_db = modules::url_db::UrlDb::from_env().expect("failed to initialize url database");
         let identity = url_db.identity(&url);
         let mut reputation = modules::url_db::DomainReputation::default();
@@ -187,8 +208,8 @@ fn main() {
         return;
     }
 
-    if std::env::args().nth(1).as_deref() == Some("inspect-domain-reputation") {
-        let domain = std::env::args()
+    if first_arg == Some("inspect-domain-reputation") {
+        let domain = arg_iter
             .nth(2)
             .expect("usage: cargo run -- inspect-domain-reputation <domain>");
         let url_db = modules::url_db::UrlDb::from_env().expect("failed to initialize url database");
@@ -198,20 +219,25 @@ fn main() {
         return;
     }
 
-    let threat_intel = modules::threat_intel::ThreatIntel::from_env()
-        .expect("failed to initialize threat intel database");
-    let url_db = modules::url_db::UrlDb::from_env().expect("failed to initialize url database");
-    let message_memory = modules::message_memory::MessageMemory::from_env()
-        .expect("failed to initialize message memory database");
-    threat_intel.update_if_due();
-
-    modules::llm_server::ensure();
-
-    if let Err(err) = modules::ai::warmup() {
-        eprintln!("llm warmup failed: {err}");
-    }
+    // Default mode: start server or TUI
     let addr = std::env::var("POSEIDON_API_ADDR").unwrap_or_else(|_| "127.0.0.1:8080".to_string());
-    modules::api::serve(&addr, &threat_intel, &url_db, &message_memory).expect("api server failed");
+
+    if interactive_mode {
+        modules::tui::run_tui(&addr);
+    } else {
+        let threat_intel = modules::threat_intel::ThreatIntel::from_env()
+            .expect("failed to initialize threat intel database");
+        let url_db = modules::url_db::UrlDb::from_env().expect("failed to initialize url database");
+        let message_memory =
+            modules::message_memory::MessageMemory::from_env().expect("failed to initialize message memory database");
+        threat_intel.update_if_due();
+        modules::llm_server::ensure();
+        if let Err(err) = modules::ai::warmup() {
+            eprintln!("llm warmup failed: {err}");
+        }
+        modules::api::serve(&addr, &threat_intel, &url_db, &message_memory)
+            .expect("api server failed");
+    }
 }
 
 /*
@@ -224,4 +250,4 @@ fn main() {
  * 7. based on score do Decision
  * 8. if score low do AI summary
  * 9. Store hashed data in Database
-*/
+ */
