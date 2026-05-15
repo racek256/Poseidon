@@ -3,7 +3,7 @@ use std::sync::OnceLock;
 
 use serde_json::Value;
 
-use crate::modules::url_analysis::domain::parse_url_parts;
+use crate::modules::url_analysis::domain::{DomainParts, parse_url_parts};
 use crate::modules::url_analysis::hosting::hosting_provider_domain;
 
 const DEFAULT_BRAND_CATALOG_PATH: &str = "data/brand_catalog.json";
@@ -99,7 +99,10 @@ fn analyse_with_brands(url: &str, extra_brands: &[Brand]) -> BrandImpersonation 
             };
         }
 
-        let token_match = brand.tokens.iter().find(|token| haystack.contains(*token));
+        let token_match = brand
+            .tokens
+            .iter()
+            .find(|token| token_matches_url_parts(&parts, token));
         let typo_match = brand
             .tokens
             .iter()
@@ -121,7 +124,7 @@ fn analyse_with_brands(url: &str, extra_brands: &[Brand]) -> BrandImpersonation 
         let mut path_only_signal = false;
 
         if let Some(token) = token_match {
-            if parts.registrable_domain.contains(token) {
+            if domain_label_contains_token(&parts.registrable_domain, token) {
                 score = score.max(50);
                 host_or_domain_signal = true;
                 reasons.push("brand token appears in unrelated registrable domain".to_string());
@@ -129,7 +132,7 @@ fn analyse_with_brands(url: &str, extra_brands: &[Brand]) -> BrandImpersonation 
             if parts
                 .subdomain
                 .as_deref()
-                .is_some_and(|sub| sub.contains(token))
+                .is_some_and(|sub| subdomain_contains_token(sub, token))
             {
                 score = score.max(60);
                 host_or_domain_signal = true;
@@ -143,12 +146,20 @@ fn analyse_with_brands(url: &str, extra_brands: &[Brand]) -> BrandImpersonation 
         }
 
         if typo_match {
-            score = score.max(65);
+            if !phishing_keywords.is_empty() {
+                score = score.max(65);
+            } else {
+                score = score.max(30);
+            }
             reasons.push("registrable domain is visually close to brand token".to_string());
         }
 
         if subdomain_typo_match {
-            score = score.max(65);
+            if !phishing_keywords.is_empty() {
+                score = score.max(65);
+            } else {
+                score = score.max(30);
+            }
             reasons.push("subdomain is visually close to brand token".to_string());
         }
 
@@ -195,6 +206,35 @@ fn analyse_with_brands(url: &str, extra_brands: &[Brand]) -> BrandImpersonation 
     best
 }
 
+fn token_matches_url_parts(parts: &DomainParts, token: &str) -> bool {
+    domain_label_contains_token(&parts.registrable_domain, token)
+        || parts
+            .subdomain
+            .as_deref()
+            .is_some_and(|subdomain| subdomain_contains_token(subdomain, token))
+        || parts.path_query.contains(token)
+}
+
+fn domain_label_contains_token(registrable_domain: &str, token: &str) -> bool {
+    let label = registrable_domain.split('.').next().unwrap_or_default();
+    label_contains_token(label, token)
+}
+
+fn subdomain_contains_token(subdomain: &str, token: &str) -> bool {
+    subdomain
+        .split('.')
+        .any(|label| label_contains_token(label, token))
+}
+
+fn label_contains_token(label: &str, token: &str) -> bool {
+    if token.len() <= 4 {
+        return label == token
+            || label.starts_with(&format!("{token}-"))
+            || label.ends_with(&format!("-{token}"));
+    }
+    label.contains(token)
+}
+
 fn phishing_keyword_hits(text: &str) -> Vec<String> {
     PHISHING_KEYWORDS
         .iter()
@@ -210,10 +250,14 @@ fn domain_label_is_typo(registrable_domain: &str, brand_token: &str) -> bool {
 
 fn text_label_is_typo(text: &str, brand_token: &str) -> bool {
     text.split(|ch: char| !ch.is_ascii_alphanumeric())
+        .filter(|label| !is_ignored_subdomain_label(label))
         .any(|label| label_is_typo(label, brand_token))
 }
 
 fn label_is_typo(label: &str, brand_token: &str) -> bool {
+    if label.len() < 4 || brand_token.len() < 5 {
+        return false;
+    }
     if label == brand_token {
         return false;
     }
@@ -224,12 +268,23 @@ fn label_is_typo(label: &str, brand_token: &str) -> bool {
         return true;
     }
 
+    if normalized_label.len().abs_diff(normalized_brand.len()) > 2 {
+        return false;
+    }
+
     let distance = levenshtein(&normalized_label, &normalized_brand);
-    if normalized_brand.len() <= 4 {
+    if normalized_brand.len() <= 6 {
         distance == 1
     } else {
         distance <= 2
     }
+}
+
+fn is_ignored_subdomain_label(label: &str) -> bool {
+    matches!(
+        label,
+        "www" | "www1" | "www2" | "mail" | "m" | "web" | "dev" | "app"
+    )
 }
 
 fn normalize_typos(value: &str) -> String {
@@ -403,7 +458,10 @@ fn brand_token(value: &str) -> String {
 }
 
 fn is_common_brand_word(name: &str) -> bool {
-    matches!(brand_token(name).as_str(), "apple" | "meta" | "box" | "x")
+    matches!(
+        brand_token(name).as_str(),
+        "apple" | "meta" | "box" | "x" | "discoveryinc"
+    )
 }
 
 fn aliases_for(name: &str) -> &'static [&'static str] {

@@ -8,6 +8,7 @@ use crate::modules::message_memory::{MemoryLookup, MessageMemory, UnsafeMessageR
 use crate::modules::threat_intel::ThreatIntel;
 use crate::modules::url_analysis::brand;
 use crate::modules::url_analysis::domain::parse_url_parts;
+use crate::modules::url_analysis::online;
 use crate::modules::url_db::{UrlDb, UrlLookup};
 use crate::modules::web::extract_urls;
 
@@ -27,7 +28,7 @@ pub struct Scores {
     pub prompt_injection: u8,
     pub url_reputation: Option<u8>,
     pub impersonation: u8,
-    pub slop_score: u8,
+    pub risk: u8,
 }
 
 #[derive(Debug)]
@@ -95,7 +96,7 @@ impl Scoring {
                 "prompt_injection": self.scores.prompt_injection,
                 "url_reputation": self.scores.url_reputation,
                 "impersonation": self.scores.impersonation,
-                "slop_score": self.scores.slop_score
+                "risk": self.scores.risk
             },
             "flags": self.flags,
             "ai_raw_response": self.ai_raw_response,
@@ -131,7 +132,33 @@ pub fn analyse(
     url_db: &UrlDb,
     message_memory: &MessageMemory,
 ) -> Scoring {
-    analyse_inner(message, user_id, threat_intel, url_db, message_memory, true)
+    analyse_inner(
+        message,
+        user_id,
+        threat_intel,
+        url_db,
+        message_memory,
+        true,
+        false,
+    )
+}
+
+pub fn analyse_with_online_url_enrichment(
+    message: &str,
+    user_id: Option<&str>,
+    threat_intel: &ThreatIntel,
+    url_db: &UrlDb,
+    message_memory: &MessageMemory,
+) -> Scoring {
+    analyse_inner(
+        message,
+        user_id,
+        threat_intel,
+        url_db,
+        message_memory,
+        true,
+        true,
+    )
 }
 
 pub fn analyse_without_ai(
@@ -148,6 +175,25 @@ pub fn analyse_without_ai(
         url_db,
         message_memory,
         false,
+        false,
+    )
+}
+
+pub fn analyse_without_ai_with_online_url_enrichment(
+    message: &str,
+    user_id: Option<&str>,
+    threat_intel: &ThreatIntel,
+    url_db: &UrlDb,
+    message_memory: &MessageMemory,
+) -> Scoring {
+    analyse_inner(
+        message,
+        user_id,
+        threat_intel,
+        url_db,
+        message_memory,
+        false,
+        true,
     )
 }
 
@@ -158,6 +204,7 @@ fn analyse_inner(
     url_db: &UrlDb,
     message_memory: &MessageMemory,
     ai_enabled: bool,
+    online_url_enrichment: bool,
 ) -> Scoring {
     let start = Instant::now();
     let mut flags = Vec::new();
@@ -179,7 +226,13 @@ fn analyse_inner(
         }
     };
 
-    let url_scores = scan_known_urls(message, threat_intel, url_db, &mut flags);
+    let url_scores = scan_known_urls(
+        message,
+        threat_intel,
+        url_db,
+        &mut flags,
+        online_url_enrichment,
+    );
     let url_context = ai_url_context(&url_scores, url_db);
     let ai_result = if ai_enabled {
         ai::assess_message_with_url_context(message, &url_context)
@@ -213,11 +266,25 @@ fn analyse_inner(
     let mut scores = Scores {
         phishing: weighted_score(ai.phishing.max(urgency), llm_weight),
         secret,
-        prompt_injection: prompt_injection.max(weighted_score(ai.prompt_injection, llm_weight)),
+        prompt_injection,
         url_reputation,
         impersonation: weighted_score(ai.impersonation, llm_weight),
-        slop_score: weighted_score(ai.slop_score, llm_weight),
+        risk: weighted_score(ai.risk, llm_weight),
     };
+
+    let url_support = url_reputation.is_some_and(|risk| risk >= 25);
+    let deterministic_support =
+        url_support || urgency >= 30 || secret >= 45 || prompt_injection >= 45;
+    if !deterministic_support && (url_reputation.is_none() || scores.phishing < 60) {
+        let capped_any = scores.phishing > 40 || scores.impersonation > 40 || scores.risk > 40;
+        scores.phishing = scores.phishing.min(40);
+        scores.impersonation = scores.impersonation.min(40);
+        scores.risk = scores.risk.min(40);
+        if capped_any {
+            flags.push("ai-only medium risk capped without supporting evidence".to_string());
+        }
+    }
+
     if let Some(memory_lookup) = &memory_lookup {
         if memory_lookup.risk_adjustment > 0 {
             scores.phishing = scores
@@ -227,7 +294,11 @@ fn analyse_inner(
         }
     }
 
-    let overall_risk = overall_risk(&scores);
+    let overall_risk = if online_url_enrichment {
+        overall_risk_online(&scores)
+    } else {
+        overall_risk(&scores)
+    };
     let decision = decide(overall_risk, &scores);
     let urls = url_scores;
     let summary = if ai_enabled {
@@ -429,10 +500,11 @@ fn scan_known_urls(
     threat_intel: &ThreatIntel,
     url_db: &UrlDb,
     flags: &mut Vec<String>,
+    online_url_enrichment: bool,
 ) -> Vec<UrlScore> {
     extract_urls(message)
         .into_iter()
-        .map(|url| scan_known_url(url, threat_intel, url_db, flags))
+        .map(|url| scan_known_url(url, threat_intel, url_db, flags, online_url_enrichment))
         .collect()
 }
 
@@ -441,6 +513,7 @@ fn scan_known_url(
     threat_intel: &ThreatIntel,
     url_db: &UrlDb,
     flags: &mut Vec<String>,
+    online_url_enrichment: bool,
 ) -> UrlScore {
     match threat_intel.lookup(&url) {
         Ok(Some(hit)) => {
@@ -469,6 +542,18 @@ fn scan_known_url(
     match url_db.lookup(&identity) {
         Ok(Some(lookup)) => url_score_from_lookup(url, lookup),
         Ok(None) => {
+            if online_url_enrichment {
+                match enrich_url_inline(&url, &identity, url_db) {
+                    Ok(Some(lookup)) => return url_score_from_lookup(url, lookup),
+                    Ok(None) => flags.push(format!(
+                        "inline url enrichment produced no lookup for {url}"
+                    )),
+                    Err(err) => {
+                        flags.push(format!("inline url enrichment failed for {url}: {err}"))
+                    }
+                }
+            }
+
             let queued = url_db
                 .enqueue_unknown(&identity, &url, queue_priority(&url), "missing from url db")
                 .unwrap_or_else(|err| {
@@ -501,6 +586,85 @@ fn scan_known_url(
             }
         }
     }
+}
+
+fn enrich_url_inline(
+    url: &str,
+    identity: &crate::modules::url_db::UrlIdentity,
+    url_db: &UrlDb,
+) -> duckdb::Result<Option<UrlLookup>> {
+    let learned_brands = url_db.learned_runtime_brands()?;
+    let online = online::analyse_online_with_runtime_brands(url, &learned_brands);
+    let brand = online.deterministic;
+    let risk_score = brand.score.max(online.score);
+    let confidence = brand.confidence.max(online.confidence);
+    let verdict = if brand.official {
+        "good"
+    } else if risk_score >= 90 {
+        "bad"
+    } else if risk_score >= 45 {
+        "suspicious"
+    } else {
+        "unknown"
+    };
+
+    url_db.store_observation(
+        identity,
+        verdict,
+        confidence,
+        risk_score,
+        "inline_online_enrichment",
+    )?;
+    url_db.store_brand_impersonation(identity, &brand)?;
+    for tag in tags_for_deterministic_brand(&brand) {
+        url_db.add_tag(identity, &tag, Some(confidence), "inline_online_enrichment")?;
+    }
+    url_db.add_evidence(
+        identity,
+        "online",
+        "score",
+        None,
+        Some(online.score),
+        "inline_online_enrichment",
+    )?;
+    url_db.add_evidence(
+        identity,
+        "dns",
+        "resolved",
+        Some(&online.evidence.dns_resolved.to_string()),
+        None,
+        "inline_online_enrichment",
+    )?;
+    if let Some(provider) = &online.evidence.ip_provider {
+        url_db.add_evidence(
+            identity,
+            "dns",
+            "ip_provider",
+            Some(provider),
+            None,
+            "inline_online_enrichment",
+        )?;
+    }
+    if let Some(age) = online.evidence.whois_age_days {
+        url_db.add_evidence(
+            identity,
+            "whois",
+            "age_days",
+            Some(&age.to_string()),
+            None,
+            "inline_online_enrichment",
+        )?;
+    }
+    url_db.add_evidence(
+        identity,
+        "whois",
+        "privacy",
+        Some(&online.evidence.whois_privacy.to_string()),
+        None,
+        "inline_online_enrichment",
+    )?;
+
+    url_db.lookup(identity)
 }
 
 fn tags_for_deterministic_brand(brand: &brand::BrandImpersonation) -> Vec<String> {
@@ -656,11 +820,32 @@ fn overall_risk(scores: &Scores) -> u8 {
         .max(scores.secret)
         .max(scores.prompt_injection)
         .max(scores.impersonation)
-        .max(scores.slop_score);
+        .max(scores.risk);
+    if let Some(url_risk) = scores.url_reputation {
+        risk = risk.max(url_risk_for_overall(url_risk, risk));
+    }
+    risk
+}
+
+fn overall_risk_online(scores: &Scores) -> u8 {
+    let mut risk = scores
+        .phishing
+        .max(scores.secret)
+        .max(scores.prompt_injection)
+        .max(scores.impersonation)
+        .max(scores.risk);
     if let Some(url_risk) = scores.url_reputation {
         risk = risk.max(url_risk);
     }
     risk
+}
+
+fn url_risk_for_overall(url_risk: u8, non_url_risk: u8) -> u8 {
+    if url_risk >= 75 || non_url_risk >= 40 {
+        url_risk
+    } else {
+        url_risk.min(40)
+    }
 }
 
 fn decide(overall_risk: u8, scores: &Scores) -> Decision {

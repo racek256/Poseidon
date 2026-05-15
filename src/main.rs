@@ -33,6 +33,23 @@ fn main() {
         return;
     }
 
+    if std::env::args().nth(1).as_deref() == Some("benchmark-phishing-full") {
+        modules::phishing_benchmark::run_full().expect("full phishing benchmark failed");
+        return;
+    }
+
+    if std::env::args().nth(1).as_deref() == Some("benchmark-phishing-full-online") {
+        modules::phishing_benchmark::run_full_online()
+            .expect("full online phishing benchmark failed");
+        return;
+    }
+
+    if std::env::args().nth(1).as_deref() == Some("download-phishing-benchmark") {
+        modules::phishing_benchmark::download_huggingface_dataset()
+            .expect("phishing benchmark download failed");
+        return;
+    }
+
     if std::env::args().nth(1).as_deref() == Some("benchmark-brand-learning") {
         let url_db = modules::url_db::UrlDb::from_env().expect("failed to initialize url database");
         modules::url_analysis::brand_detector::run_real_page_benchmark(&url_db)
@@ -187,8 +204,11 @@ fn main() {
     let message_memory = modules::message_memory::MessageMemory::from_env()
         .expect("failed to initialize message memory database");
     threat_intel.update_if_due();
+
+    modules::llm_server::ensure();
+
     if let Err(err) = modules::ai::warmup() {
-        eprintln!("ollama warmup failed: {err}");
+        eprintln!("llm warmup failed: {err}");
     }
     let addr = std::env::var("POSEIDON_API_ADDR").unwrap_or_else(|_| "127.0.0.1:8080".to_string());
     modules::api::serve(&addr, &threat_intel, &url_db, &message_memory).expect("api server failed");

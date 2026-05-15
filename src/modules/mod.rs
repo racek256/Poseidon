@@ -1,5 +1,6 @@
 pub mod ai;
 pub mod api;
+pub mod llm_server;
 pub mod message_memory;
 pub mod phishing_benchmark;
 pub mod scoring;

@@ -209,8 +209,17 @@ fn score_online(
 ) -> (u8, Vec<String>) {
     let mut score = deterministic.score;
     let mut reasons = deterministic.reasons.clone();
+    let credential_fields =
+        evidence.has_password_field || evidence.has_otp_field || evidence.has_card_field;
+    let brand_signal = deterministic.matched_brand.is_some()
+        || evidence.page_brand_match
+        || evidence.favicon_brand_match;
+    let weak_page_only = !credential_fields
+        && !evidence.favicon_brand_match
+        && !evidence.external_form_action
+        && !(evidence.final_domain_changed && deterministic.matched_brand.is_some());
 
-    if evidence.has_password_field || evidence.has_otp_field || evidence.has_card_field {
+    if credential_fields {
         reasons.push("credential collection fields found on page".to_string());
         if deterministic.matched_brand.is_some() {
             score = score.max(90);
@@ -219,8 +228,8 @@ fn score_online(
         }
     }
 
-    if evidence.page_brand_match && evidence.form_count > 0 && !deterministic.official {
-        reasons.push("page content matches brand and contains forms".to_string());
+    if evidence.page_brand_match && credential_fields && !deterministic.official {
+        reasons.push("page content matches brand and collects credentials".to_string());
         score = score.max(85);
     }
 
@@ -231,7 +240,11 @@ fn score_online(
 
     if evidence.external_form_action {
         reasons.push("form posts to a different domain".to_string());
-        score = score.saturating_add(10).min(95);
+        if credential_fields || brand_signal {
+            score = score.saturating_add(10).min(95);
+        } else {
+            score = score.max(45);
+        }
     }
 
     if evidence.final_domain_changed && deterministic.matched_brand.is_some() {
@@ -249,6 +262,17 @@ fn score_online(
         if deterministic.matched_brand.is_some() {
             reasons.push(format!("resolved IP belongs to known provider: {provider}"));
             score = score.saturating_add(5).min(95);
+        }
+    }
+
+    if weak_page_only {
+        if evidence.whois_age_days.is_some_and(|age| age > 180) && evidence.http_status.is_some() {
+            reasons.push("older live domain without credential collection".to_string());
+            score = score.min(35);
+        } else if !brand_signal {
+            score = score.min(40);
+        } else {
+            score = score.min(60);
         }
     }
 
@@ -373,7 +397,12 @@ fn collect_http_page(
                 parse_url_parts(&final_url).registrable_domain != original_domain;
             collect_favicon(&client, &final_url, matched_brand, &mut evidence);
             evidence.final_url = Some(final_url);
-            analyse_html(&body, matched_brand, &mut evidence);
+            let page_domain = evidence
+                .final_url
+                .as_deref()
+                .map(|url| parse_url_parts(url).registrable_domain)
+                .unwrap_or_else(|| original_domain.to_string());
+            analyse_html(&body, matched_brand, &page_domain, &mut evidence);
         }
         Err(err) => evidence.http_error = Some(err),
     }
@@ -443,7 +472,12 @@ fn fetch_page(client: &Client, url: &str) -> Result<(u16, String, String), Strin
     ))
 }
 
-fn analyse_html(body: &str, matched_brand: Option<&str>, evidence: &mut OnlineEvidence) {
+fn analyse_html(
+    body: &str,
+    matched_brand: Option<&str>,
+    page_domain: &str,
+    evidence: &mut OnlineEvidence,
+) {
     let lower = body.to_ascii_lowercase();
     evidence.title = extract_title(body);
     evidence.has_password_field =
@@ -455,13 +489,20 @@ fn analyse_html(body: &str, matched_brand: Option<&str>, evidence: &mut OnlineEv
     evidence.has_card_field =
         lower.contains("card number") || lower.contains("credit card") || lower.contains("cvv");
     evidence.form_count = lower.matches("<form").count();
-    evidence.external_form_action = lower.contains("action=\"http://")
-        || lower.contains("action=\"https://")
-        || lower.contains("action='http://")
-        || lower.contains("action='https://");
+    evidence.external_form_action = external_form_action_domain(&lower)
+        .is_some_and(|action_domain| action_domain != page_domain);
     if let Some(brand) = matched_brand {
         evidence.page_brand_match = lower.contains(&brand.to_ascii_lowercase());
     }
+}
+
+fn external_form_action_domain(lower_html: &str) -> Option<String> {
+    let re = Regex::new(r#"(?is)<form[^>]+action\s*=\s*['\"](https?://[^'\"\s>]+)['\"]"#).ok()?;
+    re.captures_iter(lower_html).find_map(|caps| {
+        caps.get(1)
+            .map(|action| parse_url_parts(action.as_str()).registrable_domain)
+            .filter(|domain| !domain.is_empty())
+    })
 }
 
 fn extract_title(body: &str) -> Option<String> {
