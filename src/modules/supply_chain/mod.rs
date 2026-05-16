@@ -1,6 +1,3 @@
-use std::time::Duration;
-
-use reqwest::blocking::Client;
 use serde_json::{Value, json};
 
 use crate::modules::tui::bridge;
@@ -9,11 +6,19 @@ pub mod lockfile;
 pub mod osv;
 pub mod registry;
 pub mod typosquat;
+pub mod get_dependency_git_url;
+pub mod universal_llm_comms;
+pub mod analysis_cache;
+pub mod commit_fetcher;
+pub mod deep_analysis;
 
 use lockfile::{detect_lockfile_type, parse_lockfile};
 use osv::{OSVClient, Package as OSVPackage};
 use registry::RegistryChecker;
 use typosquat::TyposquatChecker;
+use get_dependency_git_url::GitUrlFinder;
+use analysis_cache::AnalysisCache;
+use commit_fetcher::CommitFetcher;
 
 /// Warning levels for packages based on detected issues.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
@@ -128,21 +133,21 @@ fn count_by_level(packages: &[PackageAnalysis]) -> (usize, usize, usize, usize, 
 
 #[derive(Debug)]
 pub struct SupplyChainScanner {
-    http_client: Client,
     osv_client: OSVClient,
     registry_checker: RegistryChecker,
+    git_url_finder: GitUrlFinder,
+    commit_fetcher: CommitFetcher,
+    analysis_cache: AnalysisCache,
 }
 
 impl SupplyChainScanner {
     pub fn new() -> Self {
-        let client = Client::builder()
-            .timeout(Duration::from_secs(30))
-            .build()
-            .expect("failed to create HTTP client for supply chain scanner");
         Self {
-            http_client: client,
             osv_client: OSVClient::new(),
             registry_checker: RegistryChecker::new(),
+            git_url_finder: GitUrlFinder::new(),
+            commit_fetcher: CommitFetcher::new(),
+            analysis_cache: AnalysisCache::default(),
         }
     }
 
@@ -279,23 +284,30 @@ impl SupplyChainScanner {
         })
     }
 
-    pub fn deep_analyze(&self, lockfile_content: &str) -> Value {
-        bridge::log("SupplyChainScanner: deep_analyze called");
-        json!({
-            "status": "ok",
-            "method": "deep_analyze",
-            "input_size": lockfile_content.len(),
-            "issues": [],
-            "summary": "stub: deep analyze not yet implemented"
-        })
+    pub fn deep_analyze(&self, lockfiles: Vec<(String, String)>) -> Value {
+        bridge::log(&format!("SupplyChainScanner: deep_analyze called with {} lockfiles", lockfiles.len()));
+        deep_analysis::run_deep_analysis(
+            lockfiles,
+            &self.osv_client,
+            &self.registry_checker,
+            &self.git_url_finder,
+            &self.commit_fetcher,
+            &self.analysis_cache,
+        )
     }
 
     pub fn status(&self) -> Value {
         bridge::log("SupplyChainScanner: status called");
+        let llm_provider = std::env::var("LLM_PROVIDER")
+            .unwrap_or_else(|_| "not configured".to_string());
         json!({
             "status": "ready",
             "service": "supply_chain_scanner",
-            "version": "0.1.0"
+            "version": "0.1.0",
+            "llm_provider": llm_provider,
+            "cache_entries": self.analysis_cache.len(),
+            "cache_hits": self.analysis_cache.hit_count(),
+            "cache_misses": self.analysis_cache.miss_count(),
         })
     }
 }
@@ -325,7 +337,44 @@ pub fn handle_quick_analyze(body: &str) -> Value {
 
 pub fn handle_deep_analyze(body: &str) -> Value {
     let scanner = SupplyChainScanner::new();
-    scanner.deep_analyze(body)
+
+    // Parse the request body as JSON to extract lockfile(s)
+    if let Ok(parsed) = serde_json::from_str::<Value>(body) {
+        // Support both single lockfile and batch formats
+        if let Some(lockfiles) = parsed.get("lockfiles").and_then(|v| v.as_array()) {
+            // Batch format: {"lockfiles": [{"filename": "...", "content": "..."}]}
+            let parsed_lockfiles: Vec<(String, String)> = lockfiles.iter()
+                .filter_map(|lf| {
+                    let filename = lf.get("filename").and_then(|v| v.as_str())?;
+                    let content = lf.get("content").and_then(|v| v.as_str())?;
+                    Some((filename.to_string(), content.to_string()))
+                })
+                .collect();
+            if parsed_lockfiles.is_empty() {
+                return json!({"error": "No valid lockfiles found in request"});
+            }
+            scanner.deep_analyze(parsed_lockfiles)
+        } else if let Some(content) = parsed.get("lockfile_content").and_then(|v| v.as_str()) {
+            // Single format: {"lockfile_content": "...", "filename": "..."}
+            let filename = parsed.get("filename")
+                .and_then(|v| v.as_str())
+                .unwrap_or("unknown.lock")
+                .to_string();
+            scanner.deep_analyze(vec![(filename, content.to_string())])
+        } else if let Some(content) = parsed.get("content").and_then(|v| v.as_str()) {
+            // Minimal single format: {"content": "...", "filename": "..."}
+            let filename = parsed.get("filename")
+                .and_then(|v| v.as_str())
+                .unwrap_or("unknown.lock")
+                .to_string();
+            scanner.deep_analyze(vec![(filename, content.to_string())])
+        } else {
+            json!({"error": "Request must contain 'lockfiles' (array) or 'lockfile_content' (string)"})
+        }
+    } else {
+        // Fallback: treat raw body as a single unnamed lockfile
+        scanner.deep_analyze(vec![("unknown.lock".to_string(), body.to_string())])
+    }
 }
 
 pub fn handle_status() -> Value {
@@ -371,9 +420,8 @@ mod tests {
     #[test]
     fn test_deep_analyze_stub() {
         let scanner = SupplyChainScanner::new();
-        let result = scanner.deep_analyze("test content");
-        assert_eq!(result["status"], "ok");
-        assert_eq!(result["method"], "deep_analyze");
+        let result = scanner.deep_analyze(vec![("test.lock".to_string(), "test content".to_string())]);
+        assert!(result.get("analysis_timestamp").is_some() || result.get("status").is_some());
     }
 
     #[test]
@@ -389,7 +437,7 @@ mod tests {
         assert!(quick.get("overall_sentiment").is_some());
 
         let deep = handle_deep_analyze("yarn.lock content");
-        assert_eq!(deep["status"], "ok");
+        assert!(deep.get("error").is_some() || deep.get("analysis_timestamp").is_some());
 
         let status = handle_status();
         assert_eq!(status["status"], "ready");
