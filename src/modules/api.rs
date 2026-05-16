@@ -5,6 +5,7 @@ use serde_json::{Value, json};
 
 use crate::modules::message_memory::MessageMemory;
 use crate::modules::scoring::analyse;
+use crate::modules::supply_chain;
 use crate::modules::threat_intel::ThreatIntel;
 use crate::modules::tui::bridge;
 use crate::modules::url_db::UrlDb;
@@ -61,6 +62,9 @@ fn handle_connection(
             bridge::post_log(&format!("Handling request: {}", parts[1]));
             analyse_request(stream, body, threat_intel, url_db, message_memory)
         }
+        _ if parts[1].starts_with("/supplychain") => {
+            supply_chain_request(stream, parts[0], parts[1], body)
+        }
         _ => write_json(stream, 404, &json!({ "error": "not found" })),
     }
 }
@@ -114,6 +118,29 @@ fn analyse_request(
     ));
 
     write_json(stream, 200, &result_json)
+}
+
+fn supply_chain_request(
+    stream: &mut TcpStream,
+    method: &str,
+    path: &str,
+    body: &str,
+) -> std::io::Result<()> {
+    match (method, path) {
+        ("POST", "/supplychain/quick-analyze") => {
+            let result = supply_chain::handle_quick_analyze(body);
+            write_json(stream, 200, &result)
+        }
+        ("POST", "/supplychain/deep-analyze") => {
+            let result = supply_chain::handle_deep_analyze(body);
+            write_json(stream, 200, &result)
+        }
+        ("GET", "/supplychain/status") => {
+            let result = supply_chain::handle_status();
+            write_json(stream, 200, &result)
+        }
+        _ => write_json(stream, 404, &json!({ "error": "supply chain endpoint not found" })),
+    }
 }
 
 fn read_request(stream: &mut TcpStream) -> std::io::Result<String> {

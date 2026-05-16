@@ -4,6 +4,7 @@ pub mod llm_server;
 pub mod message_memory;
 pub mod phishing_benchmark;
 pub mod scoring;
+pub mod supply_chain;
 pub mod threat_intel;
 pub mod tui;
 pub mod url_analysis;
