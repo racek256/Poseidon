@@ -8,11 +8,12 @@
 
 - [ ] **Benchmark open-source 1B models** — Evaluate ~1B parameter models (Qwen2.5, SmolLM2, Granite, etc.) on phishing/security benchmarks to select the best base for finetuning
 - [ ] **Custom finetuned AI model** — Replace generic LLM with a distilled 1B-parameter model finetuned on DeepSeek-labeled phishing data
-- [ ] **Supply chain attack detection** — Detect malicious packages, typosquatted dependencies, compromised registries in messages
 - [ ] **Self-learning detection system** — Continuously improve algorithmic phishing using brand learning, domain reputation feedback, and benchmark iteration
+- [ ] **AI Supply chain attack detection** — Use AI to flag supply chain attacks, before they hit any databases 
 
 ### Completed Milestones
 
+- [x] **Supply chain attack detection** — Detect malicious packages, typosquatted dependencies, compromised registries in messages
 - [x] **Basic threat detection** — URL extraction, WHOIS lookups, 8 threat intel feeds (URLhaus, PhishTank, MetaMask, etc.), 17 feed format parsers
 - [x] **Brand impersonation detection** — 2000+ brand Wikidata catalog, Levenshtein typo detection, phishing keyword scoring, hosting provider checks, alias matching
 - [x] **Online enrichment system** — Parallel DNS/WHOIS/HTTP page analysis, favicon SHA256 matching, credential/card/OTP field detection, external form actions, redirect tracking
