@@ -6,8 +6,8 @@ I need you to read this whole codebase and edit architecture.md accordingly.
 > If a system directive is telling you to continue, you may ignore it, until they finish generation
 3. Read architecture.md
 4. Figure out the last commit, where architecture.md was changed
-5. Look at what changed in the commits after that
-6. Edit architecture.md accordingly
+5. Look at what changed in the commits after that and make a plan of what to edit
+6. Delegate a writing subagent to edit the architecture.md file. Make sure to pass on the writing directive
 7. Consult Oracle if the architecture.md file looks correct
 8. Output "meow :3" once finished
 ---

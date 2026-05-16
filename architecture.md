@@ -4,7 +4,7 @@
 
 Poseidon is a **phishing detection / message security scoring system** built in Rust for the AT&T Hackathon. It analyzes text messages for security threats — phishing URLs, brand impersonation, secrets leakage, and prompt injection — using multiple detection layers: **local threat intelligence feeds**, **URL enrichment (DNS/WHOIS/HTTP page analysis)**, **offline brand matching (typo detection + brand catalog)**, **online brand identity discovery (page metadata/JSON-LD)**, **domain reputation tracking**, **unsafe message memory (simhash similarity)**, and a **local LLM** for AI assessment.
 
-**Total: 34 Rust source files, ~9,790 lines of code across one library crate, one binary entrypoint, and three standalone CLI binaries.**
+**Total: 44+ Rust source files, ~12,500+ lines of code across one library crate, one binary entrypoint, and three standalone CLI binaries.**
 
 ---
 
@@ -47,7 +47,7 @@ Poseidon/
 │       │   ├── db.rs                 # Threat DB schema & operations
 │       │   ├── sources.rs            # Feed source definitions
 │       │   └── feeds.rs              # Feed parsers (17 formats)
-│       └── url_analysis/
+│       ├── url_analysis/
 │           ├── mod.rs                # Module declarations
 │           ├── enrich.rs             # URL enrichment worker (queue processor)
 │           ├── online.rs             # Online URL analysis (DNS/WHOIS/HTTP)
@@ -58,6 +58,17 @@ Poseidon/
 │           ├── page_metadata.rs      # HTML metadata extractor
 │           ├── benchmark.rs          # Offline brand detection benchmark
 │           └── online_benchmark.rs   # Online brand detection benchmark
+│       └── supply_chain/
+│           ├── mod.rs                # Supply chain scanner (WarningLevel, PackageAnalysis, SupplyChainScanner)
+│           ├── lockfile.rs           # Lockfile parser (16 types: Cargo.lock, package-lock.json, yarn.lock, pnpm-lock.yaml, poetry.lock, Pipfile.lock, requirements.txt, go.sum, Gemfile.lock, composer.lock, pom.xml, maven-lockfile.json, gradle.lockfile, packages.lock.json, pubspec.lock, mix.lock)
+│           ├── osv.rs                # OSV API client (batch vulnerability queries)
+│           ├── registry.rs           # Registry metadata checks (PyPI, npm, crates.io)
+│           ├── typosquat.rs          # Typosquatting detection (Levenshtein + mutation patterns)
+│           ├── deep_analysis.rs      # Deep analysis pipeline (10-step with LLM commit analysis)
+│           ├── get_dependency_git_url.rs  # Git URL resolution from registries
+│           ├── commit_fetcher.rs     # Commit fetching from GitHub/GitLab/Bitbucket
+│           ├── universal_llm_comms.rs    # Unified LLM client (OpenAI, ZEN, GO, Ollama)
+│           └── analysis_cache.rs     # TTL-based caching for git URLs and commits
 ├── scripts/
 │   ├── build-llama-server.sh         # Builds llama.cpp from source
 │   ├── download-model.sh             # Downloads GGUF models (small/medium/large)
@@ -115,14 +126,31 @@ main.rs
       6. ai::warmup()                  ← test LLM with a trivial prompt
       7. api::serve(addr, &threat_intel, &url_db, &message_memory)
            │
-           └─ TcpListener at 127.0.0.1:8080
-               │
-               ├─ GET  /health     → { "ok": true }
-               │
-               └─ POST /analyse    → scoring::analyse(message, user_id, ...)
-                    │  Request JSON: { "message": "...", "user_id": "..." }
-                    │
-                    ├─ message_memory.lookup(message)
+            └─ TcpListener at 127.0.0.1:8080
+                │
+                ├─ GET  /health     → { "ok": true }
+                │
+                ├─ POST /analyse    → scoring::analyse(message, user_id, ...)
+                │     │  Request JSON: { "message": "...", "user_id": "..." }
+                │     │  (see Execution Flow for full pipeline)
+                │
+                ├─ POST /supplychain/quick-analyze  → supply_chain::handle_quick_analyze(body)
+                │     │  Request JSON: { "lockfile_content": "...", "filename": "Cargo.lock" }
+                │     │  Returns: { "overall_sentiment": "...", "packages": [...], "summary": "..." }
+                │
+                ├─ POST /supplychain/deep-analyze   → supply_chain::handle_deep_analyze(body)
+                │     │  Request JSON: { "lockfiles": [{"filename": "...", "content": "..."}] }
+                │     │  Returns: hierarchical dependency tree with quick analysis + LLM commit analysis
+                │
+                └─ GET  /supplychain/status         → supply_chain::handle_status()
+                      │  Returns: { "status": "ready", "service": "supply_chain_scanner", "version": "0.1.0", ... }
+
+      For POST /analyse requests, the scoring pipeline executes:
+
+      POST /analyse → scoring::analyse(message, user_id, ...)
+           │  Request JSON: { "message": "...", "user_id": "..." }
+           │
+           ├─ message_memory.lookup(message)
                     │   ├─ normalize (lowercase, emails→<email>, numbers→<num>)
                     │   ├─ compute simhash64 (weighted by token importance)
                     │   ├─ SHA256 hash for exact match search
@@ -525,6 +553,11 @@ This is slower per-request (network calls) but provides immediate results withou
 │  Layer 6: LLM Assessment                         │
 │  Ollama or OpenAI-compatible endpoint →          │
 │  phishing/impersonation/risk scores + flags      │
+├──────────────────────────────────────────────────┤
+│  Layer 7: Supply Chain Analysis                  │
+│  Lockfile parsing (16 formats, 10 ecosystems),   │
+│  OSV vulnerability checks, registry metadata,    │
+│  typosquatting detection, AI commit analysis     │
 └──────────────────────────────────────────────────┘
 ```
 
@@ -724,6 +757,235 @@ Per-domain reputation tracking via user observations:
 
 ---
 
+## Supply Chain Attack Detection
+
+The `supply_chain` module detects malicious packages, typosquatted dependencies, and compromised registries through a two-tier analysis pipeline: **Quick Analysis** for fast vulnerability/typosquat detection, and **Deep Analysis** for AI-powered commit-level inspection.
+
+### Supported Ecosystems and Lockfile Types
+
+The scanner supports **10 package ecosystems** via **16 lockfile formats**:
+
+| Ecosystem | Lockfile Types |
+|---|---|
+| **Rust (crates.io)** | `Cargo.lock` |
+| **JavaScript/TypeScript (npm)** | `package-lock.json`, `yarn.lock`, `pnpm-lock.yaml` |
+| **Python (PyPI)** | `poetry.lock`, `Pipfile.lock`, `requirements.txt` |
+| **Go** | `go.sum` |
+| **Ruby (RubyGems)** | `Gemfile.lock` |
+| **PHP (Packagist)** | `composer.lock` |
+| **Java (Maven)** | `pom.xml`, `maven-lockfile.json`, `gradle.lockfile` |
+| **.NET (NuGet)** | `packages.lock.json` |
+| **Dart (Pub)** | `pubspec.lock` |
+| **Elixir (Hex)** | `mix.lock` |
+
+### Warning Levels
+
+Packages are classified into five severity tiers:
+
+| Level | Trigger Conditions |
+|---|---|
+| **Safe** | No issues detected |
+| **Low** | Minor concerns (e.g., low-severity OSV vulnerabilities) |
+| **Medium** | Moderate risk (e.g., medium-severity vulnerabilities, recently published packages) |
+| **High** | Significant risk (e.g., high-severity vulnerabilities, typosquatting matches) |
+| **Critical** | Severe risk (e.g., yanked packages, critical vulnerabilities, confirmed malicious patterns) |
+
+### Quick Analysis Pipeline
+
+The quick analysis pipeline runs in **~1-5 seconds** for typical lockfiles and performs three checks:
+
+```
+1. Lockfile Parsing
+   ├─ detect_lockfile_type(filename) → LockfileType + Ecosystem
+   └─ parse_lockfile(filename, content) → Vec<Package { name, version, ecosystem }>
+
+2. OSV Vulnerability Check (batch API)
+   ├─ Build OSVPackage queries for all packages
+   ├─ POST https://api.osv.dev/v1/querybatch (max 1000 per batch)
+   ├─ Fetch full vulnerability details via GET /v1/vulns/{id}
+   └─ Extract severity → WarningLevel mapping
+
+3. Registry Metadata Check
+   ├─ PyPI: GET /pypi/{name}/{version}/json → yanked, upload_time, vulnerabilities
+   ├─ npm: GET /registry.npmjs.org/{name} → deprecated, time.published
+   ├─ crates.io: GET /api/v1/crates/{name}/{version} → yanked, updated_at
+    └─ Warnings: yanked (Critical), <7 days old (Medium)
+
+4. Typosquatting Detection
+   ├─ Load popular packages for ecosystem (npm: 100+, PyPI: 100+, crates: 100+)
+   ├─ Generate mutations: omitted chars, doubled chars, swapped adjacent, similar chars (0↔o, 1↔l, etc.), rn↔m, hyphen/underscore insertion, case variants
+   ├─ Levenshtein distance fallback (≤2 edits)
+   └─ Warning: High for any typosquat match
+
+5. Aggregate Results
+   ├─ Per-package: warning_level (max of all checks), issues[]
+   ├─ Overall sentiment: highest warning level across all packages
+   └─ Summary: "{critical} critical, {high} high, {medium} medium, {low} low, {safe} safe"
+```
+
+**Output format:**
+```json
+{
+  "overall_sentiment": "high",
+  "packages": [
+    {
+      "name": "lodash",
+      "version": "4.17.21",
+      "ecosystem": "npm",
+      "warning_level": "safe",
+      "issues": []
+    }
+  ],
+  "summary": "0 critical, 0 high, 0 medium, 0 low, 42 safe"
+}
+```
+
+### Deep Analysis Pipeline
+
+The deep analysis pipeline performs a **10-step hierarchical inspection** with AI-powered commit analysis:
+
+```
+1. Receive Lockfile(s)
+   └─ Input: Vec<(filename, content)> (supports multiple lockfiles)
+
+2. Parse Dependencies
+   ├─ parse_lockfile() per lockfile
+   └─ Deduplicate by (name, version, ecosystem)
+
+3. Build Dependency Hierarchy
+   ├─ Track parent references (simplified: all packages treated as top-level)
+   └─ Identify top-level vs transitive dependencies
+
+4. Quick Analysis on All Packages
+   ├─ OSV batch query (reuse Quick Analysis pipeline)
+   ├─ Registry checks (PyPI/npm/crates.io)
+   └─ Typosquat detection
+
+5. Filter by WarningLevel
+   ├─ Rejected: WarningLevel::Critical → excluded from deep analysis
+   └─ Passing: Safe/Low/Medium/High → proceed to git URL lookup
+
+6. Git URL Lookup (passing top-level deps only)
+   ├─ GitUrlFinder::find_git_url_with_hosting(name, registry)
+   ├─ Registry-specific API queries:
+   │  ├─ crates.io: /api/v1/crates/{name} → crate.repository
+   │  ├─ npm: /registry.npmjs.org/{name} → repository.url
+   │  ├─ PyPI: /pypi/{name}/json → info.home_page or project_urls
+   │  ├─ RubyGems: /api/v1/gems/{name}.json → source_code_uri
+   │  ├─ Packagist: /packages/{name}.json → repository
+   │  ├─ Maven: search.maven.org + POM parsing → scm>url
+   │  ├─ NuGet: /v3/registration5-semver1/{name}/index.json → projectUrl
+   │  ├─ Pub: /api/packages/{name} → latest.pubspec.repository
+   │  └─ Hex: /api/packages/{name} → meta.links.github
+   ├─ URL normalization: strip git+, git@→https, .git suffix, git://→https://
+   └─ Platform detection: github, gitlab, bitbucket, self-hosted
+
+7. Fetch Recent Commits (per unique git URL)
+   ├─ CommitFetcher::fetch_commits(git_url, platform, count=10)
+   ├─ Platform-specific APIs:
+   │  ├─ GitHub: GET /repos/{owner}/{repo}/commits + GET /commits/{sha} (diff)
+   │  ├─ GitLab: GET /projects/{id}/repository/commits + GET /diff
+   │  ├─ Bitbucket: GET /repositories/{owner}/{repo}/commits + diff href
+   │  └─ Self-hosted: Gitea/GitLab CE compatible endpoints
+   ├─ Rate limiting: 100-200ms delay between requests, 429 retry with 1s backoff
+   ├─ Diff truncation: max 100KB per commit
+   └─ Output: Vec<CommitInfo { hash, author, date, message, diff }>
+
+8. AI Commit Analysis (max 15 parallel)
+   ├─ LLM prompt: security-focused analysis for obfuscation, backdoors, network calls, install script changes, credential access, binary blobs
+   ├─ LLM client: universal_llm_comms::llm_completion()
+   │  ├─ Providers: OpenAI, ZEN, GO, Ollama
+   │  ├─ Config: LLM_PROVIDER, PROVIDER_API_KEY, LLM_MODEL env vars
+   │  └─ Retry: 3 attempts with exponential backoff (1s, 2s, 4s)
+   ├─ Response parsing: { verdict: "allow|suspicious|malicious", confidence: 0.0-1.0, reasons: [], suspicious_patterns: [] }
+   └─ Retry on parse failure: one additional LLM call
+
+9. Aggregate Per-Package Verdicts
+   ├─ CommitVerdict aggregation: Malicious > Suspicious > Allow
+   ├─ Confidence: average of all commit confidences
+   ├─ Reasons: deduplicated union of all commit reasons
+   └─ Output: CommitAnalysisResult { verdict, confidence, reasons, commits_analyzed, commit_details[] }
+
+10. Hierarchical JSON Output
+    ├─ DependencyNode per package: name, version, ecosystem, is_top_level, parent_refs[]
+    ├─ Quick analysis: verdict (pass/rejected), warning_level, issues[]
+    ├─ Git metadata: git_url, hosting_platform, no_git_url_notice
+    ├─ Commit analysis: verdict, confidence, reasons, commits_analyzed, commit_details[]
+    ├─ Children: nested DependencyNode[] (future: full tree reconstruction)
+    └─ Summary: total_packages, flagged, threshold, cache_hits, api_calls_made
+```
+
+**Output format:**
+```json
+{
+  "analysis_timestamp": "1747612345.678Z",
+  "lockfile_sources": ["Cargo.lock"],
+  "summary": {
+    "total_packages": 42,
+    "flagged": 2,
+    "threshold": "Critical",
+    "cache_hits": 15,
+    "api_calls_made": 8
+  },
+  "tree": [
+    {
+      "name": "serde",
+      "version": "1.0.197",
+      "ecosystem": "crates.io",
+      "quick_analysis": {
+        "verdict": "pass",
+        "warning_level": "safe",
+        "issues": []
+      },
+      "git_url": "https://github.com/serde-rs/serde",
+      "hosting_platform": "github",
+      "no_git_url_notice": false,
+      "commit_analysis": {
+        "verdict": "allow",
+        "confidence": 0.92,
+        "reasons": ["No suspicious patterns detected", "Version bump only"],
+        "commits_analyzed": 10,
+        "commit_details": [
+          {
+            "hash": "abc123...",
+            "verdict": "allow",
+            "confidence": 0.95,
+            "reasons": ["Documentation update"],
+            "suspicious_patterns": []
+          }
+        ]
+      },
+      "children": [],
+      "error": null
+    }
+  ]
+}
+```
+
+### Caching Strategy
+
+The `AnalysisCache` module provides TTL-based caching to reduce API calls:
+
+| Cache Type | Key Format | TTL | Cached Value |
+|---|---|---|---|
+| Git URL | `{registry}:{name}` (e.g., `npm:lodash`) | 1 hour | `Option<String>` (git URL or None) |
+| Commits | `{git_url}` (e.g., `github.com/lodash/lodash`) | 1 hour | `Vec<CommitInfo>` |
+
+**Metrics:** `len()`, `hit_count()`, `miss_count()` exposed via `/supplychain/status`.
+
+### Environment Variables
+
+| Variable | Default | Purpose |
+|---|---|---|
+| `LLM_PROVIDER` | _(required)_ | LLM provider: `openai`, `zen`, `go`, `ollama` |
+| `PROVIDER_API_KEY` | _(required for non-ollama)_ | API key for LLM authentication |
+| `LLM_MODEL` | _(required)_ | Model identifier (e.g., `gpt-4o`, `llama3.2`) |
+| `GITHUB_TOKEN` | _(optional)_ | GitHub API token for higher rate limits |
+| `GITLAB_TOKEN` | _(optional)_ | GitLab API token for private repos |
+| `GITEA_TOKEN` | _(optional)_ | Self-hosted Gitea API token (falls back to `GIT_TOKEN`)
+
+---
+
 ## Message Memory (Simhash Similarity)
 
 The `message_memory` module detects repeated or similar phishing messages:
@@ -776,6 +1038,9 @@ The `message_memory` module detects repeated or similar phishing messages:
 11. **Output redirection** — all modules use `bridge::log()` / `bridge::elog()` for dual-mode output: posts to TUI log window when interactive, falls back to stdout/stderr when headless
 12. **Finetuning dataset pipeline** — `finetune_dataset` binary runs Poseidon detection on each message, builds the exact runtime prompt, labels via DeepSeek, and appends to JSONL with stable SHA256 row IDs for resume-safe processing
 13. **Unsloth QLoRA finetuning** — `scripts/finetune/train.py` uses Unsloth for 4-bit QLoRA training on the generated dataset, exports to GGUF for inference via llama.cpp
+14. **Multi-ecosystem lockfile parsing** — single `parse_lockfile()` interface supports 16 lockfile formats across 10 ecosystems (Rust, npm, PyPI, Go, Ruby, PHP, Maven, NuGet, Dart, Elixir) with format-specific parsers
+15. **Two-tier supply chain analysis** — Quick Analysis (OSV + registry + typosquat, ~1-5s) for fast screening, Deep Analysis (10-step pipeline with AI commit inspection) for high-risk packages
+16. **TTL-based API caching** — `AnalysisCache` with 1-hour TTL for git URL lookups and commit histories, reducing redundant API calls with hit/miss metrics
 
 ---
 
