@@ -19,3 +19,5 @@ venv
 .venv
 .venv_rocm
 unsloth_compiled_cache/
+
+.env
