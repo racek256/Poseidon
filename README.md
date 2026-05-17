@@ -291,8 +291,9 @@ Startup priority:
 
 llama.cpp backend auto-detection:
 
-- NVIDIA with `nvidia-smi` -> CUDA build
+- NVIDIA with CUDA toolkit (`nvcc`) -> CUDA build
 - AMD with ROCm tools (`hipcc` or `rocminfo`) -> HIP/ROCm build
+- NVIDIA/AMD with Vulkan tools -> Vulkan build
 - Otherwise -> CPU build
 - Override with `POSEIDON_LLAMA_BACKEND=cuda|hip|rocm|vulkan|cpu`
 

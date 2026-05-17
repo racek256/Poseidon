@@ -225,19 +225,25 @@ fn main() {
     if interactive_mode {
         modules::tui::run_tui(&addr);
     } else {
-        let threat_intel = modules::threat_intel::ThreatIntel::from_env()
-            .expect("failed to initialize threat intel database");
-        let url_db = modules::url_db::UrlDb::from_env().expect("failed to initialize url database");
-        let message_memory =
-            modules::message_memory::MessageMemory::from_env().expect("failed to initialize message memory database");
-        threat_intel.update_if_due();
+        check_api_addr_available(&addr).expect("api bind address unavailable");
         modules::llm_server::ensure();
         if let Err(err) = modules::ai::warmup() {
             eprintln!("llm warmup failed: {err}");
         }
+
+        let threat_intel = modules::threat_intel::ThreatIntel::from_env()
+            .expect("failed to initialize threat intel database");
+        let url_db = modules::url_db::UrlDb::from_env().expect("failed to initialize url database");
+        let message_memory = modules::message_memory::MessageMemory::from_env()
+            .expect("failed to initialize message memory database");
+        threat_intel.update_if_due();
         modules::api::serve(&addr, &threat_intel, &url_db, &message_memory)
             .expect("api server failed");
     }
+}
+
+fn check_api_addr_available(addr: &str) -> std::io::Result<()> {
+    std::net::TcpListener::bind(addr).map(|_| ())
 }
 
 /*

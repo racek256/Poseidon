@@ -23,7 +23,7 @@ CMAKE_FLAGS=(
     -DCMAKE_BUILD_TYPE=Release
 )
 
-if [ "${POSEIDON_LLAMA_VULKAN:-OFF}" = "ON" ]; then
+enable_vulkan() {
     VULKAN_SDK_DIR="${POSEIDON_LLAMA_VULKAN_SDK:-/tmp/vulkan-sdk}"
     if [ ! -d "$VULKAN_SDK_DIR/x86_64/include/vulkan" ]; then
         echo "Vulkan SDK not found at $VULKAN_SDK_DIR. Downloading..."
@@ -34,7 +34,7 @@ if [ "${POSEIDON_LLAMA_VULKAN:-OFF}" = "ON" ]; then
         -DGGML_VULKAN=ON
         -DVulkan_INCLUDE_DIR="$VULKAN_SDK_DIR/x86_64/include"
     )
-fi
+}
 
 BACKEND="CPU"
 if [ -n "${POSEIDON_LLAMA_BACKEND:-}" ]; then
@@ -48,7 +48,7 @@ if [ -n "${POSEIDON_LLAMA_BACKEND:-}" ]; then
             BACKEND="HIP/ROCm"
             ;;
         vulkan|VULKAN)
-            CMAKE_FLAGS+=(-DGGML_VULKAN=ON)
+            enable_vulkan
             BACKEND="Vulkan"
             ;;
         cpu|CPU)
@@ -61,13 +61,17 @@ if [ -n "${POSEIDON_LLAMA_BACKEND:-}" ]; then
             ;;
     esac
 elif [ "${POSEIDON_LLAMA_VULKAN:-OFF}" = "ON" ]; then
+    enable_vulkan
     BACKEND="Vulkan"
-elif command -v nvidia-smi &>/dev/null; then
+elif command -v nvcc &>/dev/null; then
     CMAKE_FLAGS+=(-DGGML_CUDA=ON)
     BACKEND="CUDA"
 elif command -v rocminfo &>/dev/null || command -v hipcc &>/dev/null; then
     CMAKE_FLAGS+=(-DGGML_HIP=ON)
     BACKEND="HIP/ROCm"
+elif command -v vulkaninfo &>/dev/null || command -v nvidia-smi &>/dev/null; then
+    enable_vulkan
+    BACKEND="Vulkan"
 fi
 
 JOBS="${POSEIDON_LLAMA_BUILD_JOBS:-$(nproc 2>/dev/null || echo 4)}"
