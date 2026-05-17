@@ -190,7 +190,10 @@ fn generate_openai(
         body["response_format"] = json!({"type": "json_object"});
     }
     if let Ok(think) = std::env::var("POSEIDON_LLM_THINK") {
-        body["think"] = json!(matches!(think.as_str(), "1" | "true" | "TRUE" | "yes" | "YES"));
+        body["think"] = json!(matches!(
+            think.as_str(),
+            "1" | "true" | "TRUE" | "yes" | "YES"
+        ));
     }
 
     let url = format!("{}/chat/completions", endpoint.trim_end_matches('/'));
@@ -220,7 +223,9 @@ fn generate_openai(
         if std::env::var("POSEIDON_LLM_DEBUG_RAW")
             .is_ok_and(|value| matches!(value.as_str(), "1" | "true" | "TRUE" | "yes" | "YES"))
         {
-            return Err(format!("llm endpoint returned empty content; raw response: {raw}"));
+            return Err(format!(
+                "llm endpoint returned empty content; raw response: {raw}"
+            ));
         }
         return Err(format!(
             "llm endpoint returned empty content: {raw_content}"

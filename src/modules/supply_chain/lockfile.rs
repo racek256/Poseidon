@@ -248,7 +248,9 @@ fn parse_package_lock_json(content: &str) -> Result<Vec<Package>, String> {
             continue;
         }
 
-        if trimmed.starts_with("\"node_modules/") && (trimmed.ends_with("\":") || trimmed.ends_with("\": {")) {
+        if trimmed.starts_with("\"node_modules/")
+            && (trimmed.ends_with("\":") || trimmed.ends_with("\": {"))
+        {
             if let Some(end_quote) = trimmed[1..].find('\"') {
                 current_path = trimmed[1..1 + end_quote].to_string();
             }
@@ -260,14 +262,20 @@ fn parse_package_lock_json(content: &str) -> Result<Vec<Package>, String> {
             let version = version_raw.trim_matches(|c| c == '"' || c == ',');
 
             if !version.is_empty() {
-                let rest = current_path.strip_prefix("node_modules/").unwrap_or(&current_path);
+                let rest = current_path
+                    .strip_prefix("node_modules/")
+                    .unwrap_or(&current_path);
                 let name = if rest.contains('/') {
                     rest.split('/').next().unwrap_or(rest)
                 } else {
                     rest
                 };
                 if !name.is_empty() {
-                    packages.push(Package::new(name.to_string(), version.to_string(), ecosystem));
+                    packages.push(Package::new(
+                        name.to_string(),
+                        version.to_string(),
+                        ecosystem,
+                    ));
                 }
             }
             current_path.clear();
@@ -407,7 +415,10 @@ fn parse_pipfile_lock(content: &str) -> Result<Vec<Package>, String> {
         }
 
         if (trimmed.starts_with('"') || trimmed.starts_with('\''))
-            && (trimmed.ends_with("\":") || trimmed.ends_with("\": {") || trimmed.ends_with("':") || trimmed.ends_with("': {"))
+            && (trimmed.ends_with("\":")
+                || trimmed.ends_with("\": {")
+                || trimmed.ends_with("':")
+                || trimmed.ends_with("': {"))
         {
             let quote = if trimmed.starts_with('"') { '"' } else { '\'' };
             if let Some(end_quote) = trimmed[1..].find(quote) {

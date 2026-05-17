@@ -1,5 +1,5 @@
 //! Terminal User Interface (TUI) module for Poseidon.
-//! 
+//!
 //! This module provides an interactive terminal-based interface for monitoring
 //! and interacting with the phishing detection system.
 //!

@@ -22,15 +22,15 @@ use serde_json::{Value, json};
 
 use crate::modules::tui::bridge;
 
+use super::WarningLevel;
+use super::analysis_cache::{AnalysisCache, CommitInfo};
+use super::commit_fetcher::CommitFetcher;
+use super::get_dependency_git_url::GitUrlFinder;
 use super::lockfile::{detect_lockfile_type, parse_lockfile};
 use super::osv::OSVClient;
 use super::registry::RegistryChecker;
 use super::typosquat::TyposquatChecker;
-use super::get_dependency_git_url::GitUrlFinder;
 use super::universal_llm_comms::LlmClient;
-use super::analysis_cache::{AnalysisCache, CommitInfo};
-use super::commit_fetcher::CommitFetcher;
-use super::WarningLevel;
 
 /// Verdict from quick analysis.
 #[derive(Debug, Clone, PartialEq)]
@@ -184,7 +184,8 @@ fn parse_llm_response(response: &str) -> Result<CommitDetail, String> {
     let parsed: Value = serde_json::from_str(json_str)
         .map_err(|e| format!("failed to parse JSON: {} - raw: {}", e, response))?;
 
-    let verdict_str = parsed.get("verdict")
+    let verdict_str = parsed
+        .get("verdict")
         .and_then(|v| v.as_str())
         .ok_or_else(|| format!("missing verdict in response: {}", json_str))?;
 
@@ -195,21 +196,33 @@ fn parse_llm_response(response: &str) -> Result<CommitDetail, String> {
         _ => CommitVerdict::Uncertain,
     };
 
-    let confidence = parsed.get("confidence")
+    let confidence = parsed
+        .get("confidence")
         .and_then(|v| v.as_f64())
         .unwrap_or(0.5);
 
-    let reasons: Vec<String> = parsed.get("reasons")
+    let reasons: Vec<String> = parsed
+        .get("reasons")
         .and_then(|v| v.as_array())
-        .map(|arr| arr.iter().filter_map(|v| v.as_str().map(String::from)).collect())
+        .map(|arr| {
+            arr.iter()
+                .filter_map(|v| v.as_str().map(String::from))
+                .collect()
+        })
         .unwrap_or_default();
 
-    let suspicious_patterns: Vec<String> = parsed.get("suspicious_patterns")
+    let suspicious_patterns: Vec<String> = parsed
+        .get("suspicious_patterns")
         .and_then(|v| v.as_array())
-        .map(|arr| arr.iter().filter_map(|v| v.as_str().map(String::from)).collect())
+        .map(|arr| {
+            arr.iter()
+                .filter_map(|v| v.as_str().map(String::from))
+                .collect()
+        })
         .unwrap_or_default();
 
-    let hash = parsed.get("hash")
+    let hash = parsed
+        .get("hash")
         .and_then(|v| v.as_str())
         .map(String::from)
         .unwrap_or_default();
@@ -230,8 +243,11 @@ fn aggregate_commit_verdicts(details: &[CommitDetail]) -> (CommitVerdict, f64, V
     }
 
     let mut has_malicious = false;
-    let has_suspicious = details.iter().any(|d| d.verdict == CommitVerdict::Suspicious);
-    let total_confidence: f64 = details.iter().map(|d| d.confidence).sum::<f64>() / details.len() as f64;
+    let has_suspicious = details
+        .iter()
+        .any(|d| d.verdict == CommitVerdict::Suspicious);
+    let total_confidence: f64 =
+        details.iter().map(|d| d.confidence).sum::<f64>() / details.len() as f64;
 
     for detail in details {
         if detail.verdict == CommitVerdict::Malicious {
@@ -296,21 +312,25 @@ fn dependency_node_to_json(node: &DependencyNode) -> Value {
             CommitVerdict::Uncertain => "uncertain",
         };
 
-        let commit_details_json: Vec<Value> = ca.commit_details.iter().map(|cd| {
-            let cd_verdict = match cd.verdict {
-                CommitVerdict::Allow => "allow",
-                CommitVerdict::Suspicious => "suspicious",
-                CommitVerdict::Malicious => "malicious",
-                CommitVerdict::Uncertain => "uncertain",
-            };
-            json!({
-                "hash": cd.hash,
-                "verdict": cd_verdict,
-                "confidence": cd.confidence,
-                "reasons": cd.reasons,
-                "suspicious_patterns": cd.suspicious_patterns
+        let commit_details_json: Vec<Value> = ca
+            .commit_details
+            .iter()
+            .map(|cd| {
+                let cd_verdict = match cd.verdict {
+                    CommitVerdict::Allow => "allow",
+                    CommitVerdict::Suspicious => "suspicious",
+                    CommitVerdict::Malicious => "malicious",
+                    CommitVerdict::Uncertain => "uncertain",
+                };
+                json!({
+                    "hash": cd.hash,
+                    "verdict": cd_verdict,
+                    "confidence": cd.confidence,
+                    "reasons": cd.reasons,
+                    "suspicious_patterns": cd.suspicious_patterns
+                })
             })
-        }).collect();
+            .collect();
 
         json!({
             "verdict": verdict_str,
@@ -351,7 +371,10 @@ pub fn run_deep_analysis(
     commit_fetcher: &CommitFetcher,
     analysis_cache: &AnalysisCache,
 ) -> Value {
-    bridge::log(&format!("DeepAnalysis: starting with {} lockfiles", lockfiles.len()));
+    bridge::log(&format!(
+        "DeepAnalysis: starting with {} lockfiles",
+        lockfiles.len()
+    ));
 
     // Step 1-2: Parse each lockfile into packages
     let mut all_packages: Vec<(String, String, String, String)> = Vec::new();
@@ -364,7 +387,10 @@ pub fn run_deep_analysis(
         let lockfile_type = match detect_lockfile_type(filename) {
             Some(t) => t,
             None => {
-                bridge::elog(&format!("DeepAnalysis: unknown lockfile type: {}", filename));
+                bridge::elog(&format!(
+                    "DeepAnalysis: unknown lockfile type: {}",
+                    filename
+                ));
                 continue;
             }
         };
@@ -373,7 +399,11 @@ pub fn run_deep_analysis(
 
         match parse_lockfile(filename, content) {
             Ok(packages) => {
-                bridge::log(&format!("DeepAnalysis: parsed {} packages from {}", packages.len(), filename));
+                bridge::log(&format!(
+                    "DeepAnalysis: parsed {} packages from {}",
+                    packages.len(),
+                    filename
+                ));
                 for pkg in packages {
                     all_packages.push((
                         pkg.name.clone(),
@@ -384,7 +414,10 @@ pub fn run_deep_analysis(
                 }
             }
             Err(e) => {
-                bridge::elog(&format!("DeepAnalysis: failed to parse {}: {}", filename, e));
+                bridge::elog(&format!(
+                    "DeepAnalysis: failed to parse {}: {}",
+                    filename, e
+                ));
             }
         }
     }
@@ -399,7 +432,10 @@ pub fn run_deep_analysis(
         }
     }
 
-    bridge::log(&format!("DeepAnalysis: {} unique packages after deduplication", unique_packages.len()));
+    bridge::log(&format!(
+        "DeepAnalysis: {} unique packages after deduplication",
+        unique_packages.len()
+    ));
 
     // Step 3: Build parent tracking and identify top-level packages
     // For simplicity in this phase, packages from each lockfile that don't appear
@@ -538,9 +574,19 @@ pub fn run_deep_analysis(
         let key = format!("{}@{}@{}", name, version, ecosystem);
         if let Some(analysis) = quick_analysis_results.get(&key) {
             if analysis.verdict == AnalysisVerdict::Rejected {
-                failing_packages.push((name.clone(), version.clone(), ecosystem.clone(), analysis.clone()));
+                failing_packages.push((
+                    name.clone(),
+                    version.clone(),
+                    ecosystem.clone(),
+                    analysis.clone(),
+                ));
             } else {
-                passing_packages.push((name.clone(), version.clone(), ecosystem.clone(), analysis.clone()));
+                passing_packages.push((
+                    name.clone(),
+                    version.clone(),
+                    ecosystem.clone(),
+                    analysis.clone(),
+                ));
             }
         }
     }
@@ -562,8 +608,7 @@ pub fn run_deep_analysis(
         // Check cache first
         if let Some(cached_url) = analysis_cache.get_git_url(&cache_key) {
             if let Some(url) = cached_url {
-                let platform = git_url_finder
-                    .detect_hosting_platform(&url);
+                let platform = git_url_finder.detect_hosting_platform(&url);
                 git_url_results.insert(key, (Some(url), Some(platform)));
             } else {
                 git_url_results.insert(key, (None, None));
@@ -613,7 +658,10 @@ pub fn run_deep_analysis(
                 commits_by_url.insert(git_url.clone(), commits);
             }
             Err(e) => {
-                bridge::elog(&format!("DeepAnalysis: failed to fetch commits for {}: {}", git_url, e));
+                bridge::elog(&format!(
+                    "DeepAnalysis: failed to fetch commits for {}: {}",
+                    git_url, e
+                ));
                 commits_by_url.insert(git_url.clone(), Vec::new());
             }
         }
@@ -679,7 +727,10 @@ pub fn run_deep_analysis(
                             detail.hash = commit.hash.clone();
                         }
                         Err(e) => {
-                            bridge::elog(&format!("DeepAnalysis: LLM parse error for {}: {}", commit.hash, e));
+                            bridge::elog(&format!(
+                                "DeepAnalysis: LLM parse error for {}: {}",
+                                commit.hash, e
+                            ));
                             // Retry once
                             if let Ok(retry_response) = client.llm_completion(&prompt) {
                                 match parse_llm_response(&retry_response) {
@@ -696,7 +747,10 @@ pub fn run_deep_analysis(
                     }
                 }
                 Err(e) => {
-                    bridge::elog(&format!("DeepAnalysis: LLM call failed for {}: {}", commit.hash, e));
+                    bridge::elog(&format!(
+                        "DeepAnalysis: LLM call failed for {}: {}",
+                        commit.hash, e
+                    ));
                 }
             }
 
@@ -762,7 +816,8 @@ pub fn run_deep_analysis(
     for (name, version, ecosystem, quick_res) in &passing_packages {
         let key = format!("{}@{}@{}", name, version, ecosystem);
         let is_top = top_level_keys.contains(&key);
-        let (git_url, hosting_platform) = git_url_results.get(&key).cloned().unwrap_or((None, None));
+        let (git_url, hosting_platform) =
+            git_url_results.get(&key).cloned().unwrap_or((None, None));
         let no_git_url_notice = git_url.is_none();
         let commit_analysis = commit_analysis_results.get(&key).cloned().unwrap_or(None);
 
@@ -876,7 +931,8 @@ mod tests {
             author: "testuser".to_string(),
             date: "2024-01-01".to_string(),
             message: "fix: security issue".to_string(),
-            diff: "--- a/src/main.rs\n+++ b/src/main.rs\n@@ -1 +1 @@\n-old code\n+new code".to_string(),
+            diff: "--- a/src/main.rs\n+++ b/src/main.rs\n@@ -1 +1 @@\n-old code\n+new code"
+                .to_string(),
         };
         let prompt = build_llm_prompt(&commit);
         assert!(prompt.contains("abc123"));
@@ -891,7 +947,8 @@ mod tests {
 
     #[test]
     fn test_parse_llm_response_allow() {
-        let json = r#"{"verdict": "allow", "confidence": 0.95, "reasons": [], "suspicious_patterns": []}"#;
+        let json =
+            r#"{"verdict": "allow", "confidence": 0.95, "reasons": [], "suspicious_patterns": []}"#;
         let result = parse_llm_response(json);
         assert!(result.is_ok());
         let detail = result.unwrap();

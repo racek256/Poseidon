@@ -14,8 +14,8 @@
 use std::time::Duration;
 
 use reqwest::blocking::Client;
-use reqwest::header::{HeaderMap, HeaderValue, CONTENT_TYPE};
-use serde_json::{json, Value};
+use reqwest::header::{CONTENT_TYPE, HeaderMap, HeaderValue};
+use serde_json::{Value, json};
 
 use crate::modules::tui::bridge;
 
@@ -72,13 +72,19 @@ impl LlmClient {
             .map_err(|_| format!("{} environment variable not set", ENV_LLM_MODEL))?;
         let api_key = std::env::var(ENV_PROVIDER_API_KEY).ok();
 
-        bridge::log(&format!("llm_completion: provider={}, model={}", provider, model));
+        bridge::log(&format!(
+            "llm_completion: provider={}, model={}",
+            provider, model
+        ));
 
         // Validate API key for non-ollama providers
         match provider.as_str() {
             PROVIDER_OPENAI | PROVIDER_ZEN | PROVIDER_GO => {
                 if api_key.is_none() || api_key.as_ref().map_or(true, |k| k.is_empty()) {
-                    return Err(format!("PROVIDER_API_KEY is required for {} provider", provider));
+                    return Err(format!(
+                        "PROVIDER_API_KEY is required for {} provider",
+                        provider
+                    ));
                 }
             }
             PROVIDER_OLLAMA => {
@@ -93,9 +99,15 @@ impl LlmClient {
         }
 
         match provider.as_str() {
-            PROVIDER_OPENAI => self.send_openai_compatible(&model, prompt, ENDPOINT_OPENAI, api_key.as_deref()),
-            PROVIDER_ZEN => self.send_openai_compatible(&model, prompt, ENDPOINT_ZEN, api_key.as_deref()),
-            PROVIDER_GO => self.send_openai_compatible(&model, prompt, ENDPOINT_GO, api_key.as_deref()),
+            PROVIDER_OPENAI => {
+                self.send_openai_compatible(&model, prompt, ENDPOINT_OPENAI, api_key.as_deref())
+            }
+            PROVIDER_ZEN => {
+                self.send_openai_compatible(&model, prompt, ENDPOINT_ZEN, api_key.as_deref())
+            }
+            PROVIDER_GO => {
+                self.send_openai_compatible(&model, prompt, ENDPOINT_GO, api_key.as_deref())
+            }
             PROVIDER_OLLAMA => self.send_ollama(&model, prompt),
             _ => Err(format!("unknown LLM provider: '{}'", provider)),
         }
@@ -139,8 +151,12 @@ impl LlmClient {
             .text()
             .map_err(|err| format!("failed to read response body: {}", err))?;
 
-        let parsed: Value = serde_json::from_str(&response_text)
-            .map_err(|err| format!("failed to parse JSON response: {} (body: {})", err, response_text))?;
+        let parsed: Value = serde_json::from_str(&response_text).map_err(|err| {
+            format!(
+                "failed to parse JSON response: {} (body: {})",
+                err, response_text
+            )
+        })?;
 
         let content = parsed
             .get("choices")
@@ -148,10 +164,12 @@ impl LlmClient {
             .and_then(|choice| choice.get("message"))
             .and_then(|msg| msg.get("content"))
             .and_then(Value::as_str)
-            .ok_or_else(|| format!(
-                "response missing expected field 'choices[0].message.content'. Response: {}",
-                response_text
-            ))?
+            .ok_or_else(|| {
+                format!(
+                    "response missing expected field 'choices[0].message.content'. Response: {}",
+                    response_text
+                )
+            })?
             .to_string();
 
         Ok(content)
@@ -160,11 +178,7 @@ impl LlmClient {
     /// Send a prompt using the Ollama `/api/chat` endpoint.
     ///
     /// Ollama uses a different response format with `message.content` at the top level.
-    fn send_ollama(
-        &self,
-        model: &str,
-        prompt: &str,
-    ) -> Result<String, String> {
+    fn send_ollama(&self, model: &str, prompt: &str) -> Result<String, String> {
         let body = json!({
             "model": model,
             "messages": [
@@ -180,25 +194,33 @@ impl LlmClient {
         headers.insert(CONTENT_TYPE, HeaderValue::from_static("application/json"));
 
         let method = reqwest::Method::POST;
-        let url = reqwest::Url::parse(ENDPOINT_OLLAMA).map_err(|e| format!("invalid URL: {}", e))?;
+        let url =
+            reqwest::Url::parse(ENDPOINT_OLLAMA).map_err(|e| format!("invalid URL: {}", e))?;
 
-        let response = self.send_with_retries(method, url, headers, body.to_string(), ENDPOINT_OLLAMA)?;
+        let response =
+            self.send_with_retries(method, url, headers, body.to_string(), ENDPOINT_OLLAMA)?;
 
         let response_text = response
             .text()
             .map_err(|err| format!("failed to read response body: {}", err))?;
 
-        let parsed: Value = serde_json::from_str(&response_text)
-            .map_err(|err| format!("failed to parse JSON response: {} (body: {})", err, response_text))?;
+        let parsed: Value = serde_json::from_str(&response_text).map_err(|err| {
+            format!(
+                "failed to parse JSON response: {} (body: {})",
+                err, response_text
+            )
+        })?;
 
         let content = parsed
             .get("message")
             .and_then(|msg| msg.get("content"))
             .and_then(Value::as_str)
-            .ok_or_else(|| format!(
-                "response missing expected field 'message.content'. Response: {}",
-                response_text
-            ))?
+            .ok_or_else(|| {
+                format!(
+                    "response missing expected field 'message.content'. Response: {}",
+                    response_text
+                )
+            })?
             .to_string();
 
         Ok(content)
@@ -285,7 +307,10 @@ mod tests {
 
     #[test]
     fn test_endpoint_constants() {
-        assert_eq!(ENDPOINT_OPENAI, "https://api.openai.com/v1/chat/completions");
+        assert_eq!(
+            ENDPOINT_OPENAI,
+            "https://api.openai.com/v1/chat/completions"
+        );
         assert_eq!(ENDPOINT_ZEN, "https://opencode.ai/zen/v1/chat/completions");
         assert_eq!(ENDPOINT_GO, "https://api.opencode.ai/v1/chat/completions");
         assert_eq!(ENDPOINT_OLLAMA, "http://localhost:11434/api/chat");

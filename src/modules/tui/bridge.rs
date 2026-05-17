@@ -69,6 +69,15 @@ pub fn post_progress(percent: f64) {
     }
 }
 
+/// Marks backend DB/API readiness for the TUI.
+pub fn post_backend_ready(ready: bool) {
+    if let Some(state) = TUI_STATE.get() {
+        if let Ok(mut s) = state.lock() {
+            s.set_backend_ready(ready);
+        }
+    }
+}
+
 /// Adds a log entry to TUI.
 pub fn post_log(message: &str) {
     if let Some(state) = TUI_STATE.get() {

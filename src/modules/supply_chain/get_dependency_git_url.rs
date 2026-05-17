@@ -3,9 +3,9 @@
 //! This module finds git repository URLs for packages from various package registries.
 //! It supports: crates.io, npm, PyPI, Go, RubyGems, Packagist, Maven, NuGet, Pub, and Hex.
 
-use std::time::Duration;
-use std::thread;
 use std::fmt::Write;
+use std::thread;
+use std::time::Duration;
 
 use reqwest::blocking::Client;
 use serde_json::Value;
@@ -52,24 +52,34 @@ impl GitUrlFinder {
             .redirect(reqwest::redirect::Policy::limited(MAX_REDIRECTS))
             .build()
             .expect("failed to create HTTP client for GitUrlFinder");
-        Self { http_client: client }
+        Self {
+            http_client: client,
+        }
     }
 
     /// Finds the git URL for a package in the specified registry.
     ///
     /// Returns `Some(url)` if found, `None` otherwise.
     pub fn find_git_url(&self, name: &str, registry: &str) -> Option<String> {
-        self.find_git_url_with_hosting(name, registry).map(|(url, _)| url)
+        self.find_git_url_with_hosting(name, registry)
+            .map(|(url, _)| url)
     }
 
     /// Finds the git URL and hosting platform for a package.
     ///
     /// Returns `Some((url, platform))` if found, `None` otherwise.
     /// Platform is one of: "github", "gitlab", "bitbucket", "self-hosted"
-    pub fn find_git_url_with_hosting(&self, name: &str, registry: &str) -> Option<(String, String)> {
+    pub fn find_git_url_with_hosting(
+        &self,
+        name: &str,
+        registry: &str,
+    ) -> Option<(String, String)> {
         let registry_lower = registry.to_lowercase();
 
-        bridge::log(&format!("GitUrlFinder: querying {} for package '{}'", registry_lower, name));
+        bridge::log(&format!(
+            "GitUrlFinder: querying {} for package '{}'",
+            registry_lower, name
+        ));
 
         // Normalize registry names
         let normalized = match registry_lower.as_str() {
@@ -371,7 +381,8 @@ impl GitUrlFinder {
                                                 let url = url_content[..url_end].trim();
                                                 if url.starts_with("http") {
                                                     let normalized = self.normalize_git_url(url)?;
-                                                    let platform = self.detect_hosting_platform(&normalized);
+                                                    let platform =
+                                                        self.detect_hosting_platform(&normalized);
                                                     return Some((normalized, platform));
                                                 }
                                             }
@@ -425,7 +436,8 @@ impl GitUrlFinder {
                                         if let Some(url_str) = project_url.as_str() {
                                             if !url_str.is_empty() {
                                                 let normalized = self.normalize_git_url(url_str)?;
-                                                let platform = self.detect_hosting_platform(&normalized);
+                                                let platform =
+                                                    self.detect_hosting_platform(&normalized);
                                                 return Some((normalized, platform));
                                             }
                                         }
@@ -434,13 +446,17 @@ impl GitUrlFinder {
                                     if let Some(repo_url) = catalog.get("repository") {
                                         if let Some(url_str) = repo_url.as_str() {
                                             let normalized = self.normalize_git_url(url_str)?;
-                                            let platform = self.detect_hosting_platform(&normalized);
+                                            let platform =
+                                                self.detect_hosting_platform(&normalized);
                                             return Some((normalized, platform));
                                         }
                                         // repository might be an object with url field
-                                        if let Some(url_str) = repo_url.get("url").and_then(|v| v.as_str()) {
+                                        if let Some(url_str) =
+                                            repo_url.get("url").and_then(|v| v.as_str())
+                                        {
                                             let normalized = self.normalize_git_url(url_str)?;
-                                            let platform = self.detect_hosting_platform(&normalized);
+                                            let platform =
+                                                self.detect_hosting_platform(&normalized);
                                             return Some((normalized, platform));
                                         }
                                     }
@@ -518,7 +534,10 @@ impl GitUrlFinder {
                 // Last resort: any link that looks like a git repo
                 for (_, value) in links_obj {
                     if let Some(link_url) = value.as_str() {
-                        if link_url.contains("github.com") || link_url.contains("gitlab.com") || link_url.contains("bitbucket.org") {
+                        if link_url.contains("github.com")
+                            || link_url.contains("gitlab.com")
+                            || link_url.contains("bitbucket.org")
+                        {
                             let normalized = self.normalize_git_url(link_url)?;
                             let platform = self.detect_hosting_platform(&normalized);
                             return Some((normalized, platform));
@@ -538,7 +557,10 @@ impl GitUrlFinder {
         let response = match self.http_client.get(url).send() {
             Ok(resp) => resp,
             Err(e) => {
-                bridge::elog(&format!("GitUrlFinder: HTTP request failed for {}: {}", url, e));
+                bridge::elog(&format!(
+                    "GitUrlFinder: HTTP request failed for {}: {}",
+                    url, e
+                ));
                 return None;
             }
         };
@@ -546,7 +568,8 @@ impl GitUrlFinder {
         if !response.status().is_success() {
             bridge::elog(&format!(
                 "GitUrlFinder: HTTP error for {}: {}",
-                url, response.status()
+                url,
+                response.status()
             ));
             return None;
         }
@@ -554,7 +577,10 @@ impl GitUrlFinder {
         let body = match response.text() {
             Ok(text) => text,
             Err(e) => {
-                bridge::elog(&format!("GitUrlFinder: failed to read response from {}: {}", url, e));
+                bridge::elog(&format!(
+                    "GitUrlFinder: failed to read response from {}: {}",
+                    url, e
+                ));
                 return None;
             }
         };
@@ -562,7 +588,10 @@ impl GitUrlFinder {
         match serde_json::from_str(&body) {
             Ok(json) => Some(json),
             Err(e) => {
-                bridge::elog(&format!("GitUrlFinder: JSON parse error for {}: {}", url, e));
+                bridge::elog(&format!(
+                    "GitUrlFinder: JSON parse error for {}: {}",
+                    url, e
+                ));
                 None
             }
         }

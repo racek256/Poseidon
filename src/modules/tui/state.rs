@@ -25,6 +25,10 @@ pub struct TuiState {
     pub placeholder_stats: HashMap<String, String>,
     /// Whether a request is pending (being processed)
     pub request_pending: bool,
+    /// Whether backend databases and API are ready for requests.
+    pub backend_ready: bool,
+    /// Whether to show AI-only scores beside full Poseidon scores.
+    pub compare_ai_only: bool,
 }
 
 impl TuiState {
@@ -40,6 +44,8 @@ impl TuiState {
             is_running: false,
             placeholder_stats: HashMap::new(),
             request_pending: false,
+            backend_ready: false,
+            compare_ai_only: false,
         }
     }
 
@@ -147,6 +153,16 @@ impl TuiState {
     /// Sets whether a request is pending.
     pub fn set_request_pending(&mut self, pending: bool) {
         self.request_pending = pending;
+    }
+
+    /// Sets whether backend services are ready.
+    pub fn set_backend_ready(&mut self, ready: bool) {
+        self.backend_ready = ready;
+    }
+
+    /// Toggles AI-only comparison mode.
+    pub fn toggle_compare_ai_only(&mut self) {
+        self.compare_ai_only = !self.compare_ai_only;
     }
 }
 

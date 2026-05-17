@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Poseidon</title>
+  <link rel="stylesheet" href="/web/styles.css" />
+</head>
+<body>
+  <div id="app">
+    <header>
+      <h1>Poseidon</h1>
+      <span class="status" id="status">connecting</span>
+    </header>
+
+    <main id="chat">
+      <div class="welcome">
+        <p><strong>Threat Analysis</strong></p>
+        <p class="hint">Paste a message and press Enter to analyze.</p>
+      </div>
+    </main>
+
+    <div class="input-bar">
+      <textarea id="messageInput" rows="1" placeholder="Type a message to analyze..."></textarea>
+      <label class="toggle" title="Compare AI-only vs full score">
+        <input id="compareToggle" type="checkbox" />
+        <span></span>
+      </label>
+      <button id="analyzeButton">Analyze</button>
+    </div>
+  </div>
+  <script src="/web/app.js"></script>
+</body>
+</html>

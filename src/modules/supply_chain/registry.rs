@@ -19,7 +19,9 @@ impl RegistryChecker {
             .user_agent(USER_AGENT)
             .build()
             .expect("failed to create HTTP client for registry checker");
-        Self { http_client: client }
+        Self {
+            http_client: client,
+        }
     }
 
     pub fn check_package(&self, name: &str, version: &str, ecosystem: &str) -> Vec<String> {
@@ -48,17 +50,18 @@ impl RegistryChecker {
         let url = format!("https://pypi.org/pypi/{}/{}/json", name, version);
 
         let body = match self.http_client.get(&url).send() {
-            Ok(response) => {
-                match response.error_for_status() {
-                    Ok(resp) => resp.text(),
-                    Err(e) => {
-                        bridge::elog(&format!("PyPI error for {}/{}: {}", name, version, e));
-                        return warnings;
-                    }
+            Ok(response) => match response.error_for_status() {
+                Ok(resp) => resp.text(),
+                Err(e) => {
+                    bridge::elog(&format!("PyPI error for {}/{}: {}", name, version, e));
+                    return warnings;
                 }
-            }
+            },
             Err(e) => {
-                bridge::elog(&format!("PyPI request failed for {}/{}: {}", name, version, e));
+                bridge::elog(&format!(
+                    "PyPI request failed for {}/{}: {}",
+                    name, version, e
+                ));
                 return warnings;
             }
         };
@@ -82,7 +85,9 @@ impl RegistryChecker {
         if let Some(upload_time) = json.pointer("/upload_time") {
             if let Some(time_str) = upload_time.as_str() {
                 if let Ok(upload_date) = chrono::DateTime::parse_from_rfc3339(time_str) {
-                    let days_since = chrono::Utc::now().signed_duration_since(upload_date).num_days();
+                    let days_since = chrono::Utc::now()
+                        .signed_duration_since(upload_date)
+                        .num_days();
                     if days_since < 7 {
                         warnings.push(format!(
                             "PyPI package {}/{} is very new (uploaded {} days ago)",
@@ -98,7 +103,9 @@ impl RegistryChecker {
                 if !arr.is_empty() {
                     warnings.push(format!(
                         "PyPI package {}/{} has {} known vulnerabilities",
-                        name, version, arr.len()
+                        name,
+                        version,
+                        arr.len()
                     ));
                 }
             }
@@ -121,17 +128,21 @@ impl RegistryChecker {
         let url = format!("https://registry.npmjs.org/{}", name);
 
         let body = match self.http_client.get(&url).send() {
-            Ok(response) => {
-                match response.error_for_status() {
-                    Ok(resp) => resp.text(),
-                    Err(e) => {
-                        bridge::elog(&format!("npm registry error for {}/{}: {}", name, version, e));
-                        return warnings;
-                    }
+            Ok(response) => match response.error_for_status() {
+                Ok(resp) => resp.text(),
+                Err(e) => {
+                    bridge::elog(&format!(
+                        "npm registry error for {}/{}: {}",
+                        name, version, e
+                    ));
+                    return warnings;
                 }
-            }
+            },
             Err(e) => {
-                bridge::elog(&format!("npm registry request failed for {}/{}: {}", name, version, e));
+                bridge::elog(&format!(
+                    "npm registry request failed for {}/{}: {}",
+                    name, version, e
+                ));
                 return warnings;
             }
         };
@@ -139,7 +150,10 @@ impl RegistryChecker {
         let body = match body {
             Ok(text) => text,
             Err(e) => {
-                bridge::elog(&format!("npm registry read error for {}/{}: {}", name, version, e));
+                bridge::elog(&format!(
+                    "npm registry read error for {}/{}: {}",
+                    name, version, e
+                ));
                 return warnings;
             }
         };
@@ -147,15 +161,16 @@ impl RegistryChecker {
         let json: Value = match serde_json::from_str(&body) {
             Ok(v) => v,
             Err(e) => {
-                bridge::elog(&format!("npm registry parse error for {}/{}: {}", name, version, e));
+                bridge::elog(&format!(
+                    "npm registry parse error for {}/{}: {}",
+                    name, version, e
+                ));
                 return warnings;
             }
         };
 
         // Check if the version exists in the versions map
-        let version_exists = json.get("versions")
-            .and_then(|v| v.get(version))
-            .is_some();
+        let version_exists = json.get("versions").and_then(|v| v.get(version)).is_some();
 
         if !version_exists {
             warnings.push(format!(
@@ -169,7 +184,9 @@ impl RegistryChecker {
             if let Some(published) = time_obj.get("published") {
                 if let Some(date_str) = published.as_str() {
                     if let Ok(publish_date) = chrono::DateTime::parse_from_rfc3339(date_str) {
-                        let days_since = chrono::Utc::now().signed_duration_since(publish_date).num_days();
+                        let days_since = chrono::Utc::now()
+                            .signed_duration_since(publish_date)
+                            .num_days();
                         if days_since < 7 {
                             warnings.push(format!(
                                 "npm package {}/{} is very new (published {} days ago)",
@@ -201,17 +218,18 @@ impl RegistryChecker {
         let url = format!("https://crates.io/api/v1/crates/{}/{}", name, version);
 
         let body = match self.http_client.get(&url).send() {
-            Ok(response) => {
-                match response.error_for_status() {
-                    Ok(resp) => resp.text(),
-                    Err(e) => {
-                        bridge::elog(&format!("crates.io error for {}/{}: {}", name, version, e));
-                        return warnings;
-                    }
+            Ok(response) => match response.error_for_status() {
+                Ok(resp) => resp.text(),
+                Err(e) => {
+                    bridge::elog(&format!("crates.io error for {}/{}: {}", name, version, e));
+                    return warnings;
                 }
-            }
+            },
             Err(e) => {
-                bridge::elog(&format!("crates.io request failed for {}/{}: {}", name, version, e));
+                bridge::elog(&format!(
+                    "crates.io request failed for {}/{}: {}",
+                    name, version, e
+                ));
                 return warnings;
             }
         };
@@ -219,7 +237,10 @@ impl RegistryChecker {
         let body = match body {
             Ok(text) => text,
             Err(e) => {
-                bridge::elog(&format!("crates.io read error for {}/{}: {}", name, version, e));
+                bridge::elog(&format!(
+                    "crates.io read error for {}/{}: {}",
+                    name, version, e
+                ));
                 return warnings;
             }
         };
@@ -227,7 +248,10 @@ impl RegistryChecker {
         let json: Value = match serde_json::from_str(&body) {
             Ok(v) => v,
             Err(e) => {
-                bridge::elog(&format!("crates.io parse error for {}/{}: {}", name, version, e));
+                bridge::elog(&format!(
+                    "crates.io parse error for {}/{}: {}",
+                    name, version, e
+                ));
                 return warnings;
             }
         };
@@ -235,7 +259,9 @@ impl RegistryChecker {
         if let Some(updated_at) = json.pointer("/crate/updated_at") {
             if let Some(date_str) = updated_at.as_str() {
                 if let Ok(update_date) = chrono::DateTime::parse_from_rfc3339(date_str) {
-                    let days_since = chrono::Utc::now().signed_duration_since(update_date).num_days();
+                    let days_since = chrono::Utc::now()
+                        .signed_duration_since(update_date)
+                        .num_days();
                     if days_since < 7 {
                         warnings.push(format!(
                             "crates.io crate {}/{} updated very recently ({} days ago)",
@@ -293,7 +319,10 @@ mod tests {
             "yanked": false
         }"#;
         let json: Value = serde_json::from_str(json_str).unwrap();
-        assert_eq!(json.pointer("/upload_time").and_then(|v| v.as_str()), Some("2022-06-29T10:00:00Z"));
+        assert_eq!(
+            json.pointer("/upload_time").and_then(|v| v.as_str()),
+            Some("2022-06-29T10:00:00Z")
+        );
     }
 
     #[test]
@@ -311,7 +340,11 @@ mod tests {
             }
         }"#;
         let json: Value = serde_json::from_str(json_str).unwrap();
-        assert!(json.get("versions").and_then(|v| v.get("4.17.21")).is_some());
+        assert!(
+            json.get("versions")
+                .and_then(|v| v.get("4.17.21"))
+                .is_some()
+        );
         assert_eq!(
             json.pointer("/time/published").and_then(|v| v.as_str()),
             Some("2020-01-15T09:00:00Z")
@@ -331,6 +364,9 @@ mod tests {
             }
         }"#;
         let json: Value = serde_json::from_str(json_str).unwrap();
-        assert_eq!(json.pointer("/version/yanked").and_then(|v| v.as_bool()), Some(false));
+        assert_eq!(
+            json.pointer("/version/yanked").and_then(|v| v.as_bool()),
+            Some(false)
+        );
     }
 }

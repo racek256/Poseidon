@@ -44,22 +44,21 @@ impl PerformanceTrackers {
     /// Call this after `record_request_start` with the request duration.
     pub fn record_request_end(&mut self, duration: Duration) {
         let elapsed_ms = duration.as_millis() as u64;
-        
+
         // Update total request time
         self.total_request_time_ms
             .fetch_add(elapsed_ms, Ordering::Relaxed);
-        
+
         // Increment request count
-        self.request_count
-            .fetch_add(1, Ordering::Relaxed);
-        
+        self.request_count.fetch_add(1, Ordering::Relaxed);
+
         // Calculate average delay
         let count = self.request_count.load(Ordering::Relaxed);
         let total_time = self.total_request_time_ms.load(Ordering::Relaxed);
         if count > 0 {
             self.avg_delay_ms = total_time as f64 / count as f64;
         }
-        
+
         // Calculate messages per second
         let total_elapsed = self.start_time.elapsed().as_secs_f64();
         if total_elapsed > 0.0 {
@@ -148,7 +147,7 @@ mod tests {
         trackers.record_request_start();
         std::thread::sleep(Duration::from_millis(10));
         trackers.record_request_completed();
-        
+
         assert_eq!(trackers.get_request_count(), 1);
         assert!(trackers.get_avg_delay_ms() >= 10.0);
     }
@@ -156,12 +155,12 @@ mod tests {
     #[test]
     fn test_multiple_requests() {
         let mut trackers = PerformanceTrackers::new();
-        
+
         for _ in 0..5 {
             trackers.record_request_start();
             trackers.record_request_completed();
         }
-        
+
         assert_eq!(trackers.get_request_count(), 5);
     }
 
@@ -171,7 +170,7 @@ mod tests {
         trackers.record_request_start();
         trackers.record_request_completed();
         trackers.reset();
-        
+
         assert_eq!(trackers.get_request_count(), 0);
         assert_eq!(trackers.get_avg_delay_ms(), 0.0);
     }

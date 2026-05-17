@@ -117,10 +117,16 @@ mod tests {
         assert_eq!(cache.get_git_url("npm:lodash"), None);
         assert_eq!(cache.miss_count(), 1);
 
-        cache.set_git_url("npm:lodash", Some("https://github.com/lodash/lodash".to_string()));
+        cache.set_git_url(
+            "npm:lodash",
+            Some("https://github.com/lodash/lodash".to_string()),
+        );
 
         let result = cache.get_git_url("npm:lodash");
-        assert_eq!(result, Some(Some("https://github.com/lodash/lodash".to_string())));
+        assert_eq!(
+            result,
+            Some(Some("https://github.com/lodash/lodash".to_string()))
+        );
         assert_eq!(cache.hit_count(), 1);
     }
 
@@ -139,15 +145,13 @@ mod tests {
     fn test_commit_caching() {
         let cache = AnalysisCache::new(3600);
 
-        let commits = vec![
-            CommitInfo {
-                hash: "abc123".to_string(),
-                author: "Test Author".to_string(),
-                date: "2024-01-01".to_string(),
-                message: "Test commit".to_string(),
-                diff: "diff content".to_string(),
-            },
-        ];
+        let commits = vec![CommitInfo {
+            hash: "abc123".to_string(),
+            author: "Test Author".to_string(),
+            date: "2024-01-01".to_string(),
+            message: "Test commit".to_string(),
+            diff: "diff content".to_string(),
+        }];
 
         cache.set_commits("github:lodash/lodash", commits.clone());
 
@@ -162,7 +166,10 @@ mod tests {
         let cache = AnalysisCache::new(1);
 
         cache.set_git_url("npm:test", Some("https://example.com".to_string()));
-        assert_eq!(cache.get_git_url("npm:test"), Some(Some("https://example.com".to_string())));
+        assert_eq!(
+            cache.get_git_url("npm:test"),
+            Some(Some("https://example.com".to_string()))
+        );
 
         std::thread::sleep(Duration::from_secs(2));
 
@@ -204,9 +211,15 @@ mod tests {
         assert_eq!(cache.miss_count(), 1);
 
         // Set and retrieve
-        cache.set_git_url("npm:express", Some("https://github.com/expressjs/express".to_string()));
+        cache.set_git_url(
+            "npm:express",
+            Some("https://github.com/expressjs/express".to_string()),
+        );
         let cached = cache.get_git_url("npm:express");
-        assert_eq!(cached, Some(Some("https://github.com/expressjs/express".to_string())));
+        assert_eq!(
+            cached,
+            Some(Some("https://github.com/expressjs/express".to_string()))
+        );
         assert_eq!(cache.hit_count(), 1);
     }
 
@@ -225,22 +238,26 @@ mod tests {
         let cache = AnalysisCache::new(3600);
         cache.set_git_url("npm:a", Some("https://github.com/a/a.git".to_string()));
         cache.set_git_url("npm:b", Some("https://github.com/b/b.git".to_string()));
-        assert_eq!(cache.get_git_url("npm:a"), Some(Some("https://github.com/a/a.git".to_string())));
-        assert_eq!(cache.get_git_url("npm:b"), Some(Some("https://github.com/b/b.git".to_string())));
+        assert_eq!(
+            cache.get_git_url("npm:a"),
+            Some(Some("https://github.com/a/a.git".to_string()))
+        );
+        assert_eq!(
+            cache.get_git_url("npm:b"),
+            Some(Some("https://github.com/b/b.git".to_string()))
+        );
     }
 
     #[test]
     fn test_cache_commit_info() {
         let cache = AnalysisCache::new(3600);
-        let commits = vec![
-            CommitInfo {
-                hash: "abc123".to_string(),
-                author: "test".to_string(),
-                date: "2024-01-01".to_string(),
-                message: "test commit".to_string(),
-                diff: "some diff".to_string(),
-            }
-        ];
+        let commits = vec![CommitInfo {
+            hash: "abc123".to_string(),
+            author: "test".to_string(),
+            date: "2024-01-01".to_string(),
+            message: "test commit".to_string(),
+            diff: "some diff".to_string(),
+        }];
 
         assert!(cache.get_commits("github:expressjs/express").is_none());
         cache.set_commits("github:expressjs/express", commits.clone());

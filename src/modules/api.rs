@@ -11,6 +11,9 @@ use crate::modules::tui::bridge;
 use crate::modules::url_db::UrlDb;
 
 const MAX_BODY_BYTES: usize = 1024 * 1024;
+const WEB_HTML: &str = include_str!("../web/index.html");
+const WEB_CSS: &str = include_str!("../web/styles.css");
+const WEB_JS: &str = include_str!("../web/app.js");
 
 pub fn serve(
     addr: &str,
@@ -57,6 +60,15 @@ fn handle_connection(
     }
 
     match (parts[0], parts[1]) {
+        ("GET", "/") | ("GET", "/web") | ("GET", "/web/") => {
+            write_response(stream, 200, "text/html; charset=utf-8", WEB_HTML)
+        }
+        ("GET", "/web/styles.css") => {
+            write_response(stream, 200, "text/css; charset=utf-8", WEB_CSS)
+        }
+        ("GET", "/web/app.js") => {
+            write_response(stream, 200, "application/javascript; charset=utf-8", WEB_JS)
+        }
         ("GET", "/health") => write_json(stream, 200, &json!({ "ok": true })),
         ("POST", "/analyse") | ("POST", "/analyze") => {
             bridge::post_log(&format!("Handling request: {}", parts[1]));
@@ -94,6 +106,10 @@ fn analyse_request(
         );
     };
     let user_id = value.get("user_id").and_then(Value::as_str);
+    let compare_ai_only = value
+        .get("compare_ai_only")
+        .and_then(Value::as_bool)
+        .unwrap_or(false);
 
     // Track request start
     let track_start = bridge::track_request_start();
@@ -105,7 +121,15 @@ fn analyse_request(
     bridge::track_request_end(track_start);
 
     // Post output to TUI
-    let result_json = scoring.to_json();
+    let result_json = if compare_ai_only {
+        json!({
+            "compare_ai_only": true,
+            "ai_only": ai_only_json(&scoring),
+            "full": scoring.to_json()
+        })
+    } else {
+        scoring.to_json()
+    };
     bridge::post_output(&format!(
         "Decision: {} | Risk: {}",
         scoring.decision.as_str(),
@@ -118,6 +142,50 @@ fn analyse_request(
     ));
 
     write_json(stream, 200, &result_json)
+}
+
+fn ai_only_json(scoring: &crate::modules::scoring::Scoring) -> Value {
+    let raw = scoring.ai_raw_response.as_deref().unwrap_or_default();
+    let parsed = serde_json::from_str::<Value>(raw).unwrap_or_else(|_| json!({}));
+    let phishing = json_score(&parsed, "phishing");
+    let impersonation = json_score(&parsed, "impersonation");
+    let risk = json_score(&parsed, "risk");
+    let confidence = json_score(&parsed, "confidence");
+    let flags = parsed
+        .get("flags")
+        .and_then(Value::as_array)
+        .cloned()
+        .unwrap_or_default();
+    let overall_risk = phishing.max(impersonation).max(risk);
+    let decision = if overall_risk >= 85 {
+        "block"
+    } else if overall_risk >= 65 {
+        "warn_both"
+    } else if overall_risk >= 45 {
+        "warn_sender"
+    } else {
+        "allow"
+    };
+    json!({
+        "decision": decision,
+        "overall_risk": overall_risk,
+        "scores": {
+            "phishing": phishing,
+            "impersonation": impersonation,
+            "risk": risk,
+            "confidence": confidence
+        },
+        "flags": flags,
+        "ai_raw_response": scoring.ai_raw_response
+    })
+}
+
+fn json_score(value: &Value, key: &str) -> u8 {
+    value
+        .get(key)
+        .and_then(Value::as_u64)
+        .unwrap_or_default()
+        .min(100) as u8
 }
 
 fn supply_chain_request(
@@ -139,7 +207,11 @@ fn supply_chain_request(
             let result = supply_chain::handle_status();
             write_json(stream, 200, &result)
         }
-        _ => write_json(stream, 404, &json!({ "error": "supply chain endpoint not found" })),
+        _ => write_json(
+            stream,
+            404,
+            &json!({ "error": "supply chain endpoint not found" }),
+        ),
     }
 }
 
@@ -192,6 +264,15 @@ fn content_length(headers: &str) -> Option<usize> {
 }
 
 fn write_json(stream: &mut TcpStream, status: u16, body: &Value) -> std::io::Result<()> {
+    write_response(stream, status, "application/json", &body.to_string())
+}
+
+fn write_response(
+    stream: &mut TcpStream,
+    status: u16,
+    content_type: &str,
+    body: &str,
+) -> std::io::Result<()> {
     let status_text = match status {
         200 => "OK",
         400 => "Bad Request",
@@ -199,10 +280,9 @@ fn write_json(stream: &mut TcpStream, status: u16, body: &Value) -> std::io::Res
         500 => "Internal Server Error",
         _ => "OK",
     };
-    let body = body.to_string();
     write!(
         stream,
-        "HTTP/1.1 {status} {status_text}\r\ncontent-type: application/json\r\ncontent-length: {}\r\nconnection: close\r\n\r\n{body}",
+        "HTTP/1.1 {status} {status_text}\r\ncontent-type: {content_type}\r\ncontent-length: {}\r\nconnection: close\r\n\r\n{body}",
         body.len()
     )
 }

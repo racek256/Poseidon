@@ -179,9 +179,7 @@ fn main() {
             .nth(3)
             .and_then(|value| value.parse::<usize>().ok())
             .unwrap_or(1);
-        let user_prefix = arg_iter
-            .nth(4)
-            .unwrap_or("manual-user");
+        let user_prefix = arg_iter.nth(4).unwrap_or("manual-user");
         let url_db = modules::url_db::UrlDb::from_env().expect("failed to initialize url database");
         let identity = url_db.identity(&url);
         let mut reputation = modules::url_db::DomainReputation::default();

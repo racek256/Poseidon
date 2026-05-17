@@ -169,7 +169,9 @@ fn generate_rows(client: &Client, config: &Config, input_path: &Path) -> Result<
                     .and_then(Value::as_str)
                     .is_some_and(|text| {
                         let text = text.to_lowercase();
-                        text.contains("http://") || text.contains("https://") || text.contains("www.")
+                        text.contains("http://")
+                            || text.contains("https://")
+                            || text.contains("www.")
                     })
             });
         let source = entry
@@ -234,11 +236,7 @@ fn generate_rows(client: &Client, config: &Config, input_path: &Path) -> Result<
             "poseidon_context": scoring.to_json()
         });
 
-        batch.push(PreparedRow {
-            id,
-            row,
-            prompt,
-        });
+        batch.push(PreparedRow { id, row, prompt });
         if batch.len() >= config.concurrency {
             write_labelled_batch(
                 client,
@@ -378,7 +376,11 @@ fn load_input_entries(input_path: &Path) -> Result<Vec<Value>, String> {
             continue;
         }
         entries.push(serde_json::from_str(line).map_err(|err| {
-            format!("invalid jsonl line {} in {}: {err}", line_number + 1, input_path.display())
+            format!(
+                "invalid jsonl line {} in {}: {err}",
+                line_number + 1,
+                input_path.display()
+            )
         })?);
     }
     Ok(entries)

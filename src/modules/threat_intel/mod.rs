@@ -32,12 +32,14 @@ impl ThreatIntel {
 
         let conn = match env::var("POSEIDON_THREAT_DB_PATH") {
             Ok(path) if !path.trim().is_empty() => {
-                bridge::elog(&format!("threat intel db: using persistent DuckDB at {path}"));
+                bridge::elog(&format!(
+                    "threat intel db: using persistent DuckDB at {path}"
+                ));
                 Connection::open(Path::new(&path))?
             }
             _ => {
                 bridge::elog(
-                    "threat intel db: using in-memory DuckDB; feeds are downloaded and ingested every startup"
+                    "threat intel db: using in-memory DuckDB; feeds are downloaded and ingested every startup",
                 );
                 Connection::open_in_memory()?
             }
@@ -123,7 +125,10 @@ impl ThreatIntel {
                             }
                         })
                     {
-                        bridge::elog(&format!("threat intel ingest failed for {}: {err}", source.name));
+                        bridge::elog(&format!(
+                            "threat intel ingest failed for {}: {err}",
+                            source.name
+                        ));
                         completed_sources += 1;
                         progress.render(
                             completed_sources,
@@ -139,7 +144,10 @@ impl ThreatIntel {
                         ));
                     }
                 }
-                Err(err) => bridge::elog(&format!("threat intel fetch failed for {}: {err}", source.name)),
+                Err(err) => bridge::elog(&format!(
+                    "threat intel fetch failed for {}: {err}",
+                    source.name
+                )),
             }
             completed_sources += 1;
             progress.render(

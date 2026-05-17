@@ -89,7 +89,9 @@ impl OSVClient {
             .user_agent(USER_AGENT)
             .build()
             .expect("failed to create HTTP client for OSV client");
-        Self { http_client: client }
+        Self {
+            http_client: client,
+        }
     }
 
     pub fn query_batch(&self, packages: &[Package]) -> Result<Vec<Vec<OSVVulnerability>>, String> {
@@ -149,27 +151,31 @@ impl OSVClient {
         let mut attempt = 0;
 
         loop {
-            match self.http_client.post(url).header("User-Agent", USER_AGENT).body(body.clone()).send() {
-                Ok(response) => {
-                    match response.error_for_status() {
-                        Ok(resp) => {
-                            return resp.text().map_err(|e| e.to_string());
-                        }
-                        Err(err) => {
-                            if attempt >= MAX_RETRIES {
-                                return Err(format!(
-                                    "OSV API request failed after {} attempts: {}",
-                                    MAX_RETRIES, err
-                                ));
-                            }
-                            bridge::elog(&format!(
-                                "OSV API error (attempt {}): {}, retrying...",
-                                attempt + 1,
-                                err
+            match self
+                .http_client
+                .post(url)
+                .header("User-Agent", USER_AGENT)
+                .body(body.clone())
+                .send()
+            {
+                Ok(response) => match response.error_for_status() {
+                    Ok(resp) => {
+                        return resp.text().map_err(|e| e.to_string());
+                    }
+                    Err(err) => {
+                        if attempt >= MAX_RETRIES {
+                            return Err(format!(
+                                "OSV API request failed after {} attempts: {}",
+                                MAX_RETRIES, err
                             ));
                         }
+                        bridge::elog(&format!(
+                            "OSV API error (attempt {}): {}, retrying...",
+                            attempt + 1,
+                            err
+                        ));
                     }
-                }
+                },
                 Err(err) => {
                     if attempt >= MAX_RETRIES {
                         return Err(format!(

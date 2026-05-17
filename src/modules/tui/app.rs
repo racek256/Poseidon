@@ -12,20 +12,20 @@ use std::sync::{Arc, Mutex};
 use std::thread;
 use std::time::Duration;
 
-use crossterm::event::{self, Event, KeyCode, KeyEventKind};
+use crossterm::event::{self, Event, KeyCode, KeyEventKind, KeyModifiers};
 use crossterm::terminal::{
-    disable_raw_mode, enable_raw_mode, EnterAlternateScreen, LeaveAlternateScreen,
+    EnterAlternateScreen, LeaveAlternateScreen, disable_raw_mode, enable_raw_mode,
 };
 use ratatui::layout::{Constraint, Direction, Layout, Rect};
 use ratatui::style::{Modifier, Style};
 use ratatui::text::{Line, Span};
 use ratatui::widgets::{Block, Borders, Paragraph, Wrap};
-use ratatui::{backend::CrosstermBackend, Frame, Terminal};
+use ratatui::{Frame, Terminal, backend::CrosstermBackend};
 use reqwest::blocking::Client;
 
 use super::colors::{
-    BG, BORDER, BORDER_DIM, HIGHLIGHT, HIGHLIGHT_DIM, SUCCESS, SURFACE, SURFACE_HIGH,
-    TEXT, TEXT_BRIGHT, TEXT_DIM, WARNING,
+    BG, BORDER, BORDER_DIM, HIGHLIGHT, HIGHLIGHT_DIM, SUCCESS, SURFACE, SURFACE_HIGH, TEXT,
+    TEXT_BRIGHT, TEXT_DIM, WARNING,
 };
 use super::state::TuiState;
 use ratatui::style::Color;
@@ -41,11 +41,19 @@ fn format_response(text: &str) -> Vec<Line<'static>> {
         None => return vec![Line::from(text.to_string())],
     };
 
+    if obj.get("compare_ai_only").and_then(|v| v.as_bool()) == Some(true) {
+        if let (Some(ai_only), Some(full)) = (obj.get("ai_only"), obj.get("full")) {
+            return format_compare_response(ai_only, full);
+        }
+    }
+
     let mut lines: Vec<Line<'static>> = Vec::new();
 
-    let decision = obj.get("decision")
+    let decision = obj
+        .get("decision")
         .and_then(|v| v.as_str())
-        .unwrap_or("unknown").to_string();
+        .unwrap_or("unknown")
+        .to_string();
     let decision_color = match decision.as_str() {
         "block" => WARNING,
         "allow" => SUCCESS,
@@ -56,7 +64,8 @@ fn format_response(text: &str) -> Vec<Line<'static>> {
         Span::styled(decision, Style::default().fg(decision_color)),
     ]));
 
-    let overall_risk = obj.get("overall_risk")
+    let overall_risk = obj
+        .get("overall_risk")
         .and_then(|v| v.as_i64())
         .unwrap_or(0) as u32;
     let overall_risk_color = if overall_risk >= 90 {
@@ -68,14 +77,18 @@ fn format_response(text: &str) -> Vec<Line<'static>> {
     };
     lines.push(Line::from(vec![
         Span::styled("Overall Risk: ", Style::default().fg(TEXT_DIM)),
-        Span::styled(format!("{}/100", overall_risk), Style::default().fg(overall_risk_color)),
+        Span::styled(
+            format!("{}/100", overall_risk),
+            Style::default().fg(overall_risk_color),
+        ),
     ]));
 
     if let Some(scores) = obj.get("scores").and_then(|v| v.as_object()) {
         lines.push(Line::from(""));
-        lines.push(Line::from(vec![
-            Span::styled("Scores:", Style::default().fg(HIGHLIGHT)),
-        ]));
+        lines.push(Line::from(vec![Span::styled(
+            "Scores:",
+            Style::default().fg(HIGHLIGHT),
+        )]));
 
         let score_entries = [
             ("Phishing:", "phishing"),
@@ -88,15 +101,21 @@ fn format_response(text: &str) -> Vec<Line<'static>> {
 
         for (label, key) in score_entries {
             let value_str = if key == "url_reputation" {
-                scores.get(key).map(|v| {
-                    if v.is_null() {
-                        "N/A".to_string()
-                    } else {
-                        v.to_string()
-                    }
-                }).unwrap_or_else(|| "N/A".to_string())
+                scores
+                    .get(key)
+                    .map(|v| {
+                        if v.is_null() {
+                            "N/A".to_string()
+                        } else {
+                            v.to_string()
+                        }
+                    })
+                    .unwrap_or_else(|| "N/A".to_string())
             } else {
-                scores.get(key).map(|v| v.to_string()).unwrap_or_else(|| "0".to_string())
+                scores
+                    .get(key)
+                    .map(|v| v.to_string())
+                    .unwrap_or_else(|| "0".to_string())
             };
 
             let value_color = if let Ok(num) = value_str.parse::<u32>() {
@@ -121,9 +140,10 @@ fn format_response(text: &str) -> Vec<Line<'static>> {
     if let Some(flags) = obj.get("flags").and_then(|v| v.as_array()) {
         if !flags.is_empty() {
             lines.push(Line::from(""));
-            lines.push(Line::from(vec![
-                Span::styled("Flags:", Style::default().fg(HIGHLIGHT)),
-            ]));
+            lines.push(Line::from(vec![Span::styled(
+                "Flags:",
+                Style::default().fg(HIGHLIGHT),
+            )]));
             for flag in flags {
                 if let Some(flag_str) = flag.as_str() {
                     lines.push(Line::from(vec![
@@ -138,17 +158,18 @@ fn format_response(text: &str) -> Vec<Line<'static>> {
     if let Some(urls) = obj.get("urls").and_then(|v| v.as_array()) {
         if !urls.is_empty() {
             lines.push(Line::from(""));
-            lines.push(Line::from(vec![
-                Span::styled(format!("URLs: {} found", urls.len()), Style::default().fg(HIGHLIGHT)),
-            ]));
+            lines.push(Line::from(vec![Span::styled(
+                format!("URLs: {} found", urls.len()),
+                Style::default().fg(HIGHLIGHT),
+            )]));
             for url_entry in urls {
                 if let Some(url_obj) = url_entry.as_object() {
-                    let url_str = url_obj.get("url")
+                    let url_str = url_obj
+                        .get("url")
                         .and_then(|v| v.as_str())
-                        .unwrap_or("unknown").to_string();
-                    let url_risk = url_obj.get("risk")
-                        .and_then(|v| v.as_i64())
-                        .unwrap_or(0) as u32;
+                        .unwrap_or("unknown")
+                        .to_string();
+                    let url_risk = url_obj.get("risk").and_then(|v| v.as_i64()).unwrap_or(0) as u32;
                     let risk_color = if url_risk >= 90 {
                         Color::Rgb(255, 87, 87)
                     } else if url_risk >= 75 {
@@ -159,7 +180,10 @@ fn format_response(text: &str) -> Vec<Line<'static>> {
                     lines.push(Line::from(vec![
                         Span::styled("  ", Style::default().fg(TEXT_DIM)),
                         Span::styled(url_str, Style::default().fg(TEXT)),
-                        Span::styled(format!(" (risk: {})", url_risk), Style::default().fg(risk_color)),
+                        Span::styled(
+                            format!(" (risk: {})", url_risk),
+                            Style::default().fg(risk_color),
+                        ),
                     ]));
                 }
             }
@@ -168,9 +192,7 @@ fn format_response(text: &str) -> Vec<Line<'static>> {
 
     if let Some(mem) = obj.get("message_memory").and_then(|v| v.as_object()) {
         lines.push(Line::from(""));
-        let stored = mem.get("stored")
-            .and_then(|v| v.as_bool())
-            .unwrap_or(false);
+        let stored = mem.get("stored").and_then(|v| v.as_bool()).unwrap_or(false);
         let stored_str = if stored { "yes" } else { "no" };
         lines.push(Line::from(vec![
             Span::styled("Message Memory: ", Style::default().fg(TEXT_DIM)),
@@ -188,9 +210,10 @@ fn format_response(text: &str) -> Vec<Line<'static>> {
     if let Some(summary) = obj.get("summary").and_then(|v| v.as_str()) {
         if !summary.is_empty() {
             lines.push(Line::from(""));
-            lines.push(Line::from(vec![
-                Span::styled(summary.to_string(), Style::default().fg(TEXT_DIM).add_modifier(Modifier::ITALIC)),
-            ]));
+            lines.push(Line::from(vec![Span::styled(
+                summary.to_string(),
+                Style::default().fg(TEXT_DIM).add_modifier(Modifier::ITALIC),
+            )]));
         }
     }
 
@@ -199,6 +222,98 @@ fn format_response(text: &str) -> Vec<Line<'static>> {
     }
 
     lines
+}
+
+fn format_compare_response(
+    ai_only: &serde_json::Value,
+    full: &serde_json::Value,
+) -> Vec<Line<'static>> {
+    let mut lines = Vec::new();
+    lines.push(Line::from(vec![
+        Span::styled(format!("{:<36}", "AI only"), Style::default().fg(HIGHLIGHT)),
+        Span::styled("Full Poseidon", Style::default().fg(HIGHLIGHT)),
+    ]));
+    lines.push(compare_line(
+        "Decision",
+        value_str(ai_only, "decision"),
+        value_str(full, "decision"),
+    ));
+    lines.push(compare_line(
+        "Overall",
+        score_str(ai_only, "overall_risk"),
+        score_str(full, "overall_risk"),
+    ));
+
+    let ai_scores = ai_only.get("scores").unwrap_or(&serde_json::Value::Null);
+    let full_scores = full.get("scores").unwrap_or(&serde_json::Value::Null);
+    for (label, key) in [
+        ("Phishing", "phishing"),
+        ("Impersonation", "impersonation"),
+        ("Risk", "risk"),
+        ("Prompt Inject", "prompt_injection"),
+        ("Secret", "secret"),
+        ("URL Rep", "url_reputation"),
+    ] {
+        lines.push(compare_line(
+            label,
+            score_str(ai_scores, key),
+            score_str(full_scores, key),
+        ));
+    }
+
+    let ai_flags = flags_str(ai_only);
+    let full_flags = flags_str(full);
+    if !ai_flags.is_empty() || !full_flags.is_empty() {
+        lines.push(Line::from(""));
+        lines.push(compare_line("Flags", ai_flags, full_flags));
+    }
+    lines
+}
+
+fn compare_line(label: &str, left: String, right: String) -> Line<'static> {
+    Line::from(vec![
+        Span::styled(format!("{label:<14} {left:<21}"), Style::default().fg(TEXT)),
+        Span::styled(
+            format!("{label:<14} {right}"),
+            Style::default().fg(TEXT_DIM),
+        ),
+    ])
+}
+
+fn value_str(value: &serde_json::Value, key: &str) -> String {
+    value
+        .get(key)
+        .and_then(|v| v.as_str())
+        .unwrap_or("unknown")
+        .to_string()
+}
+
+fn score_str(value: &serde_json::Value, key: &str) -> String {
+    value
+        .get(key)
+        .map(|v| {
+            if v.is_null() {
+                "N/A".to_string()
+            } else {
+                v.to_string()
+            }
+        })
+        .unwrap_or_else(|| "N/A".to_string())
+}
+
+fn flags_str(value: &serde_json::Value) -> String {
+    value
+        .get("flags")
+        .and_then(|v| v.as_array())
+        .map(|flags| {
+            flags
+                .iter()
+                .filter_map(|flag| flag.as_str())
+                .take(3)
+                .collect::<Vec<_>>()
+                .join(", ")
+        })
+        .unwrap_or_default()
 }
 
 pub struct App {
@@ -248,7 +363,8 @@ impl App {
 
             {
                 let state = self.state.lock().unwrap();
-                let total_lines: usize = state.output.iter().map(|s| format_response(s).len()).sum();
+                let total_lines: usize =
+                    state.output.iter().map(|s| format_response(s).len()).sum();
                 if total_lines > self.prev_output_len {
                     let was_at_bottom = self.prev_output_len == 0
                         || self.output_scroll >= self.prev_output_len.saturating_sub(1);
@@ -291,6 +407,11 @@ impl App {
                 drop(state);
                 self.should_quit = true;
             }
+            KeyCode::Char('a') if key.modifiers.contains(KeyModifiers::CONTROL) => {
+                state.toggle_compare_ai_only();
+                let mode = if state.compare_ai_only { "on" } else { "off" };
+                state.add_log(format!("AI-only comparison: {mode}"));
+            }
             KeyCode::Char(c) => {
                 state.append_input(c);
             }
@@ -301,6 +422,14 @@ impl App {
                 let input = state.input_buffer.clone();
                 state.clear_input();
                 if !input.is_empty() {
+                    if !state.backend_ready {
+                        state.append_output(
+                            "Backend is still loading databases and AI. Please wait...".to_string(),
+                        );
+                        drop(state);
+                        return;
+                    }
+                    let compare_ai_only = state.compare_ai_only;
                     state.append_output(format!("> {}", input));
                     state.add_log(format!("User input: {}", input));
                     if state.request_pending {
@@ -312,8 +441,12 @@ impl App {
                         let client = self.http_client.clone();
                         let state_clone = Arc::clone(&self.state);
                         thread::spawn(move || {
-                            let payload =
-                                serde_json::json!({"message": input, "user_id": "tui"}).to_string();
+                            let payload = serde_json::json!({
+                                "message": input,
+                                "user_id": "tui",
+                                "compare_ai_only": compare_ai_only
+                            })
+                            .to_string();
                             let result = client
                                 .post(format!("http://{}/analyse", api_addr))
                                 .header("Content-Type", "application/json")
@@ -324,7 +457,9 @@ impl App {
                             match result {
                                 Ok(resp) => {
                                     if resp.status().is_success() {
-                                        let body = resp.text().unwrap_or_else(|e| format!("<read error: {e}>"));
+                                        let body = resp
+                                            .text()
+                                            .unwrap_or_else(|e| format!("<read error: {e}>"));
                                         s.append_output(body);
                                     } else {
                                         s.append_output(format!(
@@ -334,7 +469,11 @@ impl App {
                                     }
                                 }
                                 Err(err) => {
-                                    s.append_output(format!("⚠ Request error: {}", err));
+                                    if !s.backend_ready {
+                                        s.append_output("Backend is still loading. Request will work once status turns ready.".to_string());
+                                    } else {
+                                        s.append_output(format!("⚠ Request error: {}", err));
+                                    }
                                     s.add_log(format!("Request error: {}", err));
                                 }
                             }
@@ -350,7 +489,8 @@ impl App {
                 }
             }
             KeyCode::Down => {
-                let total_lines: usize = state.output.iter().map(|s| format_response(s).len()).sum();
+                let total_lines: usize =
+                    state.output.iter().map(|s| format_response(s).len()).sum();
                 if self.output_scroll < total_lines.saturating_sub(1) {
                     self.output_scroll += 1;
                 }
@@ -383,17 +523,27 @@ impl App {
     fn render_header(&self, f: &mut Frame, area: Rect) {
         let state = self.state.lock().unwrap();
 
-        let db_status = if state.request_pending {
+        let db_status = if !state.backend_ready || state.request_pending {
             Span::styled(" ● ", Style::default().fg(WARNING))
         } else {
             Span::styled(" ● ", Style::default().fg(SUCCESS))
         };
+        let ready_text = if state.backend_ready {
+            "ready"
+        } else {
+            "loading"
+        };
 
         let header_line = Line::from(vec![
-            Span::styled(" POSEIDON ", Style::default().fg(TEXT_BRIGHT).add_modifier(Modifier::BOLD)),
+            Span::styled(
+                " POSEIDON ",
+                Style::default()
+                    .fg(TEXT_BRIGHT)
+                    .add_modifier(Modifier::BOLD),
+            ),
             Span::styled("  ", Style::default()),
             db_status,
-            Span::styled("ready", Style::default().fg(TEXT_DIM)),
+            Span::styled(ready_text, Style::default().fg(TEXT_DIM)),
             Span::styled("  ", Style::default()),
             Span::styled(
                 format!("  step: {} ", state.current_step),
@@ -409,8 +559,7 @@ impl App {
             },
         ]);
 
-        let header = Paragraph::new(header_line)
-            .style(Style::default().bg(SURFACE).fg(TEXT));
+        let header = Paragraph::new(header_line).style(Style::default().bg(SURFACE).fg(TEXT));
         f.render_widget(header, area);
     }
 
@@ -418,10 +567,7 @@ impl App {
         // ── Main horizontal split: left 70% | right 30% ──
         let columns = Layout::default()
             .direction(Direction::Horizontal)
-            .constraints([
-                Constraint::Percentage(70),
-                Constraint::Percentage(30),
-            ])
+            .constraints([Constraint::Percentage(70), Constraint::Percentage(30)])
             .split(area);
 
         self.render_left_column(f, columns[0]);
@@ -436,12 +582,12 @@ impl App {
             .constraints([
                 Constraint::Min(0),    // output (top)
                 Constraint::Length(1), // step indicator (middle)
-                Constraint::Length(3),  // input (bottom)
+                Constraint::Length(3), // input (bottom)
             ])
             .split(area);
 
         // ── Input area ──
-        let input_style = if state.request_pending {
+        let input_style = if state.request_pending || !state.backend_ready {
             Style::default().fg(WARNING)
         } else {
             Style::default().fg(HIGHLIGHT)
@@ -450,21 +596,25 @@ impl App {
         let input_block = Block::default()
             .borders(Borders::TOP)
             .border_style(Style::default().fg(BORDER))
-            .title(Line::from(vec![
-                Span::styled(" Input ", Style::default().fg(TEXT_DIM)),
-            ]))
+            .title(Line::from(vec![Span::styled(
+                " Input ",
+                Style::default().fg(TEXT_DIM),
+            )]))
             .title_position(ratatui::widgets::block::Position::Top)
             .style(Style::default().bg(SURFACE))
             .padding(ratatui::widgets::Padding::new(1, 1, 0, 0));
 
-        let prompt = if state.request_pending {
+        let prompt = if state.request_pending || !state.backend_ready {
             "⏳ "
         } else {
             "› "
         };
         let input_text = Line::from(vec![
             Span::styled(prompt, input_style.add_modifier(Modifier::BOLD)),
-            Span::styled(state.input_buffer.as_str(), Style::default().fg(TEXT_BRIGHT)),
+            Span::styled(
+                state.input_buffer.as_str(),
+                Style::default().fg(TEXT_BRIGHT),
+            ),
         ]);
 
         let input_paragraph = Paragraph::new(input_text)
@@ -476,18 +626,29 @@ impl App {
         let output_block = Block::default()
             .borders(Borders::TOP)
             .border_style(Style::default().fg(BORDER))
-            .title(Line::from(vec![
-                Span::styled(" Output ", Style::default().fg(TEXT_DIM)),
-            ]))
+            .title(Line::from(vec![Span::styled(
+                " Output ",
+                Style::default().fg(TEXT_DIM),
+            )]))
             .title_position(ratatui::widgets::block::Position::Top)
             .style(Style::default().bg(BG))
             .padding(ratatui::widgets::Padding::new(1, 1, 0, 0));
 
-let visible_lines = left_chunks[0].height.saturating_sub(2) as usize;
+        let visible_lines = left_chunks[0].height.saturating_sub(2) as usize;
 
-        let all_lines: Vec<Line> = state.output.iter().flat_map(|s| format_response(s)).collect();
-        let start = self.output_scroll.min(all_lines.len().saturating_sub(visible_lines));
-        let output_lines: Vec<Line> = all_lines.into_iter().skip(start).take(visible_lines).collect();
+        let all_lines: Vec<Line> = state
+            .output
+            .iter()
+            .flat_map(|s| format_response(s))
+            .collect();
+        let start = self
+            .output_scroll
+            .min(all_lines.len().saturating_sub(visible_lines));
+        let output_lines: Vec<Line> = all_lines
+            .into_iter()
+            .skip(start)
+            .take(visible_lines)
+            .collect();
 
         let output_paragraph = Paragraph::new(output_lines)
             .style(Style::default().fg(TEXT))
@@ -496,12 +657,12 @@ let visible_lines = left_chunks[0].height.saturating_sub(2) as usize;
         f.render_widget(output_paragraph, left_chunks[0]);
 
         // ── Step indicator (single line, no border) ──
-        let step_text = if state.request_pending {
+        let step_text = if state.request_pending || !state.backend_ready {
             format!("  ⏳ {}", state.current_step)
         } else {
             format!("  {}", state.current_step)
         };
-        let step_style = if state.request_pending {
+        let step_style = if state.request_pending || !state.backend_ready {
             Style::default().fg(WARNING)
         } else {
             Style::default().fg(TEXT_DIM)
@@ -531,9 +692,10 @@ let visible_lines = left_chunks[0].height.saturating_sub(2) as usize;
         let metrics_block = Block::default()
             .borders(Borders::TOP)
             .border_style(Style::default().fg(BORDER))
-            .title(Line::from(vec![
-                Span::styled(" Metrics ", Style::default().fg(TEXT_DIM)),
-            ]))
+            .title(Line::from(vec![Span::styled(
+                " Metrics ",
+                Style::default().fg(TEXT_DIM),
+            )]))
             .title_position(ratatui::widgets::block::Position::Top)
             .style(Style::default().bg(SURFACE_HIGH))
             .padding(ratatui::widgets::Padding::new(1, 1, 0, 0));
@@ -541,6 +703,28 @@ let visible_lines = left_chunks[0].height.saturating_sub(2) as usize;
         let mut metrics_lines: Vec<Line> = vec![];
 
         if state.placeholder_stats.is_empty() {
+            metrics_lines.push(Line::from(vec![
+                Span::styled("Backend   ", Style::default().fg(TEXT_DIM)),
+                Span::styled(
+                    if state.backend_ready {
+                        "ready"
+                    } else {
+                        "loading"
+                    },
+                    Style::default().fg(if state.backend_ready {
+                        SUCCESS
+                    } else {
+                        WARNING
+                    }),
+                ),
+            ]));
+            metrics_lines.push(Line::from(vec![
+                Span::styled("AI Compare", Style::default().fg(TEXT_DIM)),
+                Span::styled(
+                    if state.compare_ai_only { "on" } else { "off" },
+                    Style::default().fg(HIGHLIGHT),
+                ),
+            ]));
             metrics_lines.push(Line::from(vec![
                 Span::styled("Requests ", Style::default().fg(TEXT_DIM)),
                 Span::styled("0", Style::default().fg(TEXT)),
@@ -559,7 +743,10 @@ let visible_lines = left_chunks[0].height.saturating_sub(2) as usize;
             ]));
             metrics_lines.push(Line::from(vec![
                 Span::styled("Speed     ", Style::default().fg(TEXT_DIM)),
-                Span::styled(format!("{:.2} t/s", state.generation_speed), Style::default().fg(TEXT)),
+                Span::styled(
+                    format!("{:.2} t/s", state.generation_speed),
+                    Style::default().fg(TEXT),
+                ),
             ]));
         } else {
             for (key, value) in &state.placeholder_stats {
@@ -580,9 +767,10 @@ let visible_lines = left_chunks[0].height.saturating_sub(2) as usize;
         let logs_block = Block::default()
             .borders(Borders::TOP)
             .border_style(Style::default().fg(BORDER))
-            .title(Line::from(vec![
-                Span::styled(" Logs ", Style::default().fg(TEXT_DIM)),
-            ]))
+            .title(Line::from(vec![Span::styled(
+                " Logs ",
+                Style::default().fg(TEXT_DIM),
+            )]))
             .title_position(ratatui::widgets::block::Position::Top)
             .style(Style::default().bg(BG))
             .padding(ratatui::widgets::Padding::new(1, 1, 0, 0));
@@ -613,12 +801,14 @@ let visible_lines = left_chunks[0].height.saturating_sub(2) as usize;
             Span::styled(" ↑↓", Style::default().fg(HIGHLIGHT)),
             Span::styled(":scroll", Style::default().fg(TEXT_DIM)),
             Span::styled("  ", Style::default()),
+            Span::styled(" ctrl+a", Style::default().fg(HIGHLIGHT)),
+            Span::styled(":ai/full", Style::default().fg(TEXT_DIM)),
+            Span::styled("  ", Style::default()),
             Span::styled(" esc", Style::default().fg(HIGHLIGHT)),
             Span::styled(":quit", Style::default().fg(TEXT_DIM)),
         ]);
 
-        let footer = Paragraph::new(footer_line)
-            .style(Style::default().bg(SURFACE).fg(TEXT_DIM));
+        let footer = Paragraph::new(footer_line).style(Style::default().bg(SURFACE).fg(TEXT_DIM));
         f.render_widget(footer, area);
     }
 }
@@ -634,19 +824,50 @@ pub fn start_tui_thread(addr: &str) -> Arc<Mutex<TuiState>> {
     let addr_for_app = addr.clone();
 
     thread::spawn(move || {
-        let threat_intel = crate::modules::threat_intel::ThreatIntel::from_env()
-            .expect("failed to initialize threat intel database");
-        let url_db = crate::modules::url_db::UrlDb::from_env()
-            .expect("failed to initialize url database");
-        let message_memory = crate::modules::message_memory::MessageMemory::from_env()
-            .expect("failed to initialize message memory database");
+        crate::modules::tui::bridge::post_backend_ready(false);
+        crate::modules::tui::bridge::post_step("Loading threat intelligence database");
+        let threat_intel = match crate::modules::threat_intel::ThreatIntel::from_env() {
+            Ok(db) => db,
+            Err(err) => {
+                crate::modules::tui::bridge::elog(&format!(
+                    "failed to initialize threat intel database: {err}"
+                ));
+                crate::modules::tui::bridge::post_step("Backend failed: threat intel database");
+                return;
+            }
+        };
+        crate::modules::tui::bridge::post_step("Loading URL database");
+        let url_db = match crate::modules::url_db::UrlDb::from_env() {
+            Ok(db) => db,
+            Err(err) => {
+                crate::modules::tui::bridge::elog(&format!(
+                    "failed to initialize url database: {err}"
+                ));
+                crate::modules::tui::bridge::post_step("Backend failed: URL database");
+                return;
+            }
+        };
+        crate::modules::tui::bridge::post_step("Loading message memory database");
+        let message_memory = match crate::modules::message_memory::MessageMemory::from_env() {
+            Ok(db) => db,
+            Err(err) => {
+                crate::modules::tui::bridge::elog(&format!(
+                    "failed to initialize message memory database: {err}"
+                ));
+                crate::modules::tui::bridge::post_step("Backend failed: message memory database");
+                return;
+            }
+        };
+        crate::modules::tui::bridge::post_step("Updating threat feeds");
         threat_intel.update_if_due();
+        crate::modules::tui::bridge::post_step("Starting local AI");
         crate::modules::llm_server::ensure();
         if let Err(err) = crate::modules::ai::warmup() {
             crate::modules::tui::bridge::elog(&format!("llm warmup failed: {err}"));
         }
-        if let Err(err) =
-            crate::modules::api::serve(&addr, &threat_intel, &url_db, &message_memory)
+        crate::modules::tui::bridge::post_backend_ready(true);
+        crate::modules::tui::bridge::post_step("Ready");
+        if let Err(err) = crate::modules::api::serve(&addr, &threat_intel, &url_db, &message_memory)
         {
             crate::modules::tui::bridge::elog(&format!("api server failed: {err}"));
         }
@@ -674,19 +895,50 @@ pub fn run_tui(addr: &str) {
     let addr = addr.to_string();
     let addr_for_app = addr.clone();
     thread::spawn(move || {
-        let threat_intel = crate::modules::threat_intel::ThreatIntel::from_env()
-            .expect("failed to initialize threat intel database");
-        let url_db = crate::modules::url_db::UrlDb::from_env()
-            .expect("failed to initialize url database");
-        let message_memory = crate::modules::message_memory::MessageMemory::from_env()
-            .expect("failed to initialize message memory database");
+        crate::modules::tui::bridge::post_backend_ready(false);
+        crate::modules::tui::bridge::post_step("Loading threat intelligence database");
+        let threat_intel = match crate::modules::threat_intel::ThreatIntel::from_env() {
+            Ok(db) => db,
+            Err(err) => {
+                crate::modules::tui::bridge::elog(&format!(
+                    "failed to initialize threat intel database: {err}"
+                ));
+                crate::modules::tui::bridge::post_step("Backend failed: threat intel database");
+                return;
+            }
+        };
+        crate::modules::tui::bridge::post_step("Loading URL database");
+        let url_db = match crate::modules::url_db::UrlDb::from_env() {
+            Ok(db) => db,
+            Err(err) => {
+                crate::modules::tui::bridge::elog(&format!(
+                    "failed to initialize url database: {err}"
+                ));
+                crate::modules::tui::bridge::post_step("Backend failed: URL database");
+                return;
+            }
+        };
+        crate::modules::tui::bridge::post_step("Loading message memory database");
+        let message_memory = match crate::modules::message_memory::MessageMemory::from_env() {
+            Ok(db) => db,
+            Err(err) => {
+                crate::modules::tui::bridge::elog(&format!(
+                    "failed to initialize message memory database: {err}"
+                ));
+                crate::modules::tui::bridge::post_step("Backend failed: message memory database");
+                return;
+            }
+        };
+        crate::modules::tui::bridge::post_step("Updating threat feeds");
         threat_intel.update_if_due();
+        crate::modules::tui::bridge::post_step("Starting local AI");
         crate::modules::llm_server::ensure();
         if let Err(err) = crate::modules::ai::warmup() {
             crate::modules::tui::bridge::elog(&format!("llm warmup failed: {err}"));
         }
-        if let Err(err) =
-            crate::modules::api::serve(&addr, &threat_intel, &url_db, &message_memory)
+        crate::modules::tui::bridge::post_backend_ready(true);
+        crate::modules::tui::bridge::post_step("Ready");
+        if let Err(err) = crate::modules::api::serve(&addr, &threat_intel, &url_db, &message_memory)
         {
             crate::modules::tui::bridge::elog(&format!("api server failed: {err}"));
         }

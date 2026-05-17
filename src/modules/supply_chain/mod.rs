@@ -2,23 +2,23 @@ use serde_json::{Value, json};
 
 use crate::modules::tui::bridge;
 
+pub mod analysis_cache;
+pub mod commit_fetcher;
+pub mod deep_analysis;
+pub mod get_dependency_git_url;
 pub mod lockfile;
 pub mod osv;
 pub mod registry;
 pub mod typosquat;
-pub mod get_dependency_git_url;
 pub mod universal_llm_comms;
-pub mod analysis_cache;
-pub mod commit_fetcher;
-pub mod deep_analysis;
 
+use analysis_cache::AnalysisCache;
+use commit_fetcher::CommitFetcher;
+use get_dependency_git_url::GitUrlFinder;
 use lockfile::{detect_lockfile_type, parse_lockfile};
 use osv::{OSVClient, Package as OSVPackage};
 use registry::RegistryChecker;
 use typosquat::TyposquatChecker;
-use get_dependency_git_url::GitUrlFinder;
-use analysis_cache::AnalysisCache;
-use commit_fetcher::CommitFetcher;
 
 /// Warning levels for packages based on detected issues.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
@@ -167,13 +167,19 @@ impl SupplyChainScanner {
         }
         let lockfile_type = lockfile_type.unwrap();
         let ecosystem = lockfile_type.ecosystem().as_str();
-        bridge::log(&format!("SupplyChainScanner: detected lockfile type: {:?}", lockfile_type));
+        bridge::log(&format!(
+            "SupplyChainScanner: detected lockfile type: {:?}",
+            lockfile_type
+        ));
 
         // Step 2: Parse packages from lockfile
         let packages = match parse_lockfile(filename.unwrap_or(""), lockfile_content) {
             Ok(pkgs) => pkgs,
             Err(e) => {
-                bridge::elog(&format!("SupplyChainScanner: failed to parse lockfile: {}", e));
+                bridge::elog(&format!(
+                    "SupplyChainScanner: failed to parse lockfile: {}",
+                    e
+                ));
                 return json!({
                     "overall_sentiment": "safe",
                     "packages": [],
@@ -190,7 +196,10 @@ impl SupplyChainScanner {
             });
         }
 
-        bridge::log(&format!("SupplyChainScanner: parsed {} packages", packages.len()));
+        bridge::log(&format!(
+            "SupplyChainScanner: parsed {} packages",
+            packages.len()
+        ));
 
         // Convert to OSV package format for vulnerability querying
         let osv_packages: Vec<OSVPackage> = packages
@@ -203,10 +212,13 @@ impl SupplyChainScanner {
             .collect();
 
         // Step 3: Query OSV API for vulnerabilities
-        let vulnerability_results = self.osv_client.query_batch(&osv_packages).unwrap_or_else(|e| {
-            bridge::elog(&format!("SupplyChainScanner: OSV query failed: {}", e));
-            vec![Vec::new(); packages.len()]
-        });
+        let vulnerability_results =
+            self.osv_client
+                .query_batch(&osv_packages)
+                .unwrap_or_else(|e| {
+                    bridge::elog(&format!("SupplyChainScanner: OSV query failed: {}", e));
+                    vec![Vec::new(); packages.len()]
+                });
 
         // Create typosquat checker for this ecosystem
         let typosquat_checker = TyposquatChecker::new(ecosystem);
@@ -215,11 +227,8 @@ impl SupplyChainScanner {
         let mut package_analyses: Vec<PackageAnalysis> = Vec::new();
 
         for (i, pkg) in packages.iter().enumerate() {
-            let mut analysis = PackageAnalysis::new(
-                pkg.name.clone(),
-                pkg.version.clone(),
-                ecosystem.to_string(),
-            );
+            let mut analysis =
+                PackageAnalysis::new(pkg.name.clone(), pkg.version.clone(), ecosystem.to_string());
 
             // Step 3: Process vulnerabilities from OSV
             if i < vulnerability_results.len() {
@@ -232,12 +241,18 @@ impl SupplyChainScanner {
 
                     let level = WarningLevel::from_vulnerability_severity(severity_str);
                     analysis.update_warning_level(level);
-                    analysis.add_issue(format!("{}: {}", vuln.id, vuln.summary.as_deref().unwrap_or("No description")));
+                    analysis.add_issue(format!(
+                        "{}: {}",
+                        vuln.id,
+                        vuln.summary.as_deref().unwrap_or("No description")
+                    ));
                 }
             }
 
             // Step 4: Check registry metadata
-            let registry_warnings = self.registry_checker.check_package(&pkg.name, &pkg.version, ecosystem);
+            let registry_warnings =
+                self.registry_checker
+                    .check_package(&pkg.name, &pkg.version, ecosystem);
             for warning in registry_warnings {
                 if warning.contains("yanked") {
                     analysis.update_warning_level(WarningLevel::Critical);
@@ -260,8 +275,10 @@ impl SupplyChainScanner {
         // Compute overall sentiment and summary
         let overall_sentiment = compute_overall_sentiment(&package_analyses);
         let (critical, high, medium, low, safe) = count_by_level(&package_analyses);
-        let summary = format!("{} critical, {} high, {} medium, {} low, {} safe",
-            critical, high, medium, low, safe);
+        let summary = format!(
+            "{} critical, {} high, {} medium, {} low, {} safe",
+            critical, high, medium, low, safe
+        );
 
         // Build per-package JSON output
         let packages_json: Vec<Value> = package_analyses
@@ -285,7 +302,10 @@ impl SupplyChainScanner {
     }
 
     pub fn deep_analyze(&self, lockfiles: Vec<(String, String)>) -> Value {
-        bridge::log(&format!("SupplyChainScanner: deep_analyze called with {} lockfiles", lockfiles.len()));
+        bridge::log(&format!(
+            "SupplyChainScanner: deep_analyze called with {} lockfiles",
+            lockfiles.len()
+        ));
         deep_analysis::run_deep_analysis(
             lockfiles,
             &self.osv_client,
@@ -298,8 +318,8 @@ impl SupplyChainScanner {
 
     pub fn status(&self) -> Value {
         bridge::log("SupplyChainScanner: status called");
-        let llm_provider = std::env::var("LLM_PROVIDER")
-            .unwrap_or_else(|_| "not configured".to_string());
+        let llm_provider =
+            std::env::var("LLM_PROVIDER").unwrap_or_else(|_| "not configured".to_string());
         json!({
             "status": "ready",
             "service": "supply_chain_scanner",
@@ -323,11 +343,11 @@ pub fn handle_quick_analyze(body: &str) -> Value {
 
     // Try to parse the request body as JSON to extract lockfile content and filename
     if let Ok(parsed) = serde_json::from_str::<serde_json::Value>(body) {
-        let lockfile_content = parsed.get("lockfile_content")
+        let lockfile_content = parsed
+            .get("lockfile_content")
             .and_then(|v| v.as_str())
             .unwrap_or("");
-        let filename = parsed.get("filename")
-            .and_then(|v| v.as_str());
+        let filename = parsed.get("filename").and_then(|v| v.as_str());
         scanner.quick_analyze(lockfile_content, filename)
     } else {
         // Fall back to treating the body as raw lockfile content
@@ -343,7 +363,8 @@ pub fn handle_deep_analyze(body: &str) -> Value {
         // Support both single lockfile and batch formats
         if let Some(lockfiles) = parsed.get("lockfiles").and_then(|v| v.as_array()) {
             // Batch format: {"lockfiles": [{"filename": "...", "content": "..."}]}
-            let parsed_lockfiles: Vec<(String, String)> = lockfiles.iter()
+            let parsed_lockfiles: Vec<(String, String)> = lockfiles
+                .iter()
                 .filter_map(|lf| {
                     let filename = lf.get("filename").and_then(|v| v.as_str())?;
                     let content = lf.get("content").and_then(|v| v.as_str())?;
@@ -356,14 +377,16 @@ pub fn handle_deep_analyze(body: &str) -> Value {
             scanner.deep_analyze(parsed_lockfiles)
         } else if let Some(content) = parsed.get("lockfile_content").and_then(|v| v.as_str()) {
             // Single format: {"lockfile_content": "...", "filename": "..."}
-            let filename = parsed.get("filename")
+            let filename = parsed
+                .get("filename")
                 .and_then(|v| v.as_str())
                 .unwrap_or("unknown.lock")
                 .to_string();
             scanner.deep_analyze(vec![(filename, content.to_string())])
         } else if let Some(content) = parsed.get("content").and_then(|v| v.as_str()) {
             // Minimal single format: {"content": "...", "filename": "..."}
-            let filename = parsed.get("filename")
+            let filename = parsed
+                .get("filename")
                 .and_then(|v| v.as_str())
                 .unwrap_or("unknown.lock")
                 .to_string();
@@ -420,7 +443,8 @@ mod tests {
     #[test]
     fn test_deep_analyze_stub() {
         let scanner = SupplyChainScanner::new();
-        let result = scanner.deep_analyze(vec![("test.lock".to_string(), "test content".to_string())]);
+        let result =
+            scanner.deep_analyze(vec![("test.lock".to_string(), "test content".to_string())]);
         assert!(result.get("analysis_timestamp").is_some() || result.get("status").is_some());
     }
 
@@ -433,7 +457,8 @@ mod tests {
 
     #[test]
     fn test_handler_functions() {
-        let quick = handle_quick_analyze(r#"{"lockfile_content": "test", "filename": "Cargo.lock"}"#);
+        let quick =
+            handle_quick_analyze(r#"{"lockfile_content": "test", "filename": "Cargo.lock"}"#);
         assert!(quick.get("overall_sentiment").is_some());
 
         let deep = handle_deep_analyze("yarn.lock content");

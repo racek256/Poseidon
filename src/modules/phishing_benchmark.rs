@@ -441,7 +441,9 @@ fn download_huggingface_dataset_to(output: &str, max_rows: Option<usize>) -> Res
                 break;
             }
             if written % 10_000 == 0 {
-                println!("downloaded {written} rows ({unsafe_written} unsafe, {safe_written} safe)");
+                println!(
+                    "downloaded {written} rows ({unsafe_written} unsafe, {safe_written} safe)"
+                );
             }
             std::thread::sleep(page_delay);
         }
@@ -607,7 +609,28 @@ fn keep_finetune_message(message: &str) -> bool {
             }
         } else if ch.is_whitespace() {
             whitespace += 1;
-        } else if !ch.is_ascii_digit() && !matches!(ch, '.' | ',' | ':' | ';' | '/' | '-' | '_' | '@' | '?' | '&' | '=' | '%' | '#' | '+' | '\'' | '"' | '(' | ')') {
+        } else if !ch.is_ascii_digit()
+            && !matches!(
+                ch,
+                '.' | ','
+                    | ':'
+                    | ';'
+                    | '/'
+                    | '-'
+                    | '_'
+                    | '@'
+                    | '?'
+                    | '&'
+                    | '='
+                    | '%'
+                    | '#'
+                    | '+'
+                    | '\''
+                    | '"'
+                    | '('
+                    | ')'
+            )
+        {
             symbols += 1;
         }
 
