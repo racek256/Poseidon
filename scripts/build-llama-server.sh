@@ -7,9 +7,16 @@ LLAMA_DIR="$PROJECT_DIR/external/llama.cpp"
 BUILD_DIR="$LLAMA_DIR/build"
 
 if [ ! -f "$LLAMA_DIR/CMakeLists.txt" ]; then
-    echo "llama.cpp source not found at $LLAMA_DIR"
-    echo "Run: git submodule update --init --recursive"
-    exit 1
+    if command -v git &>/dev/null && [ -d "$PROJECT_DIR/.git" ]; then
+        echo "llama.cpp source not found. Initializing git submodule..."
+        git -C "$PROJECT_DIR" submodule update --init --recursive external/llama.cpp
+    fi
+
+    if [ ! -f "$LLAMA_DIR/CMakeLists.txt" ]; then
+        echo "llama.cpp source not found at $LLAMA_DIR"
+        echo "Install git and run: git submodule update --init --recursive external/llama.cpp"
+        exit 1
+    fi
 fi
 
 CMAKE_FLAGS=(
@@ -29,11 +36,46 @@ if [ "${POSEIDON_LLAMA_VULKAN:-OFF}" = "ON" ]; then
     )
 fi
 
+BACKEND="CPU"
+if [ -n "${POSEIDON_LLAMA_BACKEND:-}" ]; then
+    case "$POSEIDON_LLAMA_BACKEND" in
+        cuda|CUDA)
+            CMAKE_FLAGS+=(-DGGML_CUDA=ON)
+            BACKEND="CUDA"
+            ;;
+        hip|HIP|rocm|ROCM)
+            CMAKE_FLAGS+=(-DGGML_HIP=ON)
+            BACKEND="HIP/ROCm"
+            ;;
+        vulkan|VULKAN)
+            CMAKE_FLAGS+=(-DGGML_VULKAN=ON)
+            BACKEND="Vulkan"
+            ;;
+        cpu|CPU)
+            BACKEND="CPU"
+            ;;
+        *)
+            echo "Unknown POSEIDON_LLAMA_BACKEND=$POSEIDON_LLAMA_BACKEND"
+            echo "Use: cuda, hip, rocm, vulkan, or cpu"
+            exit 1
+            ;;
+    esac
+elif [ "${POSEIDON_LLAMA_VULKAN:-OFF}" = "ON" ]; then
+    BACKEND="Vulkan"
+elif command -v nvidia-smi &>/dev/null; then
+    CMAKE_FLAGS+=(-DGGML_CUDA=ON)
+    BACKEND="CUDA"
+elif command -v rocminfo &>/dev/null || command -v hipcc &>/dev/null; then
+    CMAKE_FLAGS+=(-DGGML_HIP=ON)
+    BACKEND="HIP/ROCm"
+fi
+
 JOBS="${POSEIDON_LLAMA_BUILD_JOBS:-$(nproc 2>/dev/null || echo 4)}"
 
 echo "=== Building llama.cpp server ==="
 echo "Source: $LLAMA_DIR"
 echo "Build:  $BUILD_DIR"
+echo "Backend: $BACKEND"
 echo "Jobs:   $JOBS"
 echo
 

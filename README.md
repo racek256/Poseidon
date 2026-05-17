@@ -174,6 +174,8 @@ Generated model files are stored in `models/` and intentionally gitignored.
 cargo run --release
 ```
 
+On a fresh clone this builds the Rust API, initializes `external/llama.cpp`, builds `llama-server`, downloads the default `Theseus-v3-1e.gguf` model, and starts local inference automatically.
+
 Runtime defaults:
 
 - API: `127.0.0.1:8080`
@@ -284,8 +286,15 @@ Startup priority:
 1. `POSEIDON_LLM_ENDPOINT` set -> use external OpenAI-compatible endpoint, skip local
 2. Check `http://{POSEIDON_LLAMA_HOST}:{POSEIDON_LLAMA_PORT}/health`
 3. Not healthy -> build `llama-server` if missing
-4. Find GGUF -> auto-download default small model if none found
+4. Find GGUF -> auto-download default Theseus-v3 model if none found
 5. Start `scripts/run-llama-server.sh`, set `POSEIDON_LLM_ENDPOINT` internally
+
+llama.cpp backend auto-detection:
+
+- NVIDIA with `nvidia-smi` -> CUDA build
+- AMD with ROCm tools (`hipcc` or `rocminfo`) -> HIP/ROCm build
+- Otherwise -> CPU build
+- Override with `POSEIDON_LLAMA_BACKEND=cuda|hip|rocm|vulkan|cpu`
 
 AI prompt structure:
 
@@ -335,6 +344,7 @@ Prompt injection is scored programmatically; AI never sees or scores it.
 | `POSEIDON_LLAMA_CTX` | `8192` | Context size |
 | `POSEIDON_LLAMA_THREADS` | `nproc` | CPU threads |
 | `POSEIDON_LLAMA_GPU_LAYERS` | `99` | GPU offload layers |
+| `POSEIDON_LLAMA_BACKEND` | auto | llama.cpp backend: `cuda`, `hip`, `rocm`, `vulkan`, or `cpu` |
 | `POSEIDON_LLAMA_BUILD_JOBS` | `nproc` | Build parallelism |
 | `POSEIDON_LLAMA_VULKAN` | `OFF` | Vulkan GPU build |
 | `POSEIDON_LLAMA_VULKAN_SDK` | `/tmp/vulkan-sdk` | Vulkan SDK path |
