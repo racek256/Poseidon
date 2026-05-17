@@ -1,67 +1,187 @@
 # Poseidon
 
+Poseidon is a local-first phishing defense engine that combines deterministic security signals with a fine-tuned 1B LLM. It analyzes messages, extracts URLs, checks threat intelligence, detects brand impersonation, learns new brand identities, remembers unsafe messages, and returns an explainable risk decision.
+
+Built for hackathon evaluation: fast local demo, visible model improvement, real benchmarks, and an architecture deep enough to extend beyond a prototype.
+
 ---
 
 ## TODO
 
 ### In Progress
 
-- [ ] **Benchmark open-source 1B models** — Evaluate ~1B parameter models (Qwen2.5, SmolLM2, Granite, etc.) on phishing/security benchmarks to select the best base for finetuning
-- [ ] **Custom finetuned AI model** — Replace generic LLM with a distilled 1B-parameter model finetuned on DeepSeek-labeled phishing data
-- [ ] **Self-learning detection system** — Continuously improve algorithmic phishing using brand learning, domain reputation feedback, and benchmark iteration
-- [ ] **AI Supply chain attack detection** — Use AI to flag supply chain attacks, before they hit any databases 
+- [ ] **Self-learning detection system** - Continuously improve algorithmic phishing using brand learning, domain reputation feedback, and benchmark iteration
+- [ ] **AI supply chain attack detection** - Use AI to flag supply chain attacks before they hit public vulnerability databases
 
 ### Completed Milestones
 
-- [x] **Supply chain attack detection** — Detect malicious packages, typosquatted dependencies, compromised registries in messages
-- [x] **Basic threat detection** — URL extraction, WHOIS lookups, 8 threat intel feeds (URLhaus, PhishTank, MetaMask, etc.), 17 feed format parsers
-- [x] **Brand impersonation detection** — 2000+ brand Wikidata catalog, Levenshtein typo detection, phishing keyword scoring, hosting provider checks, alias matching
-- [x] **Online enrichment system** — Parallel DNS/WHOIS/HTTP page analysis, favicon SHA256 matching, credential/card/OTP field detection, external form actions, redirect tracking
-- [x] **URL queue & worker** — Priority-based queuing, offline enrichment processing, evidence storage, configurable batch limits
-- [x] **Message memory** — Simhash64 fuzzy matching, exact hash lookup, Hamming distance similarity, risk adjustment, raw/redacted storage
-- [x] **LLM integration** — Ollama + OpenAI-compatible endpoints, llama.cpp auto-build/auto-download, two-model support (assessment + summary)
-- [x] **Scoring engine** — Weighted multi-layer scoring, decision thresholds (Block/WarnB/WarnS/WarnR/Allow), AI evidence gating, urgency/prompt-injection detection
-- [x] **Domain reputation** — Per-user safe/bad observation tracking, boost levels, auto-enqueue for brand learning
-- [x] **Brand learning** — Auto-discover brands from page metadata (JSON-LD, OG tags, analytics IDs), runtime brand merging, Tranco rank confidence
-- [x] **Benchmark suite** — Brand (offline/online), phishing (built-in + HF 200K), message memory, isolated DBs
-- [x] **Finetuning pipeline** — DeepSeek-labeled dataset generator, realtime JSONL checkpointing, resume support, progress bar, error recovery
-- [x] **Documentation** — architecture.md, README with flag tables, flow diagrams, command reference, benchmark results
+- [x] **Custom finetuned AI model** - Replace generic LLM with a distilled 1B-parameter model finetuned on DeepSeek-labeled phishing data
+- [x] **Supply chain attack detection** - Detect malicious packages, typosquatted dependencies, compromised registries in messages
+- [x] **Basic threat detection** - URL extraction, WHOIS lookups, 8 threat intel feeds, 17 feed format parsers
+- [x] **Brand impersonation detection** - 2000+ brand Wikidata catalog, typo detection, phishing keyword scoring, hosting provider checks, alias matching
+- [x] **Online enrichment system** - Parallel DNS/WHOIS/HTTP page analysis, favicon SHA256 matching, credential/card/OTP field detection, external form actions, redirect tracking
+- [x] **URL queue & worker** - Priority-based queuing, offline enrichment processing, evidence storage, configurable batch limits
+- [x] **Message memory** - Simhash64 fuzzy matching, exact hash lookup, Hamming distance similarity, risk adjustment, raw/redacted storage
+- [x] **LLM integration** - Ollama + OpenAI-compatible endpoints, llama.cpp auto-build/auto-download, two-model support
+- [x] **Scoring engine** - Weighted multi-layer scoring, decision thresholds, AI evidence gating, urgency/prompt-injection detection
+- [x] **Domain reputation** - Per-user safe/bad observation tracking, boost levels, auto-enqueue for brand learning
+- [x] **Brand learning** - Auto-discover brands from page metadata, runtime brand merging, Tranco rank confidence
+- [x] **Benchmark suite** - Brand, phishing, message memory, isolated DBs
+- [x] **Benchmark ~1B models** - Evaluated Gemma 3 1B, Theseus v1, and Theseus v2 on phishing benchmarks
+- [x] **Finetuning pipeline** - DeepSeek-labeled dataset generator, realtime JSONL checkpointing, resume support, progress bar, error recovery
+
+---
+
+## Why It Matters
+
+Phishing filters often fail in two opposite ways: they miss suspicious messages that use new infrastructure, or they over-block legitimate business mail. Poseidon targets the middle ground: high-confidence warnings backed by interpretable evidence.
+
+Core idea: do not trust one signal. Combine URL reputation, brand impersonation, known threat feeds, message memory, deterministic heuristics, and a small fine-tuned model that understands email context.
+
+---
+
+## Highlights
+
+- **Fine-tuned local model:** `Theseus-v2-1e`, based on Gemma 3 1B, trained on DeepSeek-labeled phishing/email assessments.
+- **Strong precision improvement:** false positives dropped from `33` to `0` on the email benchmark versus base Gemma 3 1B.
+- **Runs locally:** llama.cpp OpenAI-compatible server, no hosted model required for inference.
+- **Auto-downloads the model:** fresh clones fetch `Theseus-v2-1e.gguf` on first local inference setup.
+- **Explainable scoring:** every result includes scores, flags, URL evidence, brand details, and final decision.
+- **Brand impersonation detection:** 2000+ brand catalog, typo matching, hosting-provider detection, favicon evidence, learned runtime brands.
+- **Threat intelligence:** URLhaus, PhishTank, MetaMask, phishing blocklists, and more.
+- **Self-improving memory:** exact and fuzzy unsafe-message lookup using Simhash64.
+- **Benchmark-first workflow:** isolated benchmark DBs, reproducible JSONL datasets, AI/no-AI comparison paths.
+
+---
+
+## What can you verify
+
+- Run one command to start the API. Or start interactive version with `cargo run -- --interactive`
+- Send a phishing message and inspect the full evidence trail.
+- Run the default benchmark and reproduce the fine-tuned model score.
+- Swap the GGUF model path to compare base Gemma against Theseus.
+- Inspect the training dataset generator and benchmark implementation in `src/bin/finetune_dataset.rs` and `src/modules/phishing_benchmark.rs`.
+
+---
+
+## Demo
+
+Start the API:
+
+```sh
+cargo run --release
+```
+
+Analyze a phishing-style message:
+
+```sh
+curl -s http://127.0.0.1:8080/analyse \
+  -H 'content-type: application/json' \
+  -d '{"message":"Security alert: your Microsoft mailbox will close today. Sign in at https://microsoft-verify.pages.dev/account to keep access."}'
+```
+
+Run the showcase benchmark:
+
+```sh
+POSEIDON_BENCHMARK_AI=true cargo run --release -- benchmark-phishing
+```
+
+Interactive TUI:
+
+```sh
+cargo run --release -- --interactive
+```
+
+---
+
+## Benchmark Win
+
+Default benchmark: `data/benchmarks/phishing_emails_with_urls_100.jsonl`.
+
+This dataset is email-shaped: sender, recipient, subject, body, and URLs. It matches the distribution used for Theseus fine-tuning better than URL-only blacklists.
+
+| Model | TP | FP | TN | FN | Accuracy | Precision | Recall | F1 |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|
+| `Theseus-v2-1e` fine-tuned | 39 | 0 | 46 | 15 | **0.850** | **1.000** | 0.722 | **0.839** |
+| `Theseus-1e-q4_k_m` v1 fine-tuned | 46 | 14 | 32 | 8 | 0.780 | 0.767 | 0.852 | 0.807 |
+| `gemma-3-1b-it-Q4_K_M` base | 48 | 33 | 13 | 6 | 0.610 | 0.593 | 0.889 | 0.711 |
+
+Fine-tuning impact over base Gemma 3 1B:
+
+| Metric | Base Gemma | Theseus-v2-1e | Change |
+|---|---:|---:|---:|
+| Accuracy | 0.610 | **0.850** | +0.240 |
+| Precision | 0.593 | **1.000** | +0.407 |
+| False positives | 33 | **0** | -33 |
+| F1 | 0.711 | **0.839** | +0.128 |
+
+* Precision: how often unsafe warnings are correct.
+* Accuracy: how often all safe/unsafe decisions are correct.
+
+The fine-tuned model is intentionally conservative: it eliminates false positives on the email benchmark while still improving total accuracy and F1.
+
+---
+
+## How It Works
+
+```
+Message
+  |- Extract URLs
+  |- Check threat feeds
+  |- Detect brand impersonation
+  |- Query URL reputation and learned brand DB
+  |- Compare against unsafe-message memory
+  |- Ask local fine-tuned LLM for phishing/risk/impersonation scores
+  `- Combine evidence into Allow | Warn Receiver | Warn Both | Block
+```
+
+Detection layers:
+
+| Layer | Purpose |
+|---|---|
+| Threat feeds | Known malicious URLs/domains from public intelligence sources |
+| Brand impersonation | Detect fake Microsoft, PayPal, Apple, GitHub, bank, and shipping domains |
+| Online enrichment | DNS, WHOIS, HTTP metadata, forms, favicon matches, redirect evidence |
+| Brand learning | Discover new legitimate brand identities from page metadata |
+| Domain reputation | Per-user safe/bad observations with reputation boost levels |
+| Message memory | Exact hash + Simhash fuzzy matching for repeated attacks |
+| Local LLM | Context-aware phishing/risk assessment using a fine-tuned 1B model |
+
+---
+
+## Model
+
+`Theseus-v2` is a QLoRA fine-tune of Gemma 3 1B Instruct. It was trained to emit compact JSON security assessments:
+
+```json
+{"phishing": 0, "impersonation": 0, "risk": 0, "confidence": 0, "flags": []}
+```
+
+Training pipeline:
+
+1. Build exact runtime prompts from email messages and Poseidon URL context.
+2. Label prompts with DeepSeek JSON responses.
+3. Fine-tune Gemma 3 1B using Unsloth QLoRA on ROCm/Colab-compatible settings.
+4. Merge adapter, convert to GGUF, quantize to Q4_K_M for llama.cpp inference.
+
+Generated model files are stored in `models/` and intentionally gitignored.
 
 ---
 
 ## Quickstart
 
 ```sh
-cargo run
-```
-- For an interactive TUI use `cargo run -- --interactive`
-
-- API on `127.0.0.1:8080`
-- llama.cpp on `127.0.0.1:8081` (auto-built, model auto-downloaded)
-- Threat intel feeds ingested at startup
-- DBs: `poseidon_urls.duckdb`, `poseidon_messages.duckdb`
-
-```sh
-curl http://127.0.0.1:8080/health
-curl -s http://127.0.0.1:8080/analyse \
-  -H 'content-type: application/json' \
-  -d '{"message":"verify your account at http://example.com/login"}'
+cargo run --release
 ```
 
----
+Runtime defaults:
 
-## Detection Pipeline
+- API: `127.0.0.1:8080`
+- llama.cpp: `127.0.0.1:8081`
+- URL DB: `poseidon_urls.duckdb`
+- Message memory DB: `poseidon_messages.duckdb`
 
-```
-Message ─┬─ Threat Feed Check ───── URLhaus, PhishTank, MetaMask, 8 feeds
-          ├─ Brand Impersonation ─── 2000+ brand catalog, typo detection, hosting provider check
-          ├─ Online Enrichment ───── DNS, WHOIS, HTTP page, favicon matching, credential fields
-          ├─ Brand Learning ──────── JSON-LD, OG tags, auto-discover runtime brands
-          ├─ Domain Reputation ───── Per-user safe/bad observations → boost levels
-          ├─ Message Memory ──────── Simhash similarity against known unsafe messages
-          ├─ LLM Assessment ──────── llama.cpp/Ollama/OpenAI → phishing/risk/impersonation scores
-          └─ Scoring ─────────────── Weighted combination → Allow | Warn | Block
-```
+If no local LLM endpoint is configured, Poseidon can build/start llama.cpp and auto-download `Theseus-v2-1e.gguf` into `models/`.
 
 ---
 
@@ -76,7 +196,7 @@ Message ─┬─ Threat Feed Check ───── URLhaus, PhishTank, MetaMask
 | Field | Type | Description |
 |---|---|---|
 | `decision` | string | `allow`, `warn_sender`, `warn_receiver`, `warn_both`, `block` |
-| `overall_risk` | int | 0–100 final risk score |
+| `overall_risk` | int | 0-100 final risk score |
 | `scores` | object | `phishing`, `secret`, `prompt_injection`, `url_reputation`, `impersonation`, `risk` |
 | `flags` | string[] | Human-readable signals |
 | `urls` | object[] | Per-URL risk, DB state, tags, brand details |
@@ -114,14 +234,26 @@ cargo run -- inspect-domain-reputation <dom>   # Show domain reputation
 ### Benchmarks
 
 ```sh
-cargo run -- benchmark-phishing                       # Built-in dataset (~500 rows)
-cargo run -- benchmark-phishing-full                  # HF dataset (200K rows, offline)
-cargo run -- benchmark-phishing-full-online            # HF dataset + online enrichment
+POSEIDON_BENCHMARK_AI=true cargo run -- benchmark-phishing
+# Default model benchmark: email-shaped phishing dataset
+
+POSEIDON_BENCHMARK_DATASET=data/benchmarks/phishing_messages.jsonl cargo run -- benchmark-phishing
+# Synthetic URL/brand dataset (110 rows)
+
+cargo run -- benchmark-phishing-full                   # HF dataset (200K rows, offline)
+cargo run -- benchmark-phishing-full-online            # HF dataset with online enrichment
 POSEIDON_BENCHMARK_AI=true cargo run -- benchmark-phishing-full-online
-cargo run -- benchmark-brand                           # Offline brand detection (27 cases)
-cargo run -- benchmark-online-brand                    # Online enrichment (29 URLs)
-cargo run -- benchmark-brand-learning                  # Brand identity discovery
-cargo run -- download-phishing-benchmark               # Download HF dataset
+```
+
+Other benchmarks:
+
+```sh
+cargo run -- benchmark-brand             # Offline brand detection
+cargo run -- benchmark-online-brand      # Online enrichment
+cargo run -- benchmark-brand-learning    # Brand identity discovery
+cargo run -- download-phishing-benchmark # Download HF dataset
+
+POSEIDON_HF_DATASET='puyang2025/seven-phishing-email-datasets' POSEIDON_HF_SPLITS=train POSEIDON_HF_REQUIRE_URLS=true cargo run -- download-phishing-benchmark data/benchmarks/phishing_emails_with_urls.jsonl
 ```
 
 ### Finetuning Dataset Generation
@@ -138,7 +270,8 @@ POSEIDON_FINETUNE_DRY_RUN=true POSEIDON_FINETUNE_LIMIT=1 cargo run --bin finetun
 
 ```sh
 bash scripts/build-llama-server.sh     # Build llama-server from source
-bash scripts/download-model.sh small   # Download default GGUF (Gemma 3 1B)
+bash scripts/download-model.sh         # Download default GGUF (Theseus-v2-1e)
+bash scripts/download-model.sh small   # Download base Gemma 3 1B fallback
 bash scripts/run-llama-server.sh       # Start llama.cpp manually
 ```
 
@@ -148,10 +281,10 @@ bash scripts/run-llama-server.sh       # Start llama.cpp manually
 
 Startup priority:
 
-1. `POSEIDON_LLM_ENDPOINT` set → use external OpenAI-compatible endpoint, skip local
+1. `POSEIDON_LLM_ENDPOINT` set -> use external OpenAI-compatible endpoint, skip local
 2. Check `http://{POSEIDON_LLAMA_HOST}:{POSEIDON_LLAMA_PORT}/health`
-3. Not healthy → build `llama-server` if missing
-4. Find GGUF → auto-download default small model if none found
+3. Not healthy -> build `llama-server` if missing
+4. Find GGUF -> auto-download default small model if none found
 5. Start `scripts/run-llama-server.sh`, set `POSEIDON_LLM_ENDPOINT` internally
 
 AI prompt structure:
@@ -175,22 +308,7 @@ AI response format:
 {"phishing": 0, "impersonation": 0, "risk": 0, "confidence": 0, "flags": []}
 ```
 
-Prompt injection is scored programmatically — AI never sees or scores it.
-
----
-
-## Benchmark Results
-
-100-case Hugging Face phishing benchmark:
-
-| Mode | TP | FP | Acc | Precision | Recall | F1 |
-|---|---:|---:|---:|---:|---:|---:|
-| AI offline | 3 | 1 | 0.580 | 0.750 | 0.068 | 0.125 |
-| Online, no AI | 4 | 0 | 0.600 | 1.000 | 0.091 | 0.167 |
-| AI + online, `gemma4:e2b` | 9 | 0 | 0.650 | 1.000 | 0.205 | 0.340 |
-| AI + online, `gemma4:e4b` | 18 | 0 | 0.740 | 1.000 | 0.409 | 0.581 |
-
-Conservative scoring favoring zero false positives. Recall ceiling is weak URL evidence on blacklist-style positives.
+Prompt injection is scored programmatically; AI never sees or scores it.
 
 ---
 
@@ -210,7 +328,7 @@ Conservative scoring favoring zero false positives. Recall ceiling is weak URL e
 | `POSEIDON_OLLAMA_MODEL` | `gemma4:e2b` / GGUF stem | Model name for Ollama/OpenAI endpoints |
 | `POSEIDON_OLLAMA_SUMMARY_MODEL` | assessment model | Model for high-risk summaries |
 | `POSEIDON_LLAMA_AUTO_SETUP` | enabled | `false` to skip auto build/download |
-| `POSEIDON_LLAMA_MODEL` | first `*.gguf` | Exact GGUF path |
+| `POSEIDON_LLAMA_MODEL` | preferred local GGUF | Exact GGUF path |
 | `POSEIDON_MODELS_DIR` | `models/` | GGUF search directory |
 | `POSEIDON_LLAMA_HOST` | `127.0.0.1` | llama.cpp host |
 | `POSEIDON_LLAMA_PORT` | `8081` | llama.cpp port |
@@ -220,7 +338,7 @@ Conservative scoring favoring zero false positives. Recall ceiling is weak URL e
 | `POSEIDON_LLAMA_BUILD_JOBS` | `nproc` | Build parallelism |
 | `POSEIDON_LLAMA_VULKAN` | `OFF` | Vulkan GPU build |
 | `POSEIDON_LLAMA_VULKAN_SDK` | `/tmp/vulkan-sdk` | Vulkan SDK path |
-| `POSEIDON_GGUF_URL` | unset | Custom GGUF download URL |
+| `POSEIDON_GGUF_URL` | Theseus-v2 release URL | Custom GGUF download URL |
 
 ### Databases
 
@@ -252,7 +370,7 @@ Conservative scoring favoring zero false positives. Recall ceiling is weak URL e
 | `POSEIDON_BENCHMARK_AI` | `false` | Enable AI during benchmarks |
 | `POSEIDON_BENCHMARK_LIMIT` | all | Max cases to process |
 | `POSEIDON_BENCHMARK_OFFSET` | `0` | Skip N cases |
-| `POSEIDON_BENCHMARK_DATASET` | built-in | Custom JSONL dataset path |
+| `POSEIDON_BENCHMARK_DATASET` | email benchmark | Custom JSONL dataset path |
 | `POSEIDON_BENCHMARK_PERSIST_DB` | `false` | Persist benchmark DBs |
 
 Isolated DB paths:
@@ -326,26 +444,26 @@ poseidon_context Full Poseidon detection result
 ## Detection Layers
 
 ```
-Layer 0  Threat Feed Check        URLhaus, PhishTank, MetaMask, BlackBook, …
+Layer 0  Threat Feed Check        URLhaus, PhishTank, MetaMask, BlackBook, etc.
 Layer 1  Brand Impersonation      2000+ brand catalog, Levenshtein typo, phishing keywords
 Layer 2  Online Enrichment        DNS, WHOIS age, HTTP page, favicon, credential fields
-Layer 3  Brand Identity Learning  JSON-LD, OG tags, canonical URLs → auto-learn runtime brands
-Layer 4  Domain Reputation        Per-user safe/bad observations → +5/+10/+15 boost
+Layer 3  Brand Identity Learning  JSON-LD, OG tags, canonical URLs -> auto-learn runtime brands
+Layer 4  Domain Reputation        Per-user safe/bad observations -> +5/+10/+15 boost
 Layer 5  Message Memory           Simhash64 similarity against known unsafe messages
-Layer 6  LLM Assessment           llama.cpp / Ollama / OpenAI → phishing, impersonation, risk
+Layer 6  LLM Assessment           llama.cpp / Ollama / OpenAI -> phishing, impersonation, risk
 ```
 
 Decision thresholds:
 
 | Condition | Action |
 |---|---|
-| `overall_risk ≥ 90` or `secret ≥ 85` | **Block** |
-| `overall_risk ≥ 75` | **Warn Both** |
-| `prompt_injection ≥ 60` | **Warn Sender** |
-| `overall_risk ≥ 45` | **Warn Receiver** |
+| `overall_risk >= 90` or `secret >= 85` | **Block** |
+| `overall_risk >= 75` | **Warn Both** |
+| `prompt_injection >= 60` | **Warn Sender** |
+| `overall_risk >= 45` | **Warn Receiver** |
 | else | **Allow** |
 
-AI scores weighted at 100% unless `prompt_injection ≥ 80` (→ weighted at 30%).  
+AI scores weighted at 100% unless `prompt_injection >= 80` (weighted at 30%).
 AI-only medium scores capped at 40 when no supporting URL, urgency, secret, or prompt-injection evidence.
 
 ---
@@ -354,29 +472,29 @@ AI-only medium scores capped at 40 when no supporting URL, urgency, secret, or p
 
 ```
 .
-├── Cargo.toml                     # Rust edition 2024
-├── src/
-│   ├── main.rs                    # CLI router + API server startup
-│   ├── lib.rs                     # Module exports
-│   ├── bin/
-│   │   ├── finetune_dataset.rs    # DeepSeek-labeled finetuning dataset generator
-│   │   ├── brand_scraper.rs       # Wikidata brand catalog builder
-│   │   └── tranco_importer.rs     # Tranco top-1M domain rank importer
-│   └── modules/
-│       ├── api.rs                 # Raw TCP HTTP API (no framework)
-│       ├── scoring.rs             # Core scoring engine
-│       ├── ai.rs                  # LLM integration (Ollama + OpenAI-compatible)
-│       ├── llm_server.rs          # llama.cpp lifecycle management
-│       ├── web.rs                 # URL extraction + WHOIS
-│       ├── phishing_benchmark.rs  # Benchmark pipeline
-│       ├── message_memory/        # Simhash unsafe-message memory
-│       ├── url_db/                # DuckDB URL reputation/evidence/queue/brand learning
-│       ├── threat_intel/          # Feed ingestion (8 sources, 17 formats)
-│       └── url_analysis/          # Brand, online, enrichment, domain, hosting, page metadata
-├── scripts/                       # llama.cpp build/download/run
-├── data/                          # Brand data, favicon hashes, benchmarks
-├── external/llama.cpp             # llama.cpp submodule
-└── models/                        # GGUF models (gitignored)
+|-- Cargo.toml                     # Rust edition 2024
+|-- src/
+|   |-- main.rs                    # CLI router + API server startup
+|   |-- lib.rs                     # Module exports
+|   |-- bin/
+|   |   |-- finetune_dataset.rs    # DeepSeek-labeled finetuning dataset generator
+|   |   |-- brand_scraper.rs       # Wikidata brand catalog builder
+|   |   `-- tranco_importer.rs     # Tranco top-1M domain rank importer
+|   `-- modules/
+|       |-- api.rs                 # Raw TCP HTTP API (no framework)
+|       |-- scoring.rs             # Core scoring engine
+|       |-- ai.rs                  # LLM integration (Ollama + OpenAI-compatible)
+|       |-- llm_server.rs          # llama.cpp lifecycle management
+|       |-- web.rs                 # URL extraction + WHOIS
+|       |-- phishing_benchmark.rs  # Benchmark pipeline
+|       |-- message_memory/        # Simhash unsafe-message memory
+|       |-- url_db/                # DuckDB URL reputation/evidence/queue/brand learning
+|       |-- threat_intel/          # Feed ingestion (8 sources, 17 formats)
+|       `-- url_analysis/          # Brand, online, enrichment, domain, hosting, page metadata
+|-- scripts/                       # llama.cpp build/download/run
+|-- data/                          # Brand data, favicon hashes, benchmarks
+|-- external/llama.cpp             # llama.cpp submodule
+`-- models/                        # GGUF models (gitignored)
 ```
 
 ---

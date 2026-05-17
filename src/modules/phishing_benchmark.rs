@@ -10,7 +10,7 @@ use crate::modules::scoring::{self, Decision};
 use crate::modules::threat_intel::ThreatIntel;
 use crate::modules::url_db::UrlDb;
 
-const DATASET: &str = include_str!("../../data/benchmarks/phishing_messages.jsonl");
+const DATASET: &str = include_str!("../../data/benchmarks/phishing_emails_with_urls_100.jsonl");
 const DEFAULT_HF_DATASET: &str = "cybersectony/PhishingEmailDetectionv2.0";
 const DEFAULT_HF_CONFIG: &str = "default";
 const DEFAULT_HF_SPLITS: &[&str] = &["train", "validation", "test"];
@@ -30,6 +30,10 @@ pub fn run() -> Result<(), String> {
 }
 
 pub fn run_full() -> Result<(), String> {
+    if let Some(cases) = load_custom_cases()? {
+        return run_cases(cases, false);
+    }
+
     let requested_rows = benchmark_limit().unwrap_or(FULL_DATASET_EXPECTED_ROWS);
     let existing_rows = count_lines(FULL_DATASET_PATH).unwrap_or(0);
     if existing_rows < requested_rows {
@@ -58,6 +62,10 @@ pub fn run_full() -> Result<(), String> {
 }
 
 pub fn run_full_online() -> Result<(), String> {
+    if let Some(cases) = load_custom_cases()? {
+        return run_cases(cases, true);
+    }
+
     let requested_rows = benchmark_limit().unwrap_or(FULL_DATASET_EXPECTED_ROWS);
     let existing_rows = count_lines(FULL_DATASET_PATH).unwrap_or(0);
     if existing_rows < requested_rows {
@@ -227,15 +235,22 @@ fn set_temp_db_if_missing(env_key: &str, path: &str) -> Result<(), String> {
 }
 
 fn load_cases() -> Result<Vec<Case>, String> {
-    if let Ok(path) = std::env::var("POSEIDON_BENCHMARK_DATASET") {
-        return load_cases_from_text(
-            &std::fs::read_to_string(&path).map_err(|err| {
-                format!("failed to read POSEIDON_BENCHMARK_DATASET {path}: {err}")
-            })?,
-        );
+    if let Some(cases) = load_custom_cases()? {
+        return Ok(cases);
     }
 
     load_cases_from_text(DATASET)
+}
+
+fn load_custom_cases() -> Result<Option<Vec<Case>>, String> {
+    if let Ok(path) = std::env::var("POSEIDON_BENCHMARK_DATASET") {
+        return Ok(Some(load_cases_from_text(
+            &std::fs::read_to_string(&path).map_err(|err| {
+                format!("failed to read POSEIDON_BENCHMARK_DATASET {path}: {err}")
+            })?,
+        )?));
+    }
+    Ok(None)
 }
 
 fn load_cases_from_text(dataset: &str) -> Result<Vec<Case>, String> {
@@ -283,9 +298,9 @@ fn load_cases_from_text(dataset: &str) -> Result<Vec<Case>, String> {
                 .to_string(),
         });
     }
-    if cases.len() < 1 {
+    if cases.len() < 100 {
         return Err(format!(
-            "benchmark needs at least 1 cases, got {}",
+            "benchmark needs at least 100 cases, got {}",
             cases.len()
         ));
     }
@@ -342,6 +357,15 @@ fn download_huggingface_dataset_to(output: &str, max_rows: Option<usize>) -> Res
             .and_then(|value| value.parse::<u64>().ok())
             .unwrap_or(750),
     );
+    let require_urls = std::env::var("POSEIDON_HF_REQUIRE_URLS")
+        .is_ok_and(|value| matches!(value.as_str(), "1" | "true" | "TRUE" | "yes" | "YES"));
+    let preprocess = std::env::var("POSEIDON_HF_PREPROCESS")
+        .is_ok_and(|value| matches!(value.as_str(), "1" | "true" | "TRUE" | "yes" | "YES"));
+    let balanced = std::env::var("POSEIDON_HF_BALANCED")
+        .is_ok_and(|value| matches!(value.as_str(), "1" | "true" | "TRUE" | "yes" | "YES"));
+    let balanced_target = max_rows.filter(|_| balanced).map(|limit| limit / 2);
+    let mut unsafe_written = 0_usize;
+    let mut safe_written = 0_usize;
 
     for split in splits {
         let mut offset = 0_usize;
@@ -380,23 +404,36 @@ fn download_huggingface_dataset_to(output: &str, max_rows: Option<usize>) -> Res
                 let payload = row
                     .get("row")
                     .ok_or_else(|| "huggingface row missing row payload".to_string())?;
-                let content = payload
-                    .get("content")
-                    .and_then(Value::as_str)
-                    .ok_or_else(|| "huggingface row missing content".to_string())?;
-                let label = payload
-                    .get("label")
-                    .and_then(Value::as_i64)
-                    .ok_or_else(|| "huggingface row missing label".to_string())?;
-                let expected_unsafe = matches!(label, 1 | 3);
+                if require_urls && !row_has_url(payload) {
+                    continue;
+                }
+                let message = benchmark_message(payload)?;
+                if preprocess && !keep_finetune_message(&message) {
+                    continue;
+                }
+                let expected_unsafe = benchmark_expected_unsafe(&dataset, payload)?;
+                if let Some(target) = balanced_target {
+                    if expected_unsafe {
+                        if unsafe_written >= target {
+                            continue;
+                        }
+                    } else if safe_written >= target {
+                        continue;
+                    }
+                }
                 let benchmark_row = json!({
                     "id": format!("hf-{split}-{row_idx}"),
                     "expected_unsafe": expected_unsafe,
-                    "message": content
+                    "message": message
                 });
                 writeln!(writer, "{benchmark_row}")
                     .map_err(|err| format!("failed to write {output}: {err}"))?;
                 written += 1;
+                if expected_unsafe {
+                    unsafe_written += 1;
+                } else {
+                    safe_written += 1;
+                }
             }
 
             offset += rows.len();
@@ -404,7 +441,7 @@ fn download_huggingface_dataset_to(output: &str, max_rows: Option<usize>) -> Res
                 break;
             }
             if written % 10_000 == 0 {
-                println!("downloaded {written} rows");
+                println!("downloaded {written} rows ({unsafe_written} unsafe, {safe_written} safe)");
             }
             std::thread::sleep(page_delay);
         }
@@ -467,6 +504,143 @@ fn fetch_huggingface_page(client: &Client, url: &str) -> Result<String, String> 
     }
 
     Err(format!("huggingface rate limit persisted for {url}"))
+}
+
+fn benchmark_message(payload: &Value) -> Result<String, String> {
+    if let Some(content) = payload.get("content").and_then(Value::as_str) {
+        return Ok(content.to_string());
+    }
+    if let Some(combined_text) = payload.get("combined_text").and_then(Value::as_str) {
+        return Ok(combined_text.to_string());
+    }
+    if let Some(email_text) = payload.get("Email Text").and_then(Value::as_str) {
+        return Ok(email_text.to_string());
+    }
+    if let Some(sms_text) = payload.get("sms_text").and_then(Value::as_str) {
+        return Ok(sms_text.to_string());
+    }
+
+    let body = payload
+        .get("text")
+        .or_else(|| payload.get("body"))
+        .and_then(Value::as_str)
+        .ok_or_else(|| "huggingface row missing message text".to_string())?;
+    let mut parts = Vec::new();
+    push_header(&mut parts, "Subject", payload.get("subject"));
+    push_header(&mut parts, "From", payload.get("sender"));
+    push_header(&mut parts, "To", payload.get("receiver"));
+    parts.push(body.trim().to_string());
+    Ok(parts.join("\n"))
+}
+
+fn push_header(parts: &mut Vec<String>, name: &str, value: Option<&Value>) {
+    if let Some(value) = value.and_then(Value::as_str) {
+        if !value.trim().is_empty() {
+            parts.push(format!("{name}: {}", value.trim()));
+        }
+    }
+}
+
+fn benchmark_expected_unsafe(dataset: &str, payload: &Value) -> Result<bool, String> {
+    if let Some(label) = payload.get("label").and_then(Value::as_i64) {
+        return Ok(if dataset == DEFAULT_HF_DATASET {
+            matches!(label, 1 | 3)
+        } else {
+            label != 0
+        });
+    }
+    if let Some(email_type) = payload.get("Email Type").and_then(Value::as_str) {
+        return Ok(email_type.to_lowercase().contains("phishing"));
+    }
+    Err("huggingface row missing label".to_string())
+}
+
+fn row_has_url(payload: &Value) -> bool {
+    if let Some(urls) = payload.get("urls") {
+        if urls.as_i64().is_some_and(|count| count > 0)
+            || urls.as_array().is_some_and(|urls| !urls.is_empty())
+            || urls.as_str().is_some_and(|urls| !urls.trim().is_empty())
+        {
+            return true;
+        }
+    }
+    if payload
+        .get("url_count")
+        .and_then(Value::as_i64)
+        .is_some_and(|count| count > 0)
+    {
+        return true;
+    }
+    if payload
+        .get("contains_url")
+        .and_then(Value::as_bool)
+        .unwrap_or(false)
+    {
+        return true;
+    }
+    benchmark_message(payload).is_ok_and(|message| {
+        let message = message.to_lowercase();
+        message.contains("http://") || message.contains("https://") || message.contains("www.")
+    })
+}
+
+fn keep_finetune_message(message: &str) -> bool {
+    let text = message.trim();
+    let char_count = text.chars().count();
+    if !(80..=6_000).contains(&char_count) {
+        return false;
+    }
+
+    let mut letters = 0_usize;
+    let mut ascii_letters = 0_usize;
+    let mut symbols = 0_usize;
+    let mut whitespace = 0_usize;
+    let mut longest_repeat = 0_usize;
+    let mut current_repeat = 0_usize;
+    let mut previous = None;
+
+    for ch in text.chars() {
+        if ch.is_alphabetic() {
+            letters += 1;
+            if ch.is_ascii_alphabetic() {
+                ascii_letters += 1;
+            }
+        } else if ch.is_whitespace() {
+            whitespace += 1;
+        } else if !ch.is_ascii_digit() && !matches!(ch, '.' | ',' | ':' | ';' | '/' | '-' | '_' | '@' | '?' | '&' | '=' | '%' | '#' | '+' | '\'' | '"' | '(' | ')') {
+            symbols += 1;
+        }
+
+        if Some(ch) == previous && !ch.is_alphanumeric() && !ch.is_whitespace() {
+            current_repeat += 1;
+        } else {
+            current_repeat = 1;
+            previous = Some(ch);
+        }
+        longest_repeat = longest_repeat.max(current_repeat);
+    }
+
+    if letters < 40 || whitespace < 8 {
+        return false;
+    }
+    let total = char_count.max(1) as f64;
+    let alpha_ratio = letters as f64 / total;
+    let ascii_alpha_ratio = ascii_letters as f64 / letters.max(1) as f64;
+    let symbol_ratio = symbols as f64 / total;
+
+    alpha_ratio >= 0.45
+        && ascii_alpha_ratio >= 0.85
+        && symbol_ratio <= 0.12
+        && longest_repeat <= 12
+        && !has_noisy_repetition(text)
+}
+
+fn has_noisy_repetition(text: &str) -> bool {
+    let lowered = text.to_lowercase();
+    let noisy_patterns = ["* * * * *", "_ _ _ _ _", "- - - - -", "= = = = ="];
+    noisy_patterns
+        .iter()
+        .any(|pattern| lowered.matches(pattern).count() >= 2)
 }
 
 fn count_lines(path: &str) -> Option<usize> {

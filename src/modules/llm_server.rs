@@ -47,10 +47,10 @@ fn ensure_local_server(endpoint: &str) -> Result<(), String> {
         None => {
             run_setup_script(
                 &project_dir.join("scripts/download-model.sh"),
-                "downloading default GGUF model",
+                "downloading default Theseus-v2 GGUF model",
             )?;
             find_model(&project_dir).ok_or_else(|| {
-                "no GGUF model found after download; set POSEIDON_LLAMA_MODEL or run scripts/download-model.sh small"
+                "no GGUF model found after download; set POSEIDON_LLAMA_MODEL or run scripts/download-model.sh theseus-v2"
                     .to_string()
             })?
         }
@@ -126,11 +126,25 @@ fn find_model(project_dir: &Path) -> Option<PathBuf> {
     let models_dir = std::env::var("POSEIDON_MODELS_DIR")
         .map(PathBuf::from)
         .unwrap_or_else(|_| project_dir.join("models"));
-    fs::read_dir(models_dir)
+    for name in [
+        "Theseus-v2-1e.gguf",
+        "Theseus-1e-q4_k_m.gguf",
+        "gemma-3-1b-it-Q4_K_M.gguf",
+        "gemma-3-1b-it-Q4_0.gguf",
+    ] {
+        let path = models_dir.join(name);
+        if path.is_file() {
+            return Some(path);
+        }
+    }
+    let mut models = fs::read_dir(models_dir)
         .ok()?
         .filter_map(Result::ok)
         .map(|entry| entry.path())
-        .find(|path| path.extension().is_some_and(|ext| ext == "gguf"))
+        .filter(|path| path.extension().is_some_and(|ext| ext == "gguf"))
+        .collect::<Vec<_>>();
+    models.sort();
+    models.into_iter().next()
 }
 
 fn endpoint_healthy(endpoint: &str, timeout: Duration) -> bool {

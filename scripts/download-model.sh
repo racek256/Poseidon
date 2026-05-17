@@ -6,20 +6,22 @@ PROJECT_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
 
 echo "=== Download GGUF model ==="
 
-MODEL_VARIANT="${1:-small}"
+MODEL_VARIANT="${1:-theseus-v2}"
 
 if [ -z "$MODEL_VARIANT" ]; then
     echo "Usage: bash scripts/download-model.sh <variant>"
     echo
     echo "Variants:"
-    echo "  small   - Gemma 3 1B IT Q4_0      (~1 GB, default)"
-    echo "  medium  - Gemma 4 4B IT Q4_K_M    (~3 GB)"
-    echo "  large   - Gemma 4 12B IT Q4_K_M   (~8 GB)"
+    echo "  theseus-v2 - Poseidon Theseus v2 1B Q4_K_M (~769 MB, default)"
+    echo "  theseus-v1 - Poseidon Theseus v1 1B Q4_K_M (~967 MB)"
+    echo "  small      - Gemma 3 1B IT Q4_0             (~1 GB)"
+    echo "  medium     - Gemma 4 4B IT Q4_K_M           (~3 GB)"
+    echo "  large      - Gemma 4 12B IT Q4_K_M          (~8 GB)"
     echo
     echo "Set POSEIDON_MODELS_DIR to change download directory (default: models/)"
     echo "Set POSEIDON_GGUF_URL to use a custom HuggingFace GGUF model URL"
     echo
-    echo "Without a variant, this script downloads 'small'."
+    echo "Without a variant, this script downloads 'theseus-v2'."
     echo "After download, run: cargo run"
     exit 1
 fi
@@ -32,6 +34,14 @@ if [ -n "${POSEIDON_GGUF_URL:-}" ]; then
     FILENAME="$(basename "$URL")"
 else
     case "$MODEL_VARIANT" in
+        theseus-v2)
+            URL="https://github.com/racek256/Poseidon/releases/download/theseus-v2-1e/Theseus-v2-1e.gguf"
+            FILENAME="Theseus-v2-1e.gguf"
+            ;;
+        theseus-v1)
+            URL="https://github.com/racek256/Poseidon/releases/download/theseus-v1-1e/Theseus-1e-q4_k_m.gguf"
+            FILENAME="Theseus-1e-q4_k_m.gguf"
+            ;;
         small)
             URL="https://huggingface.co/unsloth/gemma-3-1b-it-GGUF/resolve/main/gemma-3-1b-it-Q4_0.gguf"
             FILENAME="gemma-3-1b-it-Q4_0.gguf"
@@ -46,7 +56,7 @@ else
             ;;
         *)
             echo "Unknown variant: $MODEL_VARIANT"
-            echo "Use: small, medium, or large"
+            echo "Use: theseus-v2, theseus-v1, small, medium, or large"
             exit 1
             ;;
     esac

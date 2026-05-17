@@ -173,17 +173,24 @@ fn generate_openai(
     json_format: bool,
     endpoint: &str,
 ) -> Result<Value, String> {
+    let max_tokens = std::env::var("POSEIDON_LLM_MAX_TOKENS")
+        .ok()
+        .and_then(|value| value.parse::<u32>().ok())
+        .unwrap_or(if json_format { 256 } else { 64 });
     let mut body = json!({
         "model": model,
         "messages": [
             {"role": "user", "content": prompt}
         ],
         "temperature": 0.1,
-        "max_tokens": if json_format { 256 } else { 64 },
+        "max_tokens": max_tokens,
         "stream": false
     });
     if json_format {
         body["response_format"] = json!({"type": "json_object"});
+    }
+    if let Ok(think) = std::env::var("POSEIDON_LLM_THINK") {
+        body["think"] = json!(matches!(think.as_str(), "1" | "true" | "TRUE" | "yes" | "YES"));
     }
 
     let url = format!("{}/chat/completions", endpoint.trim_end_matches('/'));
@@ -210,6 +217,11 @@ fn generate_openai(
 
     let content = strip_code_fences(&raw_content).trim().to_string();
     if content.is_empty() {
+        if std::env::var("POSEIDON_LLM_DEBUG_RAW")
+            .is_ok_and(|value| matches!(value.as_str(), "1" | "true" | "TRUE" | "yes" | "YES"))
+        {
+            return Err(format!("llm endpoint returned empty content; raw response: {raw}"));
+        }
         return Err(format!(
             "llm endpoint returned empty content: {raw_content}"
         ));

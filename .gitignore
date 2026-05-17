@@ -1,6 +1,7 @@
 /target
 
 # DuckDB runtime databases
+/data/db/
 *.duckdb
 *.duckdb.wal
 
@@ -8,16 +9,28 @@
 external/llama.cpp/build/
 
 # Downloaded GGUF models
-models/
+/models/
 
-llama-server.log
+# logs
+/logs/
+*.log
+tmp/
 
 # Generated finetuning corpora and labels
 data/finetune/
-venv_rocm
-venv
-.venv
-.venv_rocm
+
+# Local Hugging Face dataset snapshots
+data/hf/
+
+# Python virtual environments
+.venv/
+.venv_rocm/
+__pycache__/
+*.pyc
+
+# Unsloth cache
 unsloth_compiled_cache/
+_unsloth_temporary_saved_buffers/
+.tmp_extract/
 
 .env

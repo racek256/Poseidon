@@ -71,7 +71,7 @@ Poseidon/
 │           └── analysis_cache.rs     # TTL-based caching for git URLs and commits
 ├── scripts/
 │   ├── build-llama-server.sh         # Builds llama.cpp from source
-│   ├── download-model.sh             # Downloads GGUF models (small/medium/large)
+│   ├── download-model.sh             # Downloads GGUF models (Theseus/default + fallback variants)
 │   ├── run-llama-server.sh           # Starts llama.cpp server
 │   └── finetune/                     # Unsloth QLoRA finetuning pipeline
 │       ├── install.sh                # ROCm-aware Unsloth + dependencies install
@@ -79,7 +79,8 @@ Poseidon/
 │       └── train.py                  # QLoRA training script → GGUF export
 ├── data/
 │   ├── benchmarks/                   # Benchmark datasets (JSONL)
-│   │   ├── phishing_messages.jsonl   # Built-in phishing benchmark (bundled)
+│   │   ├── phishing_emails_with_urls_100.jsonl # Built-in email phishing benchmark (bundled)
+│   │   ├── phishing_messages.jsonl   # Synthetic URL/brand phishing benchmark
 │   │   ├── phishing_hf_500.jsonl     # HuggingFace sample (500 rows)
 │   │   └── phishing_hf_200k.jsonl    # Full HuggingFace dataset (200K rows)
 │   ├── brand_catalog.json            # Wikidata-sourced brand catalog
@@ -1010,7 +1011,7 @@ The `message_memory` module detects repeated or similar phishing messages:
 - `benchmark-brand-learning`: 8 known URLs, tests brand identity discovery pipeline
 
 ### Phishing Detection Benchmarks
-- `benchmark-phishing`: Built-in dataset (`data/benchmarks/phishing_messages.jsonl`, ~500 rows)
+- `benchmark-phishing`: Built-in email dataset (`data/benchmarks/phishing_emails_with_urls_100.jsonl`, 100 rows)
 - `benchmark-phishing-full`: Downloads `cybersectony/PhishingEmailDetectionv2.0` from HuggingFace (200K rows)
 - `benchmark-phishing-full-online`: Same but with online URL enrichment enabled
 - `download-phishing-benchmark`: Standalone downloader for the HF dataset

@@ -18,6 +18,7 @@ const MAX_PROMPT_CHARS: usize = 32_000;
 const DEEPSEEK_RETRIES: u32 = 2;
 const DEEPSEEK_TIMEOUT_SECS: u64 = 45;
 
+#[derive(Clone)]
 struct Config {
     input: Option<PathBuf>,
     output: PathBuf,
@@ -28,6 +29,19 @@ struct Config {
     deepseek_url: String,
     deepseek_model: String,
     api_key: Option<String>,
+    concurrency: usize,
+}
+
+struct PreparedRow {
+    id: String,
+    row: Value,
+    prompt: String,
+}
+
+struct LabelledRow {
+    id: String,
+    row: Value,
+    error: Option<String>,
 }
 
 impl Config {
@@ -44,6 +58,9 @@ impl Config {
             deepseek_url: env_string("DEEPSEEK_API_URL", DEFAULT_DEEPSEEK_URL),
             deepseek_model: env_string("DEEPSEEK_MODEL", DEFAULT_DEEPSEEK_MODEL),
             api_key: std::env::var("DEEPSEEK_API_KEY").ok(),
+            concurrency: env_usize("POSEIDON_FINETUNE_CONCURRENCY")
+                .unwrap_or(1)
+                .max(1),
         }
     }
 }
@@ -85,10 +102,7 @@ fn generate_rows(client: &Client, config: &Config, input_path: &Path) -> Result<
         modules::message_memory::MessageMemory::from_env().map_err(|err| err.to_string())?;
     threat_intel.update_if_due();
 
-    let raw = std::fs::read_to_string(input_path)
-        .map_err(|err| format!("failed to read {}: {err}", input_path.display()))?;
-    let entries: Vec<Value> =
-        serde_json::from_str(&raw).map_err(|err| format!("invalid json: {err}"))?;
+    let entries = load_input_entries(input_path)?;
 
     let total = entries.len();
     let limit = config.limit.unwrap_or(total);
@@ -97,8 +111,8 @@ fn generate_rows(client: &Client, config: &Config, input_path: &Path) -> Result<
     let already_done = completed.len();
 
     eprintln!(
-        "input: {total} entries | offset={} | completed={already_done} | target={target}",
-        config.offset
+        "input: {total} entries | offset={} | completed={already_done} | target={target} | concurrency={}",
+        config.offset, config.concurrency
     );
 
     if target == 0 || already_done >= target {
@@ -128,10 +142,11 @@ fn generate_rows(client: &Client, config: &Config, input_path: &Path) -> Result<
     let mut error_count = 0_u32;
     let mut skip_count = 0_u32;
     let mut seen = 0_usize;
+    let mut batch = Vec::with_capacity(config.concurrency);
     let started = Instant::now();
 
     for (index, entry) in entries.iter().enumerate() {
-        if success_count as usize >= target {
+        if success_count as usize + batch.len() >= target {
             break;
         }
         seen += 1;
@@ -139,11 +154,24 @@ fn generate_rows(client: &Client, config: &Config, input_path: &Path) -> Result<
             continue;
         }
 
-        let label = entry.get("label").and_then(Value::as_u64).unwrap_or(0);
+        let expected_unsafe = entry
+            .get("expected_unsafe")
+            .and_then(Value::as_bool)
+            .unwrap_or_else(|| entry.get("label").and_then(Value::as_u64).unwrap_or(0) == 1);
+        let label = u64::from(expected_unsafe);
         let has_url = entry
             .get("has_url")
             .and_then(Value::as_bool)
-            .unwrap_or(false);
+            .unwrap_or_else(|| {
+                entry
+                    .get("message")
+                    .or_else(|| entry.get("text"))
+                    .and_then(Value::as_str)
+                    .is_some_and(|text| {
+                        let text = text.to_lowercase();
+                        text.contains("http://") || text.contains("https://") || text.contains("www.")
+                    })
+            });
         let source = entry
             .get("source")
             .and_then(Value::as_str)
@@ -151,6 +179,7 @@ fn generate_rows(client: &Client, config: &Config, input_path: &Path) -> Result<
 
         let text = entry
             .get("text")
+            .or_else(|| entry.get("message"))
             .and_then(Value::as_str)
             .unwrap_or("")
             .trim();
@@ -189,47 +218,50 @@ fn generate_rows(client: &Client, config: &Config, input_path: &Path) -> Result<
             MAX_PROMPT_CHARS,
         );
 
-        let assistant_raw = if config.dry_run {
-            "{\"phishing\":100,\"impersonation\":0,\"risk\":90,\"confidence\":50,\"flags\":[\"dry_run\"]}"
-                .to_string()
-        } else {
-            match call_deepseek_with_retry(client, config, &prompt) {
-                Ok(raw) => raw,
-                Err(err) => {
-                    eprintln!("\nerror on {id}: {err}");
-                    error_count += 1;
-                    pb.set_message(format!("{} success, {} errors", success_count, error_count));
-                    continue;
-                }
-            }
-        };
-
-        let assistant_json = serde_json::from_str::<Value>(&assistant_raw)
-            .unwrap_or_else(|_| json!({ "parse_error": true, "raw": assistant_raw.clone() }));
-
         let row = json!({
             "id": id,
             "source": {
-                "dataset": "nazario",
+                "dataset": input_path.file_name().and_then(|name| name.to_str()).unwrap_or("unknown"),
                 "original_source": source,
                 "index": index,
                 "label": label,
                 "has_url": has_url,
-                "expected_unsafe": label == 1
+                "expected_unsafe": expected_unsafe
             },
             "message": text,
             "url_context": url_context,
             "prompt": prompt,
-            "assistant_raw": assistant_raw,
-            "assistant_json": assistant_json,
             "poseidon_context": scoring.to_json()
         });
 
-        writeln!(writer, "{row}").map_err(|err| err.to_string())?;
-        writer.flush().map_err(|err| err.to_string())?;
-        success_count += 1;
-        pb.inc(1);
-        pb.set_message(format!("{} success, {} errors", success_count, error_count));
+        batch.push(PreparedRow {
+            id,
+            row,
+            prompt,
+        });
+        if batch.len() >= config.concurrency {
+            write_labelled_batch(
+                client,
+                config,
+                &mut writer,
+                &pb,
+                std::mem::take(&mut batch),
+                &mut success_count,
+                &mut error_count,
+            )?;
+        }
+    }
+
+    if !batch.is_empty() {
+        write_labelled_batch(
+            client,
+            config,
+            &mut writer,
+            &pb,
+            batch,
+            &mut success_count,
+            &mut error_count,
+        )?;
     }
 
     pb.finish_with_message(format!(
@@ -251,6 +283,107 @@ fn generate_rows(client: &Client, config: &Config, input_path: &Path) -> Result<
 
     Ok(())
 }
+
+fn write_labelled_batch(
+    client: &Client,
+    config: &Config,
+    writer: &mut BufWriter<std::fs::File>,
+    pb: &ProgressBar,
+    batch: Vec<PreparedRow>,
+    success_count: &mut u32,
+    error_count: &mut u32,
+) -> Result<(), String> {
+    let labelled = if config.dry_run || config.concurrency <= 1 {
+        batch
+            .into_iter()
+            .map(|prepared| label_one(client, config, prepared))
+            .collect::<Vec<_>>()
+    } else {
+        std::thread::scope(|scope| {
+            let mut handles = Vec::with_capacity(batch.len());
+            for prepared in batch {
+                let client = client.clone();
+                let config = config.clone();
+                handles.push(scope.spawn(move || label_one(&client, &config, prepared)));
+            }
+            handles
+                .into_iter()
+                .map(|handle| {
+                    handle.join().unwrap_or_else(|_| LabelledRow {
+                        id: "unknown".to_string(),
+                        row: json!({}),
+                        error: Some("labelling worker panicked".to_string()),
+                    })
+                })
+                .collect::<Vec<_>>()
+        })
+    };
+
+    for labelled in labelled {
+        if let Some(error) = labelled.error {
+            eprintln!("\nerror on {}: {error}", labelled.id);
+            *error_count += 1;
+            pb.set_message(format!("{} success, {} errors", success_count, error_count));
+            continue;
+        }
+        writeln!(writer, "{}", labelled.row).map_err(|err| err.to_string())?;
+        *success_count += 1;
+        pb.inc(1);
+        pb.set_message(format!("{} success, {} errors", success_count, error_count));
+    }
+    writer.flush().map_err(|err| err.to_string())?;
+    Ok(())
+}
+
+fn label_one(client: &Client, config: &Config, prepared: PreparedRow) -> LabelledRow {
+    let assistant_raw = if config.dry_run {
+        "{\"phishing\":100,\"impersonation\":0,\"risk\":90,\"confidence\":50,\"flags\":[\"dry_run\"]}"
+            .to_string()
+    } else {
+        match call_deepseek_with_retry(client, config, &prepared.prompt) {
+            Ok(raw) => raw,
+            Err(err) => {
+                return LabelledRow {
+                    id: prepared.id,
+                    row: prepared.row,
+                    error: Some(err),
+                };
+            }
+        }
+    };
+
+    let assistant_json = serde_json::from_str::<Value>(&assistant_raw)
+        .unwrap_or_else(|_| json!({ "parse_error": true, "raw": assistant_raw.clone() }));
+    let mut row = prepared.row;
+    row["assistant_raw"] = json!(assistant_raw);
+    row["assistant_json"] = assistant_json;
+    LabelledRow {
+        id: prepared.id,
+        row,
+        error: None,
+    }
+}
+
+fn load_input_entries(input_path: &Path) -> Result<Vec<Value>, String> {
+    let raw = std::fs::read_to_string(input_path)
+        .map_err(|err| format!("failed to read {}: {err}", input_path.display()))?;
+    if raw.trim_start().starts_with('[') {
+        return serde_json::from_str(&raw).map_err(|err| format!("invalid json array: {err}"));
+    }
+
+    let mut entries = Vec::new();
+    for (line_number, line) in raw.lines().enumerate() {
+        let line = line.trim();
+        if line.is_empty() {
+            continue;
+        }
+        entries.push(serde_json::from_str(line).map_err(|err| {
+            format!("invalid jsonl line {} in {}: {err}", line_number + 1, input_path.display())
+        })?);
+    }
+    Ok(entries)
+}
+
 fn call_deepseek_with_retry(
     client: &Client,
     config: &Config,
