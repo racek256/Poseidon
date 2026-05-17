@@ -89,6 +89,47 @@ def load_dataset_jsonl(path: str) -> list[dict]:
     return rows
 
 
+def assistant_predicts_unsafe(row: dict) -> bool | None:
+    assistant = row.get("assistant_json")
+    if not isinstance(assistant, dict):
+        raw = row.get("assistant_raw", "")
+        try:
+            assistant = json.loads(raw)
+        except Exception:
+            return None
+
+    scores = []
+    for key in ("phishing", "impersonation", "risk"):
+        value = assistant.get(key)
+        if isinstance(value, (int, float)):
+            scores.append(float(value))
+
+    if not scores:
+        return None
+    return max(scores) >= 50
+
+
+def expected_unsafe(row: dict) -> bool | None:
+    source = row.get("source")
+    if isinstance(source, dict) and "expected_unsafe" in source:
+        return bool(source["expected_unsafe"])
+    if isinstance(source, dict) and "label" in source:
+        return bool(source["label"])
+    if "expected_unsafe" in row:
+        return bool(row["expected_unsafe"])
+    if "label" in row:
+        return bool(row["label"])
+    return None
+
+
+def label_matches_expected(row: dict) -> bool:
+    expected = expected_unsafe(row)
+    predicted = assistant_predicts_unsafe(row)
+    if expected is None or predicted is None:
+        return True
+    return expected == predicted
+
+
 def format_conversation(row: dict) -> dict | None:
     prompt = row.get("prompt", "")
     response = row.get("assistant_raw", "")
@@ -110,10 +151,15 @@ def main():
     # Load and format dataset
     raw = load_dataset_jsonl(config.dataset)
     records = []
+    skipped_disagreement = 0
     for row in raw:
+        if not label_matches_expected(row):
+            skipped_disagreement += 1
+            continue
         conv = format_conversation(row)
         if conv is not None:
             records.append(conv)
+    print(f"Skipped {skipped_disagreement} rows where assistant label disagreed with expected_unsafe")
 
     if not records:
         print("ERROR: no valid training rows")
@@ -155,8 +201,46 @@ def main():
 
     # Format text field (remove <bos> since processor adds it)
     def fmt(example):
+        conversations = example["conversations"]
+        prompt = conversations[0]["content"]
+        response = conversations[1]["content"]
+
+        # TRL truncates from the right, which can remove the assistant JSON and
+        # make train_on_responses_only drop the whole row. Trim the user prompt
+        # from the left instead so the supervised response always survives.
+        response_tokens = tokenizer(response, add_special_tokens=False)["input_ids"]
+        prompt_tokens = tokenizer(prompt, add_special_tokens=False)["input_ids"]
+
+        for reserved in (64, 128, 256, 384, 512):
+            prompt_budget = config.max_len - len(response_tokens) - reserved
+            if prompt_budget <= 0:
+                continue
+
+            shortened_prompt = prompt
+            if len(prompt_tokens) > prompt_budget:
+                shortened_prompt = tokenizer.decode(
+                    prompt_tokens[-prompt_budget:], skip_special_tokens=True
+                )
+
+            text = tokenizer.apply_chat_template(
+                [
+                    {"role": "user", "content": shortened_prompt},
+                    {"role": "assistant", "content": response},
+                ],
+                tokenize=False,
+                add_generation_prompt=False,
+            ).removeprefix("<bos>")
+
+            if len(tokenizer(text, add_special_tokens=False)["input_ids"]) <= config.max_len:
+                return {"text": text}
+
         text = tokenizer.apply_chat_template(
-            example["conversations"], tokenize=False, add_generation_prompt=False
+            [
+                {"role": "user", "content": tokenizer.decode(prompt_tokens[-128:], skip_special_tokens=True)},
+                {"role": "assistant", "content": response},
+            ],
+            tokenize=False,
+            add_generation_prompt=False,
         ).removeprefix("<bos>")
         return {"text": text}
 

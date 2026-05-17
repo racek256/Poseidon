@@ -12,12 +12,12 @@ import torch
 from unsloth import FastLanguageModel
 from peft import PeftModel
 
-base_model = "google/gemma-3-1b-it"
-adapter_path = "models/finetuned/adapter"
-max_len = 768
-merged_dir = Path("models/finetuned/merged")
-gguf_bf16 = Path("models/Theseus-bf16.gguf")
-gguf_q4 = Path("models/Theseus-q4_k_m.gguf")
+base_model = os.environ.get("POSEIDON_EXPORT_BASE_MODEL", "google/gemma-3-1b-it")
+adapter_path = os.environ.get("POSEIDON_EXPORT_ADAPTER", "models/finetuned/adapter")
+max_len = int(os.environ.get("POSEIDON_EXPORT_MAX_LEN", "768"))
+merged_dir = Path(os.environ.get("POSEIDON_EXPORT_MERGED_DIR", "models/finetuned/merged"))
+gguf_bf16 = Path(os.environ.get("POSEIDON_EXPORT_BF16", "models/Theseus-bf16.gguf"))
+gguf_q4 = Path(os.environ.get("POSEIDON_EXPORT_Q4", "models/Theseus-q4_k_m.gguf"))
 llama_cpp = Path("external/llama.cpp/convert_hf_to_gguf.py")
 
 if not llama_cpp.exists():

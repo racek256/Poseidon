@@ -40,10 +40,10 @@ Core idea: do not trust one signal. Combine URL reputation, brand impersonation,
 
 ## Highlights
 
-- **Fine-tuned local model:** `Theseus-v2-1e`, based on Gemma 3 1B, trained on DeepSeek-labeled phishing/email assessments.
+- **Fine-tuned local model:** `Theseus-v3-1e`, based on Gemma 3 1B, trained on filtered DeepSeek-labeled phishing/email assessments.
 - **Strong precision improvement:** false positives dropped from `33` to `0` on the email benchmark versus base Gemma 3 1B.
 - **Runs locally:** llama.cpp OpenAI-compatible server, no hosted model required for inference.
-- **Auto-downloads the model:** fresh clones fetch `Theseus-v2-1e.gguf` on first local inference setup.
+- **Auto-downloads the model:** fresh clones fetch `Theseus-v3-1e.gguf` on first local inference setup.
 - **Explainable scoring:** every result includes scores, flags, URL evidence, brand details, and final decision.
 - **Brand impersonation detection:** 2000+ brand catalog, typo matching, hosting-provider detection, favicon evidence, learned runtime brands.
 - **Threat intelligence:** URLhaus, PhishTank, MetaMask, phishing blocklists, and more.
@@ -100,23 +100,24 @@ This dataset is email-shaped: sender, recipient, subject, body, and URLs. It mat
 
 | Model | TP | FP | TN | FN | Accuracy | Precision | Recall | F1 |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|
-| `Theseus-v2-1e` fine-tuned | 39 | 0 | 46 | 15 | **0.850** | **1.000** | 0.722 | **0.839** |
+| `Theseus-v3-1e` fine-tuned | 48 | 0 | 46 | 6 | **0.940** | **1.000** | **0.889** | **0.941** |
+| `Theseus-v2-1e` fine-tuned | 38 | 0 | 46 | 16 | 0.840 | **1.000** | 0.704 | 0.826 |
 | `Theseus-1e-q4_k_m` v1 fine-tuned | 46 | 14 | 32 | 8 | 0.780 | 0.767 | 0.852 | 0.807 |
 | `gemma-3-1b-it-Q4_K_M` base | 48 | 33 | 13 | 6 | 0.610 | 0.593 | 0.889 | 0.711 |
 
 Fine-tuning impact over base Gemma 3 1B:
 
-| Metric | Base Gemma | Theseus-v2-1e | Change |
+| Metric | Base Gemma | Theseus-v3-1e | Change |
 |---|---:|---:|---:|
-| Accuracy | 0.610 | **0.850** | +0.240 |
+| Accuracy | 0.610 | **0.940** | +0.330 |
 | Precision | 0.593 | **1.000** | +0.407 |
 | False positives | 33 | **0** | -33 |
-| F1 | 0.711 | **0.839** | +0.128 |
+| F1 | 0.711 | **0.941** | +0.230 |
 
 * Precision: how often unsafe warnings are correct.
 * Accuracy: how often all safe/unsafe decisions are correct.
 
-The fine-tuned model is intentionally conservative: it eliminates false positives on the email benchmark while still improving total accuracy and F1.
+The fine-tuned model eliminates false positives on the email benchmark while sharply improving recall, total accuracy, and F1.
 
 ---
 
@@ -149,7 +150,7 @@ Detection layers:
 
 ## Model
 
-`Theseus-v2` is a QLoRA fine-tune of Gemma 3 1B Instruct. It was trained to emit compact JSON security assessments:
+`Theseus-v3` is a QLoRA fine-tune of Gemma 3 1B Instruct. It was trained to emit compact JSON security assessments:
 
 ```json
 {"phishing": 0, "impersonation": 0, "risk": 0, "confidence": 0, "flags": []}
@@ -159,8 +160,9 @@ Training pipeline:
 
 1. Build exact runtime prompts from email messages and Poseidon URL context.
 2. Label prompts with DeepSeek JSON responses.
-3. Fine-tune Gemma 3 1B using Unsloth QLoRA on ROCm/Colab-compatible settings.
-4. Merge adapter, convert to GGUF, quantize to Q4_K_M for llama.cpp inference.
+3. Filter rows where DeepSeek's unsafe decision disagrees with the source label.
+4. Fine-tune Gemma 3 1B using Unsloth QLoRA on ROCm/Colab-compatible settings.
+5. Merge adapter, convert to GGUF, quantize to Q4_K_M for llama.cpp inference.
 
 Generated model files are stored in `models/` and intentionally gitignored.
 
@@ -179,7 +181,7 @@ Runtime defaults:
 - URL DB: `poseidon_urls.duckdb`
 - Message memory DB: `poseidon_messages.duckdb`
 
-If no local LLM endpoint is configured, Poseidon can build/start llama.cpp and auto-download `Theseus-v2-1e.gguf` into `models/`.
+If no local LLM endpoint is configured, Poseidon can build/start llama.cpp and auto-download `Theseus-v3-1e.gguf` into `models/`.
 
 ---
 
@@ -268,7 +270,7 @@ POSEIDON_FINETUNE_DRY_RUN=true POSEIDON_FINETUNE_LIMIT=1 cargo run --bin finetun
 
 ```sh
 bash scripts/build-llama-server.sh     # Build llama-server from source
-bash scripts/download-model.sh         # Download default GGUF (Theseus-v2-1e)
+bash scripts/download-model.sh         # Download default GGUF (Theseus-v3-1e)
 bash scripts/download-model.sh small   # Download base Gemma 3 1B fallback
 bash scripts/run-llama-server.sh       # Start llama.cpp manually
 ```
@@ -336,7 +338,7 @@ Prompt injection is scored programmatically; AI never sees or scores it.
 | `POSEIDON_LLAMA_BUILD_JOBS` | `nproc` | Build parallelism |
 | `POSEIDON_LLAMA_VULKAN` | `OFF` | Vulkan GPU build |
 | `POSEIDON_LLAMA_VULKAN_SDK` | `/tmp/vulkan-sdk` | Vulkan SDK path |
-| `POSEIDON_GGUF_URL` | Theseus-v2 release URL | Custom GGUF download URL |
+| `POSEIDON_GGUF_URL` | Theseus-v3 release URL | Custom GGUF download URL |
 
 ### Databases
 

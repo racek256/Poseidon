@@ -6,13 +6,14 @@ PROJECT_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
 
 echo "=== Download GGUF model ==="
 
-MODEL_VARIANT="${1:-theseus-v2}"
+MODEL_VARIANT="${1:-theseus-v3}"
 
 if [ -z "$MODEL_VARIANT" ]; then
     echo "Usage: bash scripts/download-model.sh <variant>"
     echo
     echo "Variants:"
-    echo "  theseus-v2 - Poseidon Theseus v2 1B Q4_K_M (~769 MB, default)"
+    echo "  theseus-v3 - Poseidon Theseus v3 1B Q4_K_M (~1.0 GB, default)"
+    echo "  theseus-v2 - Poseidon Theseus v2 1B Q4_K_M (~769 MB)"
     echo "  theseus-v1 - Poseidon Theseus v1 1B Q4_K_M (~967 MB)"
     echo "  small      - Gemma 3 1B IT Q4_0             (~1 GB)"
     echo "  medium     - Gemma 4 4B IT Q4_K_M           (~3 GB)"
@@ -21,7 +22,7 @@ if [ -z "$MODEL_VARIANT" ]; then
     echo "Set POSEIDON_MODELS_DIR to change download directory (default: models/)"
     echo "Set POSEIDON_GGUF_URL to use a custom HuggingFace GGUF model URL"
     echo
-    echo "Without a variant, this script downloads 'theseus-v2'."
+    echo "Without a variant, this script downloads 'theseus-v3'."
     echo "After download, run: cargo run"
     exit 1
 fi
@@ -34,6 +35,10 @@ if [ -n "${POSEIDON_GGUF_URL:-}" ]; then
     FILENAME="$(basename "$URL")"
 else
     case "$MODEL_VARIANT" in
+        theseus-v3)
+            URL="https://github.com/racek256/Poseidon/releases/download/theseus-v3-1e/Theseus-v3-1e.gguf"
+            FILENAME="Theseus-v3-1e.gguf"
+            ;;
         theseus-v2)
             URL="https://github.com/racek256/Poseidon/releases/download/theseus-v2-1e/Theseus-v2-1e.gguf"
             FILENAME="Theseus-v2-1e.gguf"
@@ -56,7 +61,7 @@ else
             ;;
         *)
             echo "Unknown variant: $MODEL_VARIANT"
-            echo "Use: theseus-v2, theseus-v1, small, medium, or large"
+            echo "Use: theseus-v3, theseus-v2, theseus-v1, small, medium, or large"
             exit 1
             ;;
     esac

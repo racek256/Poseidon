@@ -47,10 +47,10 @@ fn ensure_local_server(endpoint: &str) -> Result<(), String> {
         None => {
             run_setup_script(
                 &project_dir.join("scripts/download-model.sh"),
-                "downloading default Theseus-v2 GGUF model",
+                "downloading default Theseus-v3 GGUF model",
             )?;
             find_model(&project_dir).ok_or_else(|| {
-                "no GGUF model found after download; set POSEIDON_LLAMA_MODEL or run scripts/download-model.sh theseus-v2"
+                "no GGUF model found after download; set POSEIDON_LLAMA_MODEL or run scripts/download-model.sh theseus-v3"
                     .to_string()
             })?
         }
@@ -127,6 +127,7 @@ fn find_model(project_dir: &Path) -> Option<PathBuf> {
         .map(PathBuf::from)
         .unwrap_or_else(|_| project_dir.join("models"));
     for name in [
+        "Theseus-v3-1e.gguf",
         "Theseus-v2-1e.gguf",
         "Theseus-1e-q4_k_m.gguf",
         "gemma-3-1b-it-Q4_K_M.gguf",
