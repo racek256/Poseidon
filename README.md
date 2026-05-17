@@ -11,10 +11,10 @@ Poseidon is a local-first phishing defense engine that combines deterministic se
 ### In Progress
 
 - [ ] **Self-learning detection system** - Continuously improve algorithmic phishing using brand learning, domain reputation feedback, and benchmark iteration
-- [ ] **AI supply chain attack detection** - Use AI to flag supply chain attacks before they hit public vulnerability databases
 
 ### Completed Milestones
 
+- [x] **AI supply chain attack detection** - Use AI to flag supply chain attacks before they hit public vulnerability databases
 - [x] **Custom finetuned AI model** - Replace generic LLM with a distilled 1B-parameter model finetuned on DeepSeek-labeled phishing data
 - [x] **Supply chain attack detection** - Detect malicious packages, typosquatted dependencies, compromised registries in messages
 - [x] **Basic threat detection** - URL extraction, WHOIS lookups, 8 threat intel feeds, 17 feed format parsers
