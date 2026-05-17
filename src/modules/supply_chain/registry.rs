@@ -286,6 +286,7 @@ impl RegistryChecker {
         warnings
     }
 
+    #[allow(dead_code)]
     fn check_rubygems(&self, name: &str, version: &str) -> Vec<String> {
         let mut warnings = Vec::new();
         let url = format!("https://rubygems.org/api/v1/gems/{}.json", name);
@@ -356,6 +357,7 @@ impl RegistryChecker {
         warnings
     }
 
+    #[allow(dead_code)]
     fn check_packagist(&self, name: &str, version: &str) -> Vec<String> {
         let mut warnings = Vec::new();
         let url = format!("https://packagist.org/packages/{}.json", name);
@@ -438,6 +440,7 @@ impl RegistryChecker {
         warnings
     }
 
+    #[allow(dead_code)]
     fn check_go(&self, name: &str, version: &str) -> Vec<String> {
         let mut warnings = Vec::new();
         // Go module names contain slashes, pass them as-is in the URL path

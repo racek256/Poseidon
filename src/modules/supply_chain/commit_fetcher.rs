@@ -316,7 +316,7 @@ impl CommitFetcher {
             owner, repo, count
         );
 
-        let mut request = self.client.get(&url);
+        let request = self.client.get(&url);
 
         let response = request
             .send()
@@ -374,7 +374,7 @@ impl CommitFetcher {
 
             std::thread::sleep(Duration::from_millis(REQUEST_DELAY_MS));
 
-            let mut diff_request = self.client.get(diff_href);
+            let diff_request = self.client.get(diff_href);
 
             let diff_response = match diff_request.send() {
                 Ok(resp) => resp,
@@ -447,7 +447,7 @@ impl CommitFetcher {
 
         let gitea_response = request_builder.send();
 
-        let commits: Value = if let Ok(mut resp) = gitea_response {
+        let commits: Value = if let Ok(resp) = gitea_response {
             if resp.status().is_success() {
                 let body = resp.text().unwrap_or_default();
                 serde_json::from_str(&body).unwrap_or(Value::Null)
@@ -537,7 +537,7 @@ impl CommitFetcher {
 
             let diff =
                 if diff_response.is_ok() && diff_response.as_ref().unwrap().status().is_success() {
-                    let mut resp = diff_response.unwrap();
+                    let resp = diff_response.unwrap();
                     let text = resp.text().unwrap_or_default();
                     self.truncate_diff_with_max(&text, MAX_DIFF_BYTES)
                 } else {

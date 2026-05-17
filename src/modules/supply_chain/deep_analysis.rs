@@ -453,7 +453,7 @@ pub fn run_deep_analysis(
     // Since we don't have full tree info, we mark all packages as top-level initially
     // and track parent refs based on lockfile associations.
 
-    let mut parent_refs: HashMap<String, Vec<(String, String)>> = HashMap::new();
+    let parent_refs: HashMap<String, Vec<(String, String)>> = HashMap::new();
     let mut top_level_keys: HashSet<String> = HashSet::new();
 
     // All unique packages are initially treated as potential top-level
@@ -565,7 +565,7 @@ pub fn run_deep_analysis(
     let mut passing_packages: Vec<(String, String, String, QuickAnalysisResult)> = Vec::new();
     let mut failing_packages: Vec<(String, String, String, QuickAnalysisResult)> = Vec::new();
 
-    for (name, version, ecosystem, source) in &unique_packages {
+    for (name, version, ecosystem, _source) in &unique_packages {
         let key = format!("{}@{}@{}", name, version, ecosystem);
         if let Some(analysis) = quick_analysis_results.get(&key) {
             if analysis.verdict == AnalysisVerdict::Rejected {
@@ -635,7 +635,7 @@ pub fn run_deep_analysis(
         }
     }
 
-    for (git_url, package_keys) in &unique_git_urls {
+    for (git_url, _package_keys) in &unique_git_urls {
         let cache_key = git_url.replace("https://", "").replace("http://", "");
         let platform = git_url_finder.detect_hosting_platform(git_url);
 
@@ -667,7 +667,7 @@ pub fn run_deep_analysis(
     let llm_available = !llm_provider.is_empty();
     let mut all_commits_failed = true;
 
-    let llm_client = LlmClient::new();
+    let _llm_client = LlmClient::new();
     let max_parallel = 15;
     let mut all_commit_details: HashMap<String, Vec<CommitDetail>> = HashMap::new();
 
@@ -700,7 +700,7 @@ pub fn run_deep_analysis(
     let results = Arc::new(Mutex::new(Vec::new()));
     let in_flight = Arc::new(Mutex::new(0));
 
-    let total_commits = commits_to_analyze.len();
+    let _total_commits = commits_to_analyze.len();
     let mut handles = Vec::new();
 
     for (git_url, commit) in commits_to_analyze {

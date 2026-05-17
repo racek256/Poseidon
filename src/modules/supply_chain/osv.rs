@@ -59,11 +59,12 @@ struct OSVQueryResult {
 struct OSVVulnSummary {
     id: String,
     #[serde(default)]
+    #[allow(dead_code)]
     modified: Option<String>,
 }
 
 #[derive(Debug, Deserialize)]
-struct OSVFullVulnerability {
+pub struct OSVFullVulnerability {
     id: Option<String>,
     summary: Option<String>,
     details: Option<String>,

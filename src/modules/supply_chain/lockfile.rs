@@ -293,7 +293,6 @@ fn parse_package_lock_json(content: &str) -> Result<Vec<Package>, String> {
 fn parse_yarn_lock(content: &str) -> Result<Vec<Package>, String> {
     let ecosystem = Ecosystem::Npm;
     let mut packages = Vec::new();
-    let mut in_block = false;
     let mut current_name = String::new();
     let mut current_version = String::new();
 
@@ -319,11 +318,8 @@ fn parse_yarn_lock(content: &str) -> Result<Vec<Package>, String> {
                     }
                     current_name = before_at.to_string();
                     current_version = version.to_string();
-                    in_block = true;
                 }
             }
-        } else if line.is_empty() || line.starts_with('#') {
-            in_block = false;
         }
     }
 
@@ -697,7 +693,9 @@ struct MavenLockfile {
 
 #[derive(Deserialize)]
 struct MavenDependency {
-    artifactId: Option<String>,
+    #[allow(dead_code)]
+    #[serde(rename = "artifactId")]
+    artifact_id: Option<String>,
     version: Option<String>,
 }
 
@@ -710,7 +708,7 @@ fn parse_maven_lockfile_json(content: &str) -> Result<Vec<Package>, String> {
 
     if let Some(deps) = lockfile.dependencies {
         for dep in deps {
-            if let (Some(artifact), Some(version)) = (dep.artifactId, dep.version) {
+            if let (Some(artifact), Some(version)) = (dep.artifact_id, dep.version) {
                 if !artifact.is_empty() && !version.is_empty() {
                     packages.push(Package::new(artifact, version, ecosystem));
                 }

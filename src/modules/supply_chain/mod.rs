@@ -63,6 +63,7 @@ pub struct PackageIssue {
 }
 
 impl PackageIssue {
+    #[allow(dead_code)]
     fn new(description: String, level: WarningLevel) -> Self {
         Self { description, level }
     }
