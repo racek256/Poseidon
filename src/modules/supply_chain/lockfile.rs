@@ -352,7 +352,7 @@ fn parse_pnpm_lock_yaml(content: &str) -> Result<Vec<Package>, String> {
         if in_packages {
             if let Some(at_pos) = line.find('@') {
                 if at_pos > 0 {
-                    current_name = line[..at_pos].to_string();
+                    current_name = line[..at_pos].trim_start_matches('/').to_string();
                 }
             }
 
@@ -1214,7 +1214,7 @@ packages:
 "#;
         let packages = parse_pnpm_lock_yaml(content).unwrap();
         assert_eq!(packages.len(), 2);
-        assert_eq!(packages[0].name, "/lodash");
+        assert_eq!(packages[0].name, "lodash");
         assert_eq!(packages[0].version, "4.17.21");
         assert_eq!(packages[0].ecosystem, Ecosystem::Npm);
     }

@@ -12,6 +12,7 @@ mod popular_packages {
         "lodash",
         "express",
         "react",
+        "next",
         "axios",
         "chalk",
         "debug",
@@ -525,13 +526,12 @@ impl TyposquatChecker {
         let name_lower = name.to_lowercase();
         let popular = popular_packages::for_ecosystem(ecosystem);
 
-        let mut warnings = Vec::new();
-
-        for pkg in popular {
-            if name_lower == pkg.to_lowercase() {
-                return warnings;
-            }
+        // If the package name itself is a known popular package, it's not a typosquat
+        if popular.iter().any(|pkg| pkg.to_lowercase() == name_lower) {
+            return Vec::new();
         }
+
+        let mut warnings = Vec::new();
 
         // First: exact match on mutations against popular packages
         let mutations = generate_mutations(&name_lower);

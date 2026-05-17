@@ -1,6 +1,8 @@
 use Poseidon::modules;
 
 fn main() {
+    dotenvy::dotenv().ok();
+
     // Check for --interactive flag early, before subcommand processing
     let args: Vec<String> = std::env::args().collect();
     let interactive_mode = args.iter().any(|arg| arg == "--interactive");

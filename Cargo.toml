@@ -5,6 +5,7 @@ edition = "2024"
 default-run = "Poseidon"
 
 [dependencies]
+dotenvy = "0.15"
 chrono = "0.4.44"
 crossterm = "0.28"
 csv = "1.4.0"

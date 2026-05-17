@@ -104,10 +104,20 @@ pub struct DeepAnalysisSummary {
     pub api_calls_made: usize,
 }
 
+/// AI analysis status for the output JSON.
+#[derive(Debug, Clone, PartialEq)]
+pub enum AiStatus {
+    Ok,
+    NotConfigured,
+    Failed,
+}
+
 /// Full deep analysis output.
 #[derive(Debug, Clone)]
 pub struct DeepAnalysisOutput {
     pub analysis_timestamp: String,
+    pub ai_status: AiStatus,
+    pub error: Option<String>,
     pub lockfile_sources: Vec<String>,
     pub summary: DeepAnalysisSummary,
     pub tree: Vec<DependencyNode>,
@@ -498,23 +508,8 @@ pub fn run_deep_analysis(
         let mut issues: Vec<String> = Vec::new();
 
         for vuln in &vulns {
-            let severity_str = vuln
-                .severity
-                .as_ref()
-                .and_then(|s| s.score.as_deref())
-                .unwrap_or("medium");
-
-            let level = if severity_str.to_lowercase().contains("critical")
-                || severity_str.to_lowercase().contains("high")
-            {
-                WarningLevel::High
-            } else if severity_str.to_lowercase().contains("medium") {
-                WarningLevel::Medium
-            } else if severity_str.to_lowercase().contains("low") {
-                WarningLevel::Low
-            } else {
-                WarningLevel::Medium
-            };
+            let (_, level_str) = super::osv::resolve_severity(vuln);
+            let level = WarningLevel::from_vulnerability_severity(level_str);
 
             if level > warning_level {
                 warning_level = level;
@@ -522,7 +517,7 @@ pub fn run_deep_analysis(
             issues.push(format!(
                 "{}: {}",
                 vuln.id,
-                vuln.summary.as_deref().unwrap_or("No description")
+                super::osv::resolve_summary(vuln)
             ));
         }
 
@@ -668,9 +663,17 @@ pub fn run_deep_analysis(
     }
 
     // Step 8: AI analysis in parallel (max 15 concurrent)
+    let llm_provider = std::env::var("LLM_PROVIDER").unwrap_or_default();
+    let llm_available = !llm_provider.is_empty();
+    let mut all_commits_failed = true;
+
     let llm_client = LlmClient::new();
     let max_parallel = 15;
     let mut all_commit_details: HashMap<String, Vec<CommitDetail>> = HashMap::new();
+
+    if !llm_available {
+        bridge::elog("DeepAnalysis: LLM not configured (LLM_PROVIDER not set). Skipping AI commit analysis.");
+    }
 
     // Collect all commits to analyze
     let mut commits_to_analyze: Vec<(String, CommitInfo)> = Vec::new();
@@ -681,11 +684,18 @@ pub fn run_deep_analysis(
     }
 
     bridge::log(&format!(
-        "DeepAnalysis: analyzing {} commits with max {} parallel",
+        "DeepAnalysis: analyzing {} commits with max {} parallel (LLM available: {})",
         commits_to_analyze.len(),
-        max_parallel
+        max_parallel,
+        llm_available
     ));
 
+    if !llm_available {
+        all_commit_details = commits_by_url
+            .keys()
+            .map(|url| (url.clone(), Vec::new()))
+            .collect();
+    } else {
     // Process in batches of max_parallel
     let results = Arc::new(Mutex::new(Vec::new()));
     let in_flight = Arc::new(Mutex::new(0));
@@ -776,8 +786,17 @@ pub fn run_deep_analysis(
                 .entry(git_url.clone())
                 .or_default()
                 .push(detail.clone());
+
+            if detail.verdict != CommitVerdict::Uncertain
+                || detail.confidence != 0.0
+                || detail.reasons.len() != 1
+                || detail.reasons.first() != Some(&"LLM response could not be parsed".to_string())
+            {
+                all_commits_failed = false;
+            }
         }
     }
+    } 
 
     // Step 9: Aggregate verdicts per package
     let mut commit_analysis_results: HashMap<String, Option<CommitAnalysisResult>> = HashMap::new();
@@ -877,11 +896,27 @@ pub fn run_deep_analysis(
         api_calls_made,
     };
 
+    let (ai_status, error) = if !llm_available {
+        (AiStatus::NotConfigured, Some("LLM not configured. Set LLM_PROVIDER, PROVIDER_API_KEY, and LLM_MODEL environment variables.".to_string()))
+    } else if all_commits_failed {
+        (AiStatus::Failed, Some("LLM analysis failed — all commit responses could not be parsed. Check LLM configuration.".to_string()))
+    } else {
+        (AiStatus::Ok, None)
+    };
+
     let output = DeepAnalysisOutput {
         analysis_timestamp: now_timestamp(),
+        ai_status,
+        error,
         lockfile_sources,
         summary,
         tree,
+    };
+
+    let ai_status_str = match output.ai_status {
+        AiStatus::Ok => "ok",
+        AiStatus::NotConfigured => "not_configured",
+        AiStatus::Failed => "failed",
     };
 
     // Convert to JSON
@@ -889,6 +924,8 @@ pub fn run_deep_analysis(
 
     json!({
         "analysis_timestamp": output.analysis_timestamp,
+        "ai_status": ai_status_str,
+        "error": output.error,
         "lockfile_sources": output.lockfile_sources,
         "summary": {
             "total_packages": output.summary.total_packages,
@@ -1089,5 +1126,43 @@ mod tests {
         let s = now_timestamp();
         assert!(s.contains("Z"));
         assert!(s.contains("."));
+    }
+
+    #[test]
+    fn test_ai_status_partial_eq() {
+        assert_eq!(AiStatus::Ok, AiStatus::Ok);
+        assert_eq!(AiStatus::NotConfigured, AiStatus::NotConfigured);
+        assert_eq!(AiStatus::Failed, AiStatus::Failed);
+        assert_ne!(AiStatus::Ok, AiStatus::NotConfigured);
+        assert_ne!(AiStatus::Ok, AiStatus::Failed);
+        assert_ne!(AiStatus::NotConfigured, AiStatus::Failed);
+    }
+
+    #[test]
+    fn test_ai_status_display_conversion() {
+        let status_ok = AiStatus::Ok;
+        let status_not_configured = AiStatus::NotConfigured;
+        let status_failed = AiStatus::Failed;
+
+        let ok_str = match status_ok {
+            AiStatus::Ok => "ok",
+            AiStatus::NotConfigured => "not_configured",
+            AiStatus::Failed => "failed",
+        };
+        assert_eq!(ok_str, "ok");
+
+        let not_configured_str = match status_not_configured {
+            AiStatus::Ok => "ok",
+            AiStatus::NotConfigured => "not_configured",
+            AiStatus::Failed => "failed",
+        };
+        assert_eq!(not_configured_str, "not_configured");
+
+        let failed_str = match status_failed {
+            AiStatus::Ok => "ok",
+            AiStatus::NotConfigured => "not_configured",
+            AiStatus::Failed => "failed",
+        };
+        assert_eq!(failed_str, "failed");
     }
 }

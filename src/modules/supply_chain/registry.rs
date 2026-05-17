@@ -286,6 +286,214 @@ impl RegistryChecker {
         warnings
     }
 
+    fn check_rubygems(&self, name: &str, version: &str) -> Vec<String> {
+        let mut warnings = Vec::new();
+        let url = format!("https://rubygems.org/api/v1/gems/{}.json", name);
+
+        let body = match self.http_client.get(&url).send() {
+            Ok(response) => {
+                match response.error_for_status() {
+                    Ok(resp) => resp.text(),
+                    Err(e) => {
+                        bridge::elog(&format!("RubyGems error for {}/{}: {}", name, version, e));
+                        return warnings;
+                    }
+                }
+            }
+            Err(e) => {
+                bridge::elog(&format!(
+                    "RubyGems request failed for {}/{}: {}",
+                    name, version, e
+                ));
+                return warnings;
+            }
+        };
+
+        let body = match body {
+            Ok(text) => text,
+            Err(e) => {
+                bridge::elog(&format!("RubyGems read error for {}/{}: {}", name, version, e));
+                return warnings;
+            }
+        };
+
+        let json: Value = match serde_json::from_str(&body) {
+            Ok(v) => v,
+            Err(e) => {
+                bridge::elog(&format!(
+                    "RubyGems parse error for {}/{}: {}",
+                    name, version, e
+                ));
+                return warnings;
+            }
+        };
+
+        if let Some(created_at) = json.get("created_at").or(json.pointer("/gem/raw_created_at")) {
+            if let Some(date_str) = created_at.as_str() {
+                if let Ok(created_date) = chrono::DateTime::parse_from_rfc3339(date_str) {
+                    let days_since =
+                        chrono::Utc::now().signed_duration_since(created_date).num_days();
+                    if days_since < 7 {
+                        warnings.push(format!(
+                            "RubyGems gem {}/{} is very new (created {} days ago)",
+                            name, version, days_since
+                        ));
+                    }
+                }
+            }
+        }
+
+        // Check if version matches (RubyGems returns latest version in info, not specific version)
+        if let Some(info_version) = json.get("version").and_then(|v| v.as_str()) {
+            if info_version != version {
+                warnings.push(format!(
+                    "RubyGems gem {}/{} requested but latest is {}",
+                    name, version, info_version
+                ));
+            }
+        }
+
+        warnings
+    }
+
+    fn check_packagist(&self, name: &str, version: &str) -> Vec<String> {
+        let mut warnings = Vec::new();
+        let url = format!("https://packagist.org/packages/{}.json", name);
+
+        let body = match self.http_client.get(&url).send() {
+            Ok(response) => {
+                match response.error_for_status() {
+                    Ok(resp) => resp.text(),
+                    Err(e) => {
+                        bridge::elog(&format!("Packagist error for {}/{}: {}", name, version, e));
+                        return warnings;
+                    }
+                }
+            }
+            Err(e) => {
+                bridge::elog(&format!(
+                    "Packagist request failed for {}/{}: {}",
+                    name, version, e
+                ));
+                return warnings;
+            }
+        };
+
+        let body = match body {
+            Ok(text) => text,
+            Err(e) => {
+                bridge::elog(&format!("Packagist read error for {}/{}: {}", name, version, e));
+                return warnings;
+            }
+        };
+
+        let json: Value = match serde_json::from_str(&body) {
+            Ok(v) => v,
+            Err(e) => {
+                bridge::elog(&format!("Packagist parse error for {}/{}: {}", name, version, e));
+                return warnings;
+            }
+        };
+
+        // Packagist JSON: { "package": { "name": "...", "description": "...", "versions": { ... } } }
+        let package = match json.get("package") {
+            Some(p) => p,
+            None => {
+                warnings.push(format!(
+                    "Packagist package {}/{} not found in registry",
+                    name, version
+                ));
+                return warnings;
+            }
+        };
+
+        // Check if specific version exists
+        if let Some(versions) = package.get("versions").and_then(|v| v.as_object()) {
+            if !versions.contains_key(version) {
+                warnings.push(format!(
+                    "Packagist package {}/{} version not found in registry",
+                    name, version
+                ));
+            }
+
+            // Check for recent publish time
+            if let Some(version_info) = versions.get(version).or_else(|| versions.values().next()) {
+                if let Some(time_obj) = version_info.get("time") {
+                    if let Some(date_str) = time_obj.as_str() {
+                        if let Ok(publish_date) = chrono::DateTime::parse_from_rfc3339(date_str) {
+                            let days_since =
+                                chrono::Utc::now().signed_duration_since(publish_date).num_days();
+                            if days_since < 7 {
+                                warnings.push(format!(
+                                    "Packagist package {}/{} is very new (published {} days ago)",
+                                    name, version, days_since
+                                ));
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        warnings
+    }
+
+    fn check_go(&self, name: &str, version: &str) -> Vec<String> {
+        let mut warnings = Vec::new();
+        // Go module names contain slashes, pass them as-is in the URL path
+        let url = format!("https://proxy.golang.org/{}/@v/{}.info", name, version);
+
+        let body = match self.http_client.get(&url).send() {
+            Ok(response) => {
+                match response.error_for_status() {
+                    Ok(resp) => resp.text(),
+                    Err(e) => {
+                        bridge::elog(&format!("Go registry error for {}/{}: {}", name, version, e));
+                        return warnings;
+                    }
+                }
+            }
+            Err(e) => {
+                bridge::elog(&format!("Go registry request failed for {}/{}: {}", name, version, e));
+                return warnings;
+            }
+        };
+
+        let body = match body {
+            Ok(text) => text,
+            Err(e) => {
+                bridge::elog(&format!("Go registry read error for {}/{}: {}", name, version, e));
+                return warnings;
+            }
+        };
+
+        let json: Value = match serde_json::from_str(&body) {
+            Ok(v) => v,
+            Err(e) => {
+                bridge::elog(&format!("Go registry parse error for {}/{}: {}", name, version, e));
+                return warnings;
+            }
+        };
+
+        // Go proxy JSON: { "Name": "v1.0.0", "Version": "v1.0.0", "Time": "2023-01-01T00:00:00Z" }
+        if let Some(time_val) = json.get("Time") {
+            if let Some(date_str) = time_val.as_str() {
+                if let Ok(publish_date) = chrono::DateTime::parse_from_rfc3339(date_str) {
+                    let days_since =
+                        chrono::Utc::now().signed_duration_since(publish_date).num_days();
+                    if days_since < 7 {
+                        warnings.push(format!(
+                            "Go module {}/{} is very new (published {} days ago)",
+                            name, version, days_since
+                        ));
+                    }
+                }
+            }
+        }
+
+        warnings
+    }
+
     fn check_generic_registry(&self, _name: &str, _version: &str, _ecosystem: &str) -> Vec<String> {
         Vec::new()
     }

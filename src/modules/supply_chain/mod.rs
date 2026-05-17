@@ -16,7 +16,7 @@ use analysis_cache::AnalysisCache;
 use commit_fetcher::CommitFetcher;
 use get_dependency_git_url::GitUrlFinder;
 use lockfile::{detect_lockfile_type, parse_lockfile};
-use osv::{OSVClient, Package as OSVPackage};
+use osv::{OSVClient, Package as OSVPackage, resolve_severity, resolve_summary};
 use registry::RegistryChecker;
 use typosquat::TyposquatChecker;
 
@@ -159,7 +159,7 @@ impl SupplyChainScanner {
         if lockfile_type.is_none() {
             bridge::elog("SupplyChainScanner: unknown lockfile type");
             return json!({
-                "overall_sentiment": "safe",
+                "overall_sentiment": "error",
                 "packages": [],
                 "summary": "Unknown lockfile type",
                 "error": "Could not detect lockfile type from filename"
@@ -181,7 +181,7 @@ impl SupplyChainScanner {
                     e
                 ));
                 return json!({
-                    "overall_sentiment": "safe",
+                    "overall_sentiment": "error",
                     "packages": [],
                     "summary": &format!("Failed to parse lockfile: {}", e)
                 });
@@ -233,19 +233,10 @@ impl SupplyChainScanner {
             // Step 3: Process vulnerabilities from OSV
             if i < vulnerability_results.len() {
                 for vuln in &vulnerability_results[i] {
-                    let severity_str = vuln
-                        .severity
-                        .as_ref()
-                        .and_then(|s| s.score.as_deref())
-                        .unwrap_or("medium");
-
-                    let level = WarningLevel::from_vulnerability_severity(severity_str);
+                    let (_, level_str) = resolve_severity(vuln);
+                    let level = WarningLevel::from_vulnerability_severity(level_str);
                     analysis.update_warning_level(level);
-                    analysis.add_issue(format!(
-                        "{}: {}",
-                        vuln.id,
-                        vuln.summary.as_deref().unwrap_or("No description")
-                    ));
+                    analysis.add_issue(format!("{}: {}", vuln.id, resolve_summary(vuln)));
                 }
             }
 
@@ -420,6 +411,7 @@ mod tests {
         let scanner = SupplyChainScanner::new();
         let result = scanner.quick_analyze("some content", Some("unknown.xyz"));
         assert!(result.get("overall_sentiment").is_some());
+        assert_eq!(result["overall_sentiment"], "error");
         assert!(result.get("packages").is_some());
         assert!(result.get("summary").is_some());
     }
@@ -472,5 +464,6 @@ mod tests {
     fn test_handler_functions_fallback() {
         let quick = handle_quick_analyze("raw lockfile content");
         assert!(quick.get("overall_sentiment").is_some());
+        assert_eq!(quick["overall_sentiment"], "error");
     }
 }
