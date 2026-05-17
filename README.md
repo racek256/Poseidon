@@ -2,8 +2,6 @@
 
 Poseidon is a local-first phishing defense engine that combines deterministic security signals with a fine-tuned 1B LLM. It analyzes messages, extracts URLs, checks threat intelligence, detects brand impersonation, learns new brand identities, remembers unsafe messages, and returns an explainable risk decision.
 
-Built for hackathon evaluation: fast local demo, visible model improvement, real benchmarks, and an architecture deep enough to extend beyond a prototype.
-
 ---
 
 ## TODO
